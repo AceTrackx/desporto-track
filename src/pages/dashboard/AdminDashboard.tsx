@@ -175,19 +175,19 @@ const AdminDashboard = () => {
             <CardContent>
               <div className="flex items-end gap-4 h-48">
                 {revenueData.map((data, index) => (
-                  <div key={index} className="flex-1 flex flex-col items-center">
+                  <div key={index} className="flex-1 flex flex-col items-center p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                     <div
-                      className="w-full bg-primary/20 rounded-t-xl relative overflow-hidden"
-                      style={{ height: `${(data.amount / 50000) * 100}%` }}
+                      className="w-full bg-primary/10 rounded-xl relative overflow-hidden flex-1"
+                      style={{ minHeight: `${(data.amount / 50000) * 100}%` }}
                     >
                       <div
-                        className="absolute bottom-0 left-0 right-0 bg-primary rounded-t-xl"
+                        className="absolute bottom-0 left-0 right-0 bg-primary rounded-xl"
                         style={{ height: "100%" }}
                       />
                     </div>
-                    <div className="mt-2 text-center">
+                    <div className="mt-3 text-center">
                       <div className="font-semibold text-foreground">${(data.amount / 1000).toFixed(1)}K</div>
-                      <div className="text-sm text-muted-foreground">{data.month}</div>
+                      <div className="text-xs text-muted-foreground">{data.month}</div>
                     </div>
                   </div>
                 ))}

@@ -141,14 +141,19 @@ const SuperAdminDashboard = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 {systemAlerts.map((alert, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-xl">
-                    {alert.type === "warning" ? (
-                      <AlertTriangle className="w-5 h-5 text-accent-foreground shrink-0" />
-                    ) : alert.type === "success" ? (
-                      <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-                    ) : (
-                      <Globe className="w-5 h-5 text-teal shrink-0" />
-                    )}
+                  <div key={index} className="flex items-start gap-3 p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
+                      alert.type === "warning" ? "bg-accent/10" :
+                      alert.type === "success" ? "bg-primary/10" : "bg-teal/10"
+                    }`}>
+                      {alert.type === "warning" ? (
+                        <AlertTriangle className="w-4 h-4 text-accent-foreground" />
+                      ) : alert.type === "success" ? (
+                        <CheckCircle2 className="w-4 h-4 text-primary" />
+                      ) : (
+                        <Globe className="w-4 h-4 text-teal" />
+                      )}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium text-foreground">{alert.message}</div>
                       <div className="text-xs text-muted-foreground">{alert.time}</div>
@@ -181,11 +186,11 @@ const SuperAdminDashboard = () => {
                   { label: "Active Connections", value: 3247, unit: "" },
                   { label: "Storage Used", value: 68, unit: "%" },
                 ].map((metric, index) => (
-                  <div key={index} className="text-center p-6 bg-muted/50 rounded-2xl">
+                  <div key={index} className="text-center p-6 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                     <div className="font-display text-4xl text-foreground">
                       {metric.value}{metric.unit}
                     </div>
-                    <div className="text-sm text-muted-foreground mt-1">{metric.label}</div>
+                    <div className="text-sm text-muted-foreground mt-2">{metric.label}</div>
                     {metric.label.includes("%") || metric.label === "Storage Used" ? (
                       <Progress value={metric.value} className="h-2.5 mt-3" />
                     ) : null}

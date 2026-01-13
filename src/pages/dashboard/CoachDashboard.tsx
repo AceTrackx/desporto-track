@@ -136,12 +136,14 @@ const CoachDashboard = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 {teams.map((team, index) => (
-                  <div key={index} className="p-4 bg-card border border-border rounded-2xl">
+                  <div key={index} className="p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-semibold text-foreground">{team.name}</span>
-                      <span className="font-display text-xl text-primary">{team.performance}</span>
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <span className="font-display text-lg text-primary">{team.performance}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+                    <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
                       <span>{team.players} players</span>
                       <span>{team.avgAttendance}% attendance</span>
                     </div>
@@ -169,7 +171,7 @@ const CoachDashboard = () => {
             <CardContent>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {recentPlayers.map((player, index) => (
-                  <div key={index} className="flex items-center gap-3 p-4 bg-card border border-border rounded-2xl">
+                  <div key={index} className="flex items-center gap-3 p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                     <Avatar className="w-10 h-10">
                       <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
                         {player.name.split(" ").map(n => n[0]).join("")}
@@ -179,15 +181,19 @@ const CoachDashboard = () => {
                       <div className="font-medium text-foreground text-sm truncate">{player.name}</div>
                       <div className="text-xs text-muted-foreground">{player.skill}</div>
                     </div>
-                    <div className={`flex items-center gap-1 font-semibold text-sm ${
-                      player.trend === "up" ? "text-primary" : "text-destructive"
+                    <div className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
+                      player.trend === "up" 
+                        ? "bg-primary/10 text-primary border-primary/20" 
+                        : "bg-destructive/10 text-destructive border-destructive/20"
                     }`}>
-                      {player.trend === "up" ? (
-                        <TrendingUp className="w-3.5 h-3.5" />
-                      ) : (
-                        <AlertCircle className="w-3.5 h-3.5" />
-                      )}
-                      {player.improvement}
+                      <span className="flex items-center gap-1">
+                        {player.trend === "up" ? (
+                          <TrendingUp className="w-3 h-3" />
+                        ) : (
+                          <AlertCircle className="w-3 h-3" />
+                        )}
+                        {player.improvement}
+                      </span>
                     </div>
                   </div>
                 ))}
