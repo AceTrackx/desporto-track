@@ -27,34 +27,34 @@ const navItems = [
 ];
 
 const revenueBreakdown = [
-  { source: "Student Fees", amount: 45200, percentage: 65, trend: "+12%" },
-  { source: "Ground Rentals", amount: 12500, percentage: 18, trend: "+8%" },
-  { source: "Merchandise", amount: 5800, percentage: 8, trend: "+22%" },
-  { source: "Events & Tournaments", amount: 6000, percentage: 9, trend: "+5%" },
+  { source: "Student Fees", amount: 3770000, percentage: 65, trend: "+12%" },
+  { source: "Ground Rentals", amount: 1042000, percentage: 18, trend: "+8%" },
+  { source: "Merchandise", amount: 483000, percentage: 8, trend: "+22%" },
+  { source: "Events & Tournaments", amount: 500000, percentage: 9, trend: "+5%" },
 ];
 
 const expenses = [
-  { category: "Coach Salaries", amount: 28000, percentage: 55 },
-  { category: "Ground Maintenance", amount: 8500, percentage: 17 },
-  { category: "Equipment", amount: 6200, percentage: 12 },
-  { category: "Utilities", amount: 4500, percentage: 9 },
-  { category: "Marketing", amount: 3800, percentage: 7 },
+  { category: "Coach Salaries", amount: 2334000, percentage: 55 },
+  { category: "Ground Maintenance", amount: 708000, percentage: 17 },
+  { category: "Equipment", amount: 517000, percentage: 12 },
+  { category: "Utilities", amount: 375000, percentage: 9 },
+  { category: "Marketing", amount: 317000, percentage: 7 },
 ];
 
 const recentTransactions = [
-  { description: "Student Fee - Alex Thompson", amount: 450, type: "income", date: "Today" },
-  { description: "Coach Salary - Williams", amount: 4500, type: "expense", date: "Today" },
-  { description: "Ground Rental - City FC", amount: 800, type: "income", date: "Yesterday" },
-  { description: "Equipment Purchase", amount: 1200, type: "expense", date: "Yesterday" },
-  { description: "Tournament Entry Fee", amount: 2500, type: "income", date: "2 days ago" },
-  { description: "Utility Bill", amount: 850, type: "expense", date: "3 days ago" },
+  { description: "Student Fee - Alex Thompson", amount: 37500, type: "income", date: "Today" },
+  { description: "Coach Salary - Williams", amount: 375000, type: "expense", date: "Today" },
+  { description: "Ground Rental - City FC", amount: 67000, type: "income", date: "Yesterday" },
+  { description: "Equipment Purchase", amount: 100000, type: "expense", date: "Yesterday" },
+  { description: "Tournament Entry Fee", amount: 208000, type: "income", date: "2 days ago" },
+  { description: "Utility Bill", amount: 71000, type: "expense", date: "3 days ago" },
 ];
 
 const monthlyData = [
-  { month: "Oct", revenue: 52000, expenses: 42000 },
-  { month: "Nov", revenue: 58000, expenses: 45000 },
-  { month: "Dec", revenue: 62000, expenses: 48000 },
-  { month: "Jan", revenue: 69500, expenses: 51000 },
+  { month: "Oct", revenue: 4334000, expenses: 3500000 },
+  { month: "Nov", revenue: 4834000, expenses: 3750000 },
+  { month: "Dec", revenue: 5170000, expenses: 4000000 },
+  { month: "Jan", revenue: 5795000, expenses: 4250000 },
 ];
 
 const SuperAdminFinances = () => {
@@ -73,10 +73,10 @@ const SuperAdminFinances = () => {
           className="grid grid-cols-2 lg:grid-cols-4 gap-4"
         >
           {[
-            { label: "Monthly Revenue", value: "$69.5K", change: "+18%", icon: TrendingUp, positive: true },
-            { label: "Monthly Expenses", value: "$51K", change: "+6%", icon: TrendingDown, positive: false },
-            { label: "Net Profit", value: "$18.5K", change: "+32%", icon: DollarSign, positive: true },
-            { label: "Pending Payments", value: "$4.2K", change: "12 students", icon: CreditCard, positive: null },
+            { label: "Monthly Revenue", value: "₹57.9L", change: "+18%", icon: TrendingUp, positive: true },
+            { label: "Monthly Expenses", value: "₹42.5L", change: "+6%", icon: TrendingDown, positive: false },
+            { label: "Net Profit", value: "₹15.4L", change: "+32%", icon: DollarSign, positive: true },
+            { label: "Pending Payments", value: "₹3.5L", change: "12 students", icon: CreditCard, positive: null },
           ].map((stat, index) => (
             <Card key={index} className="rounded-2xl border border-border">
               <CardContent className="p-6">
@@ -116,7 +116,7 @@ const SuperAdminFinances = () => {
                       <span className="font-medium text-foreground">{item.source}</span>
                       <div className="flex items-center gap-3">
                         <span className="text-sm text-primary font-semibold">{item.trend}</span>
-                        <span className="font-semibold text-foreground">${item.amount.toLocaleString()}</span>
+                      <span className="font-semibold text-foreground">₹{item.amount.toLocaleString('en-IN')}</span>
                       </div>
                     </div>
                     <Progress value={item.percentage} className="h-2" />
@@ -145,7 +145,7 @@ const SuperAdminFinances = () => {
                   <div key={index} className="p-4 bg-card border border-border rounded-2xl">
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-medium text-foreground">{item.category}</span>
-                      <span className="font-semibold text-foreground">${item.amount.toLocaleString()}</span>
+                      <span className="font-semibold text-foreground">₹{item.amount.toLocaleString('en-IN')}</span>
                     </div>
                     <Progress value={item.percentage} className="h-2" />
                     <div className="text-xs text-muted-foreground mt-1">{item.percentage}% of total</div>
@@ -185,10 +185,10 @@ const SuperAdminFinances = () => {
                   <div key={index} className="text-center p-4 bg-card border border-border rounded-2xl">
                     <div className="text-sm text-muted-foreground mb-3">{data.month}</div>
                     <div className="space-y-2">
-                      <div className="text-lg font-semibold text-primary">${(data.revenue / 1000).toFixed(0)}K</div>
-                      <div className="text-sm text-coral">${(data.expenses / 1000).toFixed(0)}K</div>
+                      <div className="text-lg font-semibold text-primary">₹{(data.revenue / 100000).toFixed(1)}L</div>
+                      <div className="text-sm text-coral">₹{(data.expenses / 100000).toFixed(1)}L</div>
                       <div className="text-xs text-muted-foreground border-t pt-2 mt-2">
-                        Profit: <span className="text-primary font-semibold">${((data.revenue - data.expenses) / 1000).toFixed(0)}K</span>
+                        Profit: <span className="text-primary font-semibold">₹{((data.revenue - data.expenses) / 100000).toFixed(1)}L</span>
                       </div>
                     </div>
                   </div>
@@ -232,7 +232,7 @@ const SuperAdminFinances = () => {
                       </div>
                     </div>
                     <div className={`font-semibold ${transaction.type === "income" ? "text-primary" : "text-coral"}`}>
-                      {transaction.type === "income" ? "+" : "-"}${transaction.amount.toLocaleString()}
+                      {transaction.type === "income" ? "+" : "-"}₹{transaction.amount.toLocaleString('en-IN')}
                     </div>
                   </div>
                 ))}

@@ -29,7 +29,7 @@ const navItems = [
 const overviewStats = [
   { label: "Total Players", value: "248", change: "+24", icon: Users, color: "text-primary" },
   { label: "Active Coaches", value: "12", change: "+2", icon: Users, color: "text-teal" },
-  { label: "Monthly Revenue", value: "$58.5K", change: "+18%", icon: TrendingUp, color: "text-coral" },
+  { label: "Monthly Revenue", value: "₹48.8L", change: "+18%", icon: TrendingUp, color: "text-coral" },
   { label: "Training Grounds", value: "4", change: "Active", icon: MapPin, color: "text-primary" },
 ];
 
