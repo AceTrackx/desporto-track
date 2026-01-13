@@ -9,12 +9,14 @@ import MemberDashboard from "./pages/dashboard/MemberDashboard";
 import MemberSchedule from "./pages/dashboard/member/MemberSchedule";
 import MemberProgress from "./pages/dashboard/member/MemberProgress";
 import MemberAchievements from "./pages/dashboard/member/MemberAchievements";
+import MemberSettings from "./pages/dashboard/member/MemberSettings";
 import CoachDashboard from "./pages/dashboard/CoachDashboard";
 import CoachSchedule from "./pages/dashboard/coach/CoachSchedule";
 import CoachTeams from "./pages/dashboard/coach/CoachTeams";
 import CoachAttendance from "./pages/dashboard/coach/CoachAttendance";
 import CoachAnalytics from "./pages/dashboard/coach/CoachAnalytics";
 import CoachReports from "./pages/dashboard/coach/CoachReports";
+import CoachSettings from "./pages/dashboard/coach/CoachSettings";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import AdminUsers from "./pages/dashboard/admin/AdminUsers";
 import AdminSchedule from "./pages/dashboard/admin/AdminSchedule";
@@ -46,6 +48,7 @@ const App = () => (
           <Route path="/dashboard/member/schedule" element={<MemberSchedule />} />
           <Route path="/dashboard/member/progress" element={<MemberProgress />} />
           <Route path="/dashboard/member/achievements" element={<MemberAchievements />} />
+          <Route path="/dashboard/member/settings" element={<MemberSettings />} />
           
           {/* Coach Routes */}
           <Route path="/dashboard/coach" element={<CoachDashboard />} />
@@ -54,6 +57,7 @@ const App = () => (
           <Route path="/dashboard/coach/attendance" element={<CoachAttendance />} />
           <Route path="/dashboard/coach/analytics" element={<CoachAnalytics />} />
           <Route path="/dashboard/coach/reports" element={<CoachReports />} />
+          <Route path="/dashboard/coach/settings" element={<CoachSettings />} />
           
           {/* Admin Routes */}
           <Route path="/dashboard/admin" element={<AdminDashboard />} />
