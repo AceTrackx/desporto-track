@@ -68,7 +68,7 @@ const AdminDashboard = () => {
           className="grid grid-cols-2 lg:grid-cols-4 gap-4"
         >
           {stats.map((stat, index) => (
-            <Card key={index} className="rounded-2xl shadow-soft overflow-hidden">
+            <Card key={index} className="rounded-2xl border border-border overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
             transition={{ delay: 0.1 }}
             className="lg:col-span-2"
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <Users className="w-6 h-6 text-primary" />
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader>
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <UserPlus className="w-6 h-6 text-primary" />
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Card className="rounded-2xl shadow-soft">
+          <Card className="rounded-2xl border border-border">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                 <TrendingUp className="w-6 h-6 text-primary" />

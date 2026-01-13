@@ -81,9 +81,9 @@ export default {
         "3xl": "2rem",
       },
       boxShadow: {
-        "soft": "0 4px 20px -2px rgba(0, 0, 0, 0.08)",
-        "card": "0 8px 30px -4px rgba(0, 0, 0, 0.1)",
-        "elevated": "0 20px 40px -8px rgba(0, 0, 0, 0.15)",
+        "soft": "none",
+        "card": "none",
+        "elevated": "none",
       },
       keyframes: {
         "accordion-down": {

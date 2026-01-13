@@ -88,7 +88,7 @@ const StudentDashboard = () => {
             transition={{ delay: 0.1 }}
             className="lg:col-span-2"
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader>
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <Calendar className="w-6 h-6 text-primary" />
@@ -129,7 +129,7 @@ const StudentDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader>
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <Trophy className="w-6 h-6 text-accent" />
@@ -162,7 +162,7 @@ const StudentDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Card className="rounded-2xl shadow-soft">
+          <Card className="rounded-2xl border border-border">
             <CardHeader>
               <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                 <TrendingUp className="w-6 h-6 text-primary" />

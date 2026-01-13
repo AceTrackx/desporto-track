@@ -90,7 +90,7 @@ const ParentDashboard = () => {
           </h3>
           <div className="grid md:grid-cols-2 gap-6">
             {children.map((child, index) => (
-              <Card key={index} className="rounded-2xl shadow-soft overflow-hidden">
+              <Card key={index} className="rounded-2xl border border-border overflow-hidden">
                 <div className="hero-gradient p-6 text-white">
                   <div className="flex items-center gap-4">
                     <Avatar className="w-16 h-16 border-2 border-white/30">
@@ -139,7 +139,7 @@ const ParentDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader>
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <TrendingUp className="w-6 h-6 text-primary" />
@@ -174,7 +174,7 @@ const ParentDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <CreditCard className="w-6 h-6 text-primary" />
