@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Bebas+Neue&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -170,6 +170,11 @@
   /* Display font */
   .font-display {
     font-family: 'Bebas Neue', sans-serif;
+  }
+
+  /* Sans font */
+  .font-sans {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   }
 
   /* Glassmorphism */

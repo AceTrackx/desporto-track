@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen pt-20 overflow-hidden">
+    <section className="relative min-h-screen pt-20 overflow-hidden bg-primary">
       {/* Background */}
-      <div className="absolute inset-0 hero-gradient dashed-pattern" />
+      <div className="absolute inset-0 hero-gradient" />
       
       {/* Field Lines Pattern */}
-      <div className="absolute inset-0 field-pattern opacity-50" />
+      <div className="absolute inset-0 field-pattern opacity-50 dashed-pattern" />
       
       {/* Content */}
       <div className="relative container mx-auto px-4 pt-16 lg:pt-24">
