@@ -107,7 +107,7 @@ const SuperAdminCoaches = () => {
             { label: "Total Coaches", value: "12", icon: Users },
             { label: "Active Today", value: "8", icon: Calendar },
             { label: "Avg Rating", value: "4.7", icon: Star },
-            { label: "Monthly Payroll", value: "$48K", icon: CreditCard },
+            { label: "Monthly Payroll", value: "₹40L", icon: CreditCard },
           ].map((stat, index) => (
             <Card key={index} className="rounded-2xl border border-border">
               <CardContent className="p-6">

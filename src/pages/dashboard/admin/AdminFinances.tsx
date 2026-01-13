@@ -15,18 +15,18 @@ const navItems = [
 ];
 
 const stats = [
-  { label: "Total Revenue", value: "$145.2K", change: "+18%", trend: "up", icon: DollarSign },
-  { label: "Monthly Income", value: "$45.2K", change: "+12%", trend: "up", icon: TrendingUp },
-  { label: "Pending Payments", value: "$8.4K", change: "12 invoices", trend: "neutral", icon: Receipt },
-  { label: "Expenses", value: "$28.6K", change: "-5%", trend: "down", icon: CreditCard },
+  { label: "Total Revenue", value: "₹12.1L", change: "+18%", trend: "up", icon: DollarSign },
+  { label: "Monthly Income", value: "₹3.8L", change: "+12%", trend: "up", icon: TrendingUp },
+  { label: "Pending Payments", value: "₹70K", change: "12 invoices", trend: "neutral", icon: Receipt },
+  { label: "Expenses", value: "₹2.4L", change: "-5%", trend: "down", icon: CreditCard },
 ];
 
 const recentTransactions = [
-  { description: "Monthly Fee - Alex Thompson", amount: "+$250", date: "Jan 13", type: "income" },
-  { description: "Equipment Purchase", amount: "-$1,200", date: "Jan 12", type: "expense" },
-  { description: "Monthly Fee - Marcus Johnson", amount: "+$250", date: "Jan 11", type: "income" },
-  { description: "Facility Rent", amount: "-$5,000", date: "Jan 10", type: "expense" },
-  { description: "Tournament Entry", amount: "+$2,500", date: "Jan 8", type: "income" },
+  { description: "Monthly Fee - Alex Thompson", amount: "+₹21,000", date: "Jan 13", type: "income" },
+  { description: "Equipment Purchase", amount: "-₹1,00,000", date: "Jan 12", type: "expense" },
+  { description: "Monthly Fee - Marcus Johnson", amount: "+₹21,000", date: "Jan 11", type: "income" },
+  { description: "Facility Rent", amount: "-₹4,17,000", date: "Jan 10", type: "expense" },
+  { description: "Tournament Entry", amount: "+₹2,08,000", date: "Jan 8", type: "income" },
 ];
 
 const AdminFinances = () => {
