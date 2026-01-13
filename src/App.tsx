@@ -5,8 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import StudentDashboard from "./pages/dashboard/StudentDashboard";
-import ParentDashboard from "./pages/dashboard/ParentDashboard";
+import MemberDashboard from "./pages/dashboard/MemberDashboard";
 import CoachDashboard from "./pages/dashboard/CoachDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import SuperAdminDashboard from "./pages/dashboard/SuperAdminDashboard";
@@ -23,8 +22,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/dashboard/student" element={<StudentDashboard />} />
-          <Route path="/dashboard/parent" element={<ParentDashboard />} />
+          <Route path="/dashboard/member" element={<MemberDashboard />} />
           <Route path="/dashboard/coach" element={<CoachDashboard />} />
           <Route path="/dashboard/admin" element={<AdminDashboard />} />
           <Route path="/dashboard/superadmin" element={<SuperAdminDashboard />} />
