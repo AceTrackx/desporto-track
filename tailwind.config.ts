@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Bricolage Grotesque", "system-ui", "sans-serif"],
         display: ["Bebas Neue", "sans-serif"],
       },
       colors: {
