@@ -7,28 +7,28 @@ const roles = [
     title: "Students & Guardians",
     description: "View training schedules, track progress, access skill assessments, monitor attendance, and communicate with coaches.",
     features: ["Personal dashboard", "Progress tracking", "Attendance reports", "Coach messaging"],
-    gradient: "from-primary to-teal",
+    color: "text-primary",
   },
   {
     icon: Trophy,
     title: "Coaches",
     description: "Plan sessions, evaluate players, record attendance, and manage team activities efficiently.",
     features: ["Session planning", "Player evaluation", "Attendance management", "Performance notes"],
-    gradient: "from-accent to-lime-dark",
+    color: "text-accent-foreground",
   },
   {
     icon: Settings,
     title: "Admin",
     description: "Manage academy operations, oversee finances, handle enrollments, and generate reports.",
     features: ["User management", "Financial overview", "Enrollment handling", "Report generation"],
-    gradient: "from-coral to-primary",
+    color: "text-coral",
   },
   {
     icon: Crown,
     title: "Super Admin",
     description: "Full system control with multi-academy management, global settings, and complete oversight.",
     features: ["Multi-academy view", "System configuration", "Global analytics", "Full access control"],
-    gradient: "from-primary to-emerald-dark",
+    color: "text-teal",
   },
 ];
 
@@ -63,16 +63,11 @@ const Roles = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`relative overflow-hidden bg-card rounded-3xl p-8 shadow-soft border border-border hover:shadow-card transition-all duration-300 ${
-                index === 4 ? "md:col-span-2 lg:col-span-1" : ""
+              className={`relative overflow-hidden bg-card rounded-3xl p-8 border border-border hover:border-primary/30 transition-all duration-300 ${
+                index === 3 ? "md:col-span-2 lg:col-span-1" : ""
               }`}
             >
-              {/* Gradient Accent */}
-              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${role.gradient}`} />
-              
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${role.gradient} flex items-center justify-center mb-6`}>
-                <role.icon className="w-8 h-8 text-white" />
-              </div>
+              <role.icon className={`w-8 h-8 ${role.color} mb-6`} />
               
               <h3 className="font-display text-3xl text-card-foreground mb-3 tracking-wide">
                 {role.title.toUpperCase()}
@@ -85,7 +80,7 @@ const Roles = () => {
               <ul className="space-y-2">
                 {role.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-2 text-sm text-card-foreground">
-                    <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${role.gradient}`} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                     {feature}
                   </li>
                 ))}

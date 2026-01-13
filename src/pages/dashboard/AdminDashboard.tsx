@@ -26,10 +26,10 @@ const navItems = [
 ];
 
 const stats = [
-  { label: "Total Students", value: "248", change: "+12%", icon: Users, color: "bg-primary" },
-  { label: "Active Coaches", value: "12", change: "+2", icon: Building, color: "bg-accent" },
-  { label: "Monthly Revenue", value: "$45.2K", change: "+18%", icon: DollarSign, color: "bg-teal" },
-  { label: "New Enrollments", value: "24", change: "+8", icon: UserPlus, color: "bg-coral" },
+  { label: "Total Students", value: "248", change: "+12%", icon: Users, color: "text-primary" },
+  { label: "Active Coaches", value: "12", change: "+2", icon: Building, color: "text-primary" },
+  { label: "Monthly Revenue", value: "$45.2K", change: "+18%", icon: DollarSign, color: "text-teal" },
+  { label: "New Enrollments", value: "24", change: "+8", icon: UserPlus, color: "text-coral" },
 ];
 
 const revenueData = [
@@ -71,13 +71,13 @@ const AdminDashboard = () => {
             <Card key={index} className="rounded-2xl border border-border overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                  <div className="flex items-center gap-2">
+                    <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                    <span className="text-sm text-muted-foreground">{stat.label}</span>
                   </div>
                   <span className="text-sm font-semibold text-primary">{stat.change}</span>
                 </div>
                 <div className="font-display text-3xl text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </CardContent>
             </Card>
           ))}
@@ -92,10 +92,10 @@ const AdminDashboard = () => {
             className="lg:col-span-2"
           >
             <Card className="rounded-2xl border border-border">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                  <Users className="w-6 h-6 text-primary" />
-                  SQUAD OVERVIEW
+              <CardHeader className="flex flex-row items-center justify-between pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <Users className="w-5 h-5 text-primary" />
+                  Squad Overview
                 </CardTitle>
                 <Button variant="accent" size="sm">Manage Squads</Button>
               </CardHeader>
@@ -127,10 +127,10 @@ const AdminDashboard = () => {
             transition={{ delay: 0.2 }}
           >
             <Card className="rounded-2xl border border-border">
-              <CardHeader>
-                <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                  <UserPlus className="w-6 h-6 text-primary" />
-                  NEW ENROLLMENTS
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <UserPlus className="w-5 h-5 text-primary" />
+                  New Enrollments
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -161,10 +161,10 @@ const AdminDashboard = () => {
           transition={{ delay: 0.3 }}
         >
           <Card className="rounded-2xl border border-border">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                <TrendingUp className="w-6 h-6 text-primary" />
-                REVENUE OVERVIEW
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                Revenue Overview
               </CardTitle>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm">Weekly</Button>

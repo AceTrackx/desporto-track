@@ -61,20 +61,18 @@ const CoachDashboard = () => {
           className="grid grid-cols-2 lg:grid-cols-4 gap-4"
         >
           {[
-            { label: "Total Players", value: "56", icon: Users, color: "bg-primary" },
-            { label: "Sessions Today", value: "3", icon: Calendar, color: "bg-accent" },
-            { label: "Avg Attendance", value: "91%", icon: CheckCircle, color: "bg-teal" },
-            { label: "Reports Due", value: "2", icon: FileText, color: "bg-coral" },
+            { label: "Total Players", value: "56", icon: Users, color: "text-primary" },
+            { label: "Sessions Today", value: "3", icon: Calendar, color: "text-accent-foreground" },
+            { label: "Avg Attendance", value: "91%", icon: CheckCircle, color: "text-teal" },
+            { label: "Reports Due", value: "2", icon: FileText, color: "text-coral" },
           ].map((stat, index) => (
             <Card key={index} className="rounded-2xl border border-border">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
-                    <stat.icon className="w-6 h-6 text-white" />
-                  </div>
+                <div className="flex items-center gap-3 mb-4">
+                  <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                  <span className="text-sm text-muted-foreground">{stat.label}</span>
                 </div>
                 <div className="font-display text-3xl text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </CardContent>
             </Card>
           ))}
@@ -89,10 +87,10 @@ const CoachDashboard = () => {
             className="lg:col-span-2"
           >
             <Card className="rounded-2xl border border-border">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                  <Clock className="w-6 h-6 text-primary" />
-                  TODAY'S SESSIONS
+              <CardHeader className="flex flex-row items-center justify-between pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-primary" />
+                  Today's Sessions
                 </CardTitle>
                 <Button variant="accent" size="sm">Add Session</Button>
               </CardHeader>
@@ -130,10 +128,10 @@ const CoachDashboard = () => {
             transition={{ delay: 0.2 }}
           >
             <Card className="rounded-2xl border border-border">
-              <CardHeader>
-                <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                  <Users className="w-6 h-6 text-primary" />
-                  MY TEAMS
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <Users className="w-5 h-5 text-primary" />
+                  My Teams
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -162,10 +160,10 @@ const CoachDashboard = () => {
           transition={{ delay: 0.3 }}
         >
           <Card className="rounded-2xl border border-border">
-            <CardHeader>
-              <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                <TrendingUp className="w-6 h-6 text-primary" />
-                PLAYER PROGRESS THIS WEEK
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-primary" />
+                Player Progress This Week
               </CardTitle>
             </CardHeader>
             <CardContent>
