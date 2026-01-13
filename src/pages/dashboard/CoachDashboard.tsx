@@ -94,20 +94,20 @@ const CoachDashboard = () => {
                 </CardTitle>
                 <Button variant="accent" size="sm">Add Session</Button>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {todaySessions.map((session, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-4 bg-muted rounded-xl hover:bg-muted/80 transition-colors"
+                    className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-1 h-16 rounded-full bg-primary" />
+                      <div className="w-1 h-12 rounded-full bg-primary" />
                       <div>
                         <div className="font-semibold text-foreground">{session.title}</div>
                         <div className="text-sm text-muted-foreground">{session.time}</div>
                         <div className="flex items-center gap-1 mt-1">
-                          <Users className="w-4 h-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">{session.players} players</span>
+                          <Users className="w-3.5 h-3.5 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">{session.players} players</span>
                         </div>
                       </div>
                     </div>
@@ -134,12 +134,12 @@ const CoachDashboard = () => {
                   My Teams
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {teams.map((team, index) => (
-                  <div key={index} className="p-4 bg-muted/50 rounded-xl">
+                  <div key={index} className="p-4 bg-card border border-border rounded-2xl">
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-semibold text-foreground">{team.name}</span>
-                      <span className="font-display text-xl text-accent">{team.performance}</span>
+                      <span className="font-display text-xl text-primary">{team.performance}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
                       <span>{team.players} players</span>
@@ -167,25 +167,25 @@ const CoachDashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {recentPlayers.map((player, index) => (
-                  <div key={index} className="flex items-center gap-4 p-4 bg-muted/50 rounded-xl">
-                    <Avatar className="w-12 h-12">
-                      <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+                  <div key={index} className="flex items-center gap-3 p-4 bg-card border border-border rounded-2xl">
+                    <Avatar className="w-10 h-10">
+                      <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
                         {player.name.split(" ").map(n => n[0]).join("")}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1">
-                      <div className="font-medium text-foreground">{player.name}</div>
-                      <div className="text-sm text-muted-foreground">{player.skill}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-foreground text-sm truncate">{player.name}</div>
+                      <div className="text-xs text-muted-foreground">{player.skill}</div>
                     </div>
-                    <div className={`flex items-center gap-1 font-bold ${
+                    <div className={`flex items-center gap-1 font-semibold text-sm ${
                       player.trend === "up" ? "text-primary" : "text-destructive"
                     }`}>
                       {player.trend === "up" ? (
-                        <TrendingUp className="w-4 h-4" />
+                        <TrendingUp className="w-3.5 h-3.5" />
                       ) : (
-                        <AlertCircle className="w-4 h-4" />
+                        <AlertCircle className="w-3.5 h-3.5" />
                       )}
                       {player.improvement}
                     </div>
