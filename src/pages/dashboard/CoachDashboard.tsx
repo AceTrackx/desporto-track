@@ -66,7 +66,7 @@ const CoachDashboard = () => {
             { label: "Avg Attendance", value: "91%", icon: CheckCircle, color: "bg-teal" },
             { label: "Reports Due", value: "2", icon: FileText, color: "bg-coral" },
           ].map((stat, index) => (
-            <Card key={index} className="rounded-2xl shadow-soft">
+            <Card key={index} className="rounded-2xl border border-border">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
@@ -88,7 +88,7 @@ const CoachDashboard = () => {
             transition={{ delay: 0.1 }}
             className="lg:col-span-2"
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <Clock className="w-6 h-6 text-primary" />
@@ -129,7 +129,7 @@ const CoachDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="rounded-2xl shadow-soft">
+            <Card className="rounded-2xl border border-border">
               <CardHeader>
                 <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                   <Users className="w-6 h-6 text-primary" />
@@ -161,7 +161,7 @@ const CoachDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Card className="rounded-2xl shadow-soft">
+          <Card className="rounded-2xl border border-border">
             <CardHeader>
               <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
                 <TrendingUp className="w-6 h-6 text-primary" />

@@ -129,12 +129,12 @@
 
   /* Card hover effects */
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    @apply transition-all duration-300 hover:-translate-y-1;
   }
 
   /* Stats card */
   .stat-card {
-    @apply bg-card rounded-2xl p-6 shadow-lg border border-border;
+    @apply bg-card rounded-2xl p-6 border border-border;
   }
 
   /* Feature tag */

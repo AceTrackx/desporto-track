@@ -93,7 +93,7 @@ const Hero = () => {
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="bg-card rounded-3xl shadow-elevated p-6 max-w-sm ml-auto"
+                className="bg-card rounded-3xl border border-border p-6 max-w-sm ml-auto"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -124,7 +124,7 @@ const Hero = () => {
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -left-10 top-20 bg-card rounded-2xl shadow-card p-4 w-48"
+                className="absolute -left-10 top-20 bg-card rounded-2xl border border-border p-4 w-48"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="w-4 h-4 text-accent" />
