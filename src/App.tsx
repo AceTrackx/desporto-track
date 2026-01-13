@@ -24,10 +24,11 @@ import AdminFinances from "./pages/dashboard/admin/AdminFinances";
 import AdminReports from "./pages/dashboard/admin/AdminReports";
 import AdminSettings from "./pages/dashboard/admin/AdminSettings";
 import SuperAdminDashboard from "./pages/dashboard/SuperAdminDashboard";
-import SuperAdminAcademies from "./pages/dashboard/superadmin/SuperAdminAcademies";
-import SuperAdminUsers from "./pages/dashboard/superadmin/SuperAdminUsers";
+import SuperAdminGrounds from "./pages/dashboard/superadmin/SuperAdminGrounds";
+import SuperAdminPlayers from "./pages/dashboard/superadmin/SuperAdminPlayers";
+import SuperAdminCoaches from "./pages/dashboard/superadmin/SuperAdminCoaches";
+import SuperAdminFinances from "./pages/dashboard/superadmin/SuperAdminFinances";
 import SuperAdminAnalytics from "./pages/dashboard/superadmin/SuperAdminAnalytics";
-import SuperAdminSecurity from "./pages/dashboard/superadmin/SuperAdminSecurity";
 import SuperAdminSettings from "./pages/dashboard/superadmin/SuperAdminSettings";
 import NotFound from "./pages/NotFound";
 
@@ -67,12 +68,13 @@ const App = () => (
           <Route path="/dashboard/admin/reports" element={<AdminReports />} />
           <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
           
-          {/* Super Admin Routes */}
+          {/* Super Admin (Owner) Routes */}
           <Route path="/dashboard/superadmin" element={<SuperAdminDashboard />} />
-          <Route path="/dashboard/superadmin/academies" element={<SuperAdminAcademies />} />
-          <Route path="/dashboard/superadmin/users" element={<SuperAdminUsers />} />
+          <Route path="/dashboard/superadmin/grounds" element={<SuperAdminGrounds />} />
+          <Route path="/dashboard/superadmin/players" element={<SuperAdminPlayers />} />
+          <Route path="/dashboard/superadmin/coaches" element={<SuperAdminCoaches />} />
+          <Route path="/dashboard/superadmin/finances" element={<SuperAdminFinances />} />
           <Route path="/dashboard/superadmin/analytics" element={<SuperAdminAnalytics />} />
-          <Route path="/dashboard/superadmin/security" element={<SuperAdminSecurity />} />
           <Route path="/dashboard/superadmin/settings" element={<SuperAdminSettings />} />
           
           <Route path="*" element={<NotFound />} />
