@@ -12,7 +12,7 @@ const benefits = [
 
 const CTA = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden bg-primary">
       {/* Background */}
       <div className="absolute inset-0 hero-gradient dashed-pattern" />
       
