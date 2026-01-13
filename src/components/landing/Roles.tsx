@@ -1,20 +1,13 @@
 import { motion } from "framer-motion";
-import { GraduationCap, UserCircle, Trophy, Settings, Crown } from "lucide-react";
+import { GraduationCap, Trophy, Settings, Crown } from "lucide-react";
 
 const roles = [
   {
     icon: GraduationCap,
-    title: "Students",
-    description: "View training schedules, track personal progress, access skill assessments, and see upcoming matches.",
-    features: ["Personal dashboard", "Progress tracking", "Session history", "Goal achievements"],
+    title: "Students & Guardians",
+    description: "View training schedules, track progress, access skill assessments, monitor attendance, and communicate with coaches.",
+    features: ["Personal dashboard", "Progress tracking", "Attendance reports", "Coach messaging"],
     gradient: "from-primary to-teal",
-  },
-  {
-    icon: UserCircle,
-    title: "Parents",
-    description: "Monitor your child's development, view attendance, receive updates, and communicate with coaches.",
-    features: ["Child progress reports", "Attendance tracking", "Payment management", "Coach messaging"],
-    gradient: "from-teal to-accent",
   },
   {
     icon: Trophy,

@@ -14,10 +14,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard/student", icon: Home },
-  { label: "Schedule", href: "/dashboard/student/schedule", icon: Calendar },
-  { label: "My Progress", href: "/dashboard/student/progress", icon: BarChart3 },
-  { label: "Achievements", href: "/dashboard/student/achievements", icon: Trophy },
+  { label: "Dashboard", href: "/dashboard/member", icon: Home },
+  { label: "Schedule", href: "/dashboard/member/schedule", icon: Calendar },
+  { label: "My Progress", href: "/dashboard/member/progress", icon: BarChart3 },
+  { label: "Achievements", href: "/dashboard/member/achievements", icon: Trophy },
 ];
 
 const upcomingSessions = [
@@ -40,12 +40,12 @@ const achievements = [
   { title: "Early Bird", description: "First to 50 sessions", icon: Clock },
 ];
 
-const StudentDashboard = () => {
+const MemberDashboard = () => {
   return (
     <DashboardLayout
       title="Dashboard"
       navItems={navItems}
-      userRole="Student"
+      userRole="Member"
       userName="Alex Thompson"
     >
       <div className="space-y-8">
@@ -189,4 +189,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard;
+export default MemberDashboard;

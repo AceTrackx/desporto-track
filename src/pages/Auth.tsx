@@ -13,14 +13,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type UserRole = "student" | "parent" | "coach" | "admin" | "superadmin";
+type UserRole = "member" | "coach" | "admin" | "superadmin";
 
 const Auth = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(searchParams.get("signup") === "true");
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState<UserRole>("student");
+  const [role, setRole] = useState<UserRole>("member");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -33,8 +33,7 @@ const Auth = () => {
     e.preventDefault();
     // For demo purposes, navigate to appropriate dashboard
     const dashboardRoutes: Record<UserRole, string> = {
-      student: "/dashboard/student",
-      parent: "/dashboard/parent",
+      member: "/dashboard/member",
       coach: "/dashboard/coach",
       admin: "/dashboard/admin",
       superadmin: "/dashboard/superadmin",
@@ -188,8 +187,7 @@ const Auth = () => {
                     <SelectValue placeholder="Select your role" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="student">Student / Player</SelectItem>
-                    <SelectItem value="parent">Parent / Guardian</SelectItem>
+                    <SelectItem value="member">Student / Guardian</SelectItem>
                     <SelectItem value="coach">Coach</SelectItem>
                     <SelectItem value="admin">Academy Admin</SelectItem>
                     <SelectItem value="superadmin">Super Admin</SelectItem>
@@ -206,8 +204,7 @@ const Auth = () => {
                     <SelectValue placeholder="Select your role" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="student">Student / Player</SelectItem>
-                    <SelectItem value="parent">Parent / Guardian</SelectItem>
+                    <SelectItem value="member">Student / Guardian</SelectItem>
                     <SelectItem value="coach">Coach</SelectItem>
                     <SelectItem value="admin">Academy Admin</SelectItem>
                     <SelectItem value="superadmin">Super Admin</SelectItem>
