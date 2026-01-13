@@ -95,11 +95,11 @@ const SuperAdminDashboard = () => {
                 <Button variant="accent" size="sm">Add Academy</Button>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {academies.map((academy, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-muted/50 rounded-xl hover:bg-muted transition-colors">
+                    <div key={index} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                       <div className="flex items-center gap-4 flex-1">
-                        <div className={`w-3 h-12 rounded-full ${
+                        <div className={`w-1 h-10 rounded-full ${
                           academy.status === "active" ? "bg-primary" : "bg-accent"
                         }`} />
                         <div className="flex-1">
@@ -109,8 +109,8 @@ const SuperAdminDashboard = () => {
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <div className="text-sm text-muted-foreground">Health</div>
-                          <div className={`font-bold ${
+                          <div className="text-xs text-muted-foreground">Health</div>
+                          <div className={`font-semibold ${
                             academy.health >= 90 ? "text-primary" :
                             academy.health >= 80 ? "text-accent-foreground" : "text-coral"
                           }`}>

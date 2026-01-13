@@ -100,9 +100,9 @@ const AdminDashboard = () => {
                 <Button variant="accent" size="sm">Manage Squads</Button>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
+                <div className="space-y-3">
                   {squadStats.map((squad, index) => (
-                    <div key={index} className="p-4 bg-muted/50 rounded-xl">
+                    <div key={index} className="p-4 bg-card border border-border rounded-2xl">
                       <div className="flex items-center justify-between mb-3">
                         <div>
                           <span className="font-semibold text-foreground">{squad.name}</span>
@@ -110,7 +110,7 @@ const AdminDashboard = () => {
                             ({squad.students}/{squad.capacity} students)
                           </span>
                         </div>
-                        <span className="font-bold text-primary">${squad.revenue.toLocaleString()}</span>
+                        <span className="font-semibold text-primary">${squad.revenue.toLocaleString()}</span>
                       </div>
                       <Progress value={(squad.students / squad.capacity) * 100} className="h-2.5" />
                     </div>
@@ -133,17 +133,17 @@ const AdminDashboard = () => {
                   New Enrollments
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {recentEnrollments.map((enrollment, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-xl">
+                  <div key={index} className="flex items-center justify-between p-3 bg-card border border-border rounded-2xl">
                     <div>
                       <div className="font-medium text-foreground">{enrollment.name}</div>
                       <div className="text-sm text-muted-foreground">{enrollment.squad}</div>
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                    <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
                       enrollment.status === "Pending"
-                        ? "bg-accent/20 text-accent-foreground"
-                        : "bg-primary/20 text-primary"
+                        ? "bg-accent/10 text-accent-foreground border-accent/20"
+                        : "bg-primary/10 text-primary border-primary/20"
                     }`}>
                       {enrollment.status}
                     </span>

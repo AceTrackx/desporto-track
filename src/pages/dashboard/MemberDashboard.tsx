@@ -95,14 +95,14 @@ const MemberDashboard = () => {
                   Upcoming Sessions
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {upcomingSessions.map((session, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-4 bg-muted rounded-xl hover:bg-muted/80 transition-colors"
+                    className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-3 h-12 rounded-full ${
+                      <div className={`w-1 h-10 rounded-full ${
                         session.type === "Match" ? "bg-coral" :
                         session.type === "Fitness" ? "bg-teal" : "bg-primary"
                       }`} />
@@ -111,9 +111,9 @@ const MemberDashboard = () => {
                         <div className="text-sm text-muted-foreground">{session.date} at {session.time}</div>
                       </div>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      session.type === "Match" ? "bg-coral/20 text-coral" :
-                      session.type === "Fitness" ? "bg-teal/20 text-teal" : "bg-primary/20 text-primary"
+                    <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                      session.type === "Match" ? "bg-coral/10 text-coral border-coral/20" :
+                      session.type === "Fitness" ? "bg-teal/10 text-teal border-teal/20" : "bg-primary/10 text-primary border-primary/20"
                     }`}>
                       {session.type}
                     </span>
