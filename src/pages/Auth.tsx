@@ -45,7 +45,7 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex">
       {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 hero-gradient dashed-pattern relative">
+      <div className="hidden lg:flex lg:w-1/2 bg-primary hero-gradient dashed-pattern relative">
         <div className="absolute inset-0 field-pattern opacity-30" />
         <div className="relative z-10 flex flex-col justify-center px-12 xl:px-20">
           <Link to="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors">
