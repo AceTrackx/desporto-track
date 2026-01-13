@@ -1,96 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* AceTrack Design System - Football Academy Management */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core Colors - Emerald Green Theme */
+    --background: 150 20% 98%;
+    --foreground: 160 30% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 160 30% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 160 30% 10%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Deep Emerald */
+    --primary: 158 64% 35%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Soft Gray */
+    --secondary: 150 10% 94%;
+    --secondary-foreground: 160 30% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted */
+    --muted: 150 10% 94%;
+    --muted-foreground: 160 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Lime Green (like reference) */
+    --accent: 75 85% 55%;
+    --accent-foreground: 160 30% 10%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders & Inputs */
+    --border: 150 15% 88%;
+    --input: 150 15% 88%;
+    --ring: 158 64% 35%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Extended Palette */
+    --emerald-dark: 160 70% 20%;
+    --emerald-light: 158 50% 90%;
+    --lime: 75 85% 55%;
+    --lime-dark: 75 70% 40%;
+    --field-green: 120 35% 45%;
+    --coral: 10 80% 65%;
+    --teal: 174 60% 45%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar */
+    --sidebar-background: 160 70% 20%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 75 85% 55%;
+    --sidebar-primary-foreground: 160 30% 10%;
+    --sidebar-accent: 160 50% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 160 40% 30%;
+    --sidebar-ring: 75 85% 55%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 160 30% 8%;
+    --foreground: 150 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 160 25% 12%;
+    --card-foreground: 150 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 160 25% 12%;
+    --popover-foreground: 150 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 158 64% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 160 20% 18%;
+    --secondary-foreground: 150 20% 90%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 160 20% 18%;
+    --muted-foreground: 150 10% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 75 85% 55%;
+    --accent-foreground: 160 30% 10%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 160 20% 22%;
+    --input: 160 20% 22%;
+    --ring: 158 64% 45%;
+
+    --sidebar-background: 160 40% 8%;
+    --sidebar-foreground: 150 20% 95%;
+    --sidebar-primary: 75 85% 55%;
+    --sidebar-primary-foreground: 160 30% 10%;
+    --sidebar-accent: 160 30% 15%;
+    --sidebar-accent-foreground: 150 20% 95%;
+    --sidebar-border: 160 25% 18%;
+    --sidebar-ring: 75 85% 55%;
   }
 }
 
@@ -100,6 +111,73 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Hero gradient background */
+  .hero-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--emerald-dark)) 100%);
+  }
+
+  /* Accent gradient */
+  .accent-gradient {
+    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--lime-dark)) 100%);
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  /* Stats card */
+  .stat-card {
+    @apply bg-card rounded-2xl p-6 shadow-lg border border-border;
+  }
+
+  /* Feature tag */
+  .feature-tag {
+    @apply inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium border;
+  }
+
+  /* Field pattern overlay */
+  .field-pattern {
+    background-image: 
+      radial-gradient(ellipse 100% 50% at 50% 50%, transparent 40%, hsla(var(--primary), 0.1) 100%),
+      repeating-linear-gradient(0deg, transparent, transparent 40px, hsla(0, 0%, 100%, 0.03) 40px, hsla(0, 0%, 100%, 0.03) 80px);
+  }
+
+  /* Dashed border pattern like reference */
+  .dashed-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 Q55 30 30 55 Q5 30 30 5' fill='none' stroke='%23ffffff' stroke-width='1' stroke-dasharray='4 4' opacity='0.15'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--teal)) 100%);
+  }
+
+  /* Lime text */
+  .text-lime {
+    color: hsl(var(--accent));
+  }
+
+  /* Display font */
+  .font-display {
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md;
+  }
+
+  .glass-dark {
+    @apply bg-black/20 backdrop-blur-md;
   }
 }
