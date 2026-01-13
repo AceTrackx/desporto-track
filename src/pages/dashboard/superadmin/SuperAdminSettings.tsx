@@ -1,77 +1,82 @@
 import { motion } from "framer-motion";
 import {
   Home,
-  Building,
+  MapPin,
   Users,
   BarChart3,
-  Shield,
   Settings,
   Bell,
+  User,
   Palette,
   Globe,
-  Database,
   Mail,
   CreditCard,
+  Calendar,
+  Building,
+  Clock,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/superadmin", icon: Home },
-  { label: "Academies", href: "/dashboard/superadmin/academies", icon: Building },
-  { label: "All Users", href: "/dashboard/superadmin/users", icon: Users },
+  { label: "Grounds", href: "/dashboard/superadmin/grounds", icon: MapPin },
+  { label: "All Players", href: "/dashboard/superadmin/players", icon: Users },
+  { label: "Coaches", href: "/dashboard/superadmin/coaches", icon: Users },
+  { label: "Finances", href: "/dashboard/superadmin/finances", icon: CreditCard },
   { label: "Analytics", href: "/dashboard/superadmin/analytics", icon: BarChart3 },
-  { label: "Security", href: "/dashboard/superadmin/security", icon: Shield },
   { label: "Settings", href: "/dashboard/superadmin/settings", icon: Settings },
+];
+
+const academyConfig = [
+  { label: "Academy Name", value: "Elite Football Academy", icon: Building },
+  { label: "Contact Email", value: "info@elitefootball.com", icon: Mail },
+  { label: "Phone Number", value: "+1 234 567 8900", icon: Globe },
+  { label: "Billing Currency", value: "USD ($)", icon: CreditCard },
 ];
 
 const settingSections = [
   {
-    title: "Platform Settings",
-    icon: Globe,
+    title: "Academy Settings",
+    icon: Building,
     settings: [
-      { name: "Maintenance Mode", description: "Temporarily disable platform access", enabled: false },
-      { name: "New Registrations", description: "Allow new academy registrations", enabled: true },
-      { name: "Demo Mode", description: "Enable demo accounts for trials", enabled: true },
+      { name: "Open Registrations", description: "Allow new student registrations", enabled: true },
+      { name: "Trial Sessions", description: "Enable trial session bookings", enabled: true },
+      { name: "Parent Portal", description: "Allow parents to view child progress", enabled: true },
     ],
   },
   {
     title: "Notifications",
     icon: Bell,
     settings: [
-      { name: "System Alerts", description: "Critical system notifications", enabled: true },
-      { name: "New Academy Alerts", description: "Notify on new registrations", enabled: true },
-      { name: "Payment Alerts", description: "Payment status notifications", enabled: true },
+      { name: "Financial Alerts", description: "Revenue and payment notifications", enabled: true },
+      { name: "New Registrations", description: "Alert on new student signups", enabled: true },
+      { name: "Coach Reports", description: "Weekly coaching summaries", enabled: true },
+      { name: "Ground Availability", description: "Alerts for ground scheduling conflicts", enabled: true },
     ],
   },
   {
-    title: "Security",
-    icon: Shield,
+    title: "Scheduling",
+    icon: Clock,
     settings: [
-      { name: "Force 2FA for Admins", description: "Require two-factor authentication", enabled: true },
-      { name: "IP Whitelisting", description: "Restrict access by IP", enabled: false },
-      { name: "Audit Logging", description: "Log all admin actions", enabled: true },
+      { name: "Weekend Sessions", description: "Allow weekend training sessions", enabled: true },
+      { name: "Holiday Calendar", description: "Auto-block sessions on holidays", enabled: true },
+      { name: "Buffer Between Sessions", description: "15-min gap between sessions", enabled: true },
     ],
   },
   {
-    title: "Email & Communications",
-    icon: Mail,
+    title: "Preferences",
+    icon: Palette,
     settings: [
-      { name: "Marketing Emails", description: "Send promotional emails", enabled: true },
-      { name: "Automated Reports", description: "Weekly summary emails", enabled: true },
-      { name: "Support Notifications", description: "Alert on support tickets", enabled: true },
+      { name: "Dark Mode", description: "Use dark theme", enabled: false },
+      { name: "Compact View", description: "Reduce spacing in layouts", enabled: false },
     ],
   },
-];
-
-const platformConfig = [
-  { label: "Platform Name", value: "AceTrack", icon: Globe },
-  { label: "Support Email", value: "support@acetrack.com", icon: Mail },
-  { label: "Database Region", value: "EU West (London)", icon: Database },
-  { label: "Billing Currency", value: "USD ($)", icon: CreditCard },
 ];
 
 const SuperAdminSettings = () => {
@@ -79,11 +84,11 @@ const SuperAdminSettings = () => {
     <DashboardLayout
       title="Settings"
       navItems={navItems}
-      userRole="Super Admin"
+      userRole="Owner"
       userName="Michael Roberts"
     >
       <div className="space-y-8">
-        {/* Platform Configuration */}
+        {/* Owner Profile */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -91,13 +96,59 @@ const SuperAdminSettings = () => {
           <Card className="rounded-2xl border border-border">
             <CardHeader className="pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Settings className="w-5 h-5 text-primary" />
-                Platform Configuration
+                <User className="w-5 h-5 text-primary" />
+                Owner Profile
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col md:flex-row gap-6">
+                <div className="flex flex-col items-center gap-3">
+                  <Avatar className="w-24 h-24">
+                    <AvatarFallback className="bg-primary/10 text-primary font-display text-2xl">
+                      MR
+                    </AvatarFallback>
+                  </Avatar>
+                  <Button variant="outline" size="sm">Change Photo</Button>
+                </div>
+                <div className="flex-1 grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm text-muted-foreground mb-2 block">Full Name</label>
+                    <Input defaultValue="Michael Roberts" className="bg-muted" />
+                  </div>
+                  <div>
+                    <label className="text-sm text-muted-foreground mb-2 block">Email</label>
+                    <Input defaultValue="michael@elitefootball.com" className="bg-muted" />
+                  </div>
+                  <div>
+                    <label className="text-sm text-muted-foreground mb-2 block">Phone</label>
+                    <Input defaultValue="+1 234 567 8900" className="bg-muted" />
+                  </div>
+                  <div>
+                    <label className="text-sm text-muted-foreground mb-2 block">Role</label>
+                    <Input defaultValue="Academy Owner" className="bg-muted" disabled />
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Academy Configuration */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+        >
+          <Card className="rounded-2xl border border-border">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <Building className="w-5 h-5 text-primary" />
+                Academy Configuration
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-4">
-                {platformConfig.map((config, index) => (
+                {academyConfig.map((config, index) => (
                   <div
                     key={index}
                     className="p-4 bg-card border border-border rounded-2xl"
@@ -111,6 +162,18 @@ const SuperAdminSettings = () => {
                     <Input defaultValue={config.value} className="bg-muted" />
                   </div>
                 ))}
+              </div>
+              <div className="mt-4 p-4 bg-card border border-border rounded-2xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <MapPin className="w-4 h-4 text-primary" />
+                  </div>
+                  <span className="text-sm text-muted-foreground">Academy Address</span>
+                </div>
+                <Textarea 
+                  defaultValue="123 Sports Complex Road, City Center, State 12345" 
+                  className="bg-muted min-h-[80px]" 
+                />
               </div>
             </CardContent>
           </Card>

@@ -1,17 +1,14 @@
 import { motion } from "framer-motion";
 import {
   Home,
-  Users,
   Calendar,
-  CreditCard,
   BarChart3,
+  Trophy,
   Settings,
   Bell,
   User,
+  Lock,
   Palette,
-  MapPin,
-  Clock,
-  FileText,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,15 +16,13 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Textarea } from "@/components/ui/textarea";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard/admin", icon: Home },
-  { label: "Users", href: "/dashboard/admin/users", icon: Users },
-  { label: "Schedule", href: "/dashboard/admin/schedule", icon: Calendar },
-  { label: "Finances", href: "/dashboard/admin/finances", icon: CreditCard },
-  { label: "Reports", href: "/dashboard/admin/reports", icon: BarChart3 },
-  { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
+  { label: "Dashboard", href: "/dashboard/member", icon: Home },
+  { label: "Schedule", href: "/dashboard/member/schedule", icon: Calendar },
+  { label: "My Progress", href: "/dashboard/member/progress", icon: BarChart3 },
+  { label: "Achievements", href: "/dashboard/member/achievements", icon: Trophy },
+  { label: "Settings", href: "/dashboard/member/settings", icon: Settings },
 ];
 
 const settingSections = [
@@ -35,28 +30,18 @@ const settingSections = [
     title: "Notifications",
     icon: Bell,
     settings: [
-      { name: "New Registrations", description: "Get notified when new students register", enabled: true },
-      { name: "Payment Alerts", description: "Alerts for pending and failed payments", enabled: true },
-      { name: "Session Conflicts", description: "Notify about scheduling conflicts", enabled: true },
-      { name: "Coach Reports", description: "Weekly coach performance summaries", enabled: true },
+      { name: "Session Reminders", description: "Get notified before training sessions", enabled: true },
+      { name: "Progress Updates", description: "Weekly progress summary notifications", enabled: true },
+      { name: "Match Announcements", description: "Alerts for upcoming matches", enabled: true },
+      { name: "Coach Feedback", description: "Notifications when coach leaves feedback", enabled: true },
     ],
   },
   {
-    title: "Scheduling Defaults",
-    icon: Clock,
+    title: "Privacy",
+    icon: Lock,
     settings: [
-      { name: "Auto-approve Sessions", description: "Automatically approve coach-created sessions", enabled: false },
-      { name: "Buffer Time", description: "Add 15-min buffer between sessions", enabled: true },
-      { name: "Weekend Sessions", description: "Allow weekend scheduling", enabled: true },
-    ],
-  },
-  {
-    title: "Approvals",
-    icon: FileText,
-    settings: [
-      { name: "Student Registration Approval", description: "Manually approve new student registrations", enabled: true },
-      { name: "Ground Booking Approval", description: "Require approval for ground bookings", enabled: true },
-      { name: "Match Scheduling", description: "Approve match schedules before publishing", enabled: false },
+      { name: "Show Profile to Team", description: "Allow teammates to view your profile", enabled: true },
+      { name: "Share Progress Stats", description: "Let coaches share your stats with parents", enabled: true },
     ],
   },
   {
@@ -69,13 +54,13 @@ const settingSections = [
   },
 ];
 
-const AdminSettings = () => {
+const MemberSettings = () => {
   return (
     <DashboardLayout
       title="Settings"
       navItems={navItems}
-      userRole="Admin"
-      userName="John Mitchell"
+      userRole="Member"
+      userName="Alex Thompson"
     >
       <div className="space-y-8 max-w-4xl">
         {/* Profile Section */}
@@ -87,7 +72,7 @@ const AdminSettings = () => {
             <CardHeader className="pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 <User className="w-5 h-5 text-primary" />
-                Admin Profile
+                My Profile
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -95,7 +80,7 @@ const AdminSettings = () => {
                 <div className="flex flex-col items-center gap-3">
                   <Avatar className="w-24 h-24">
                     <AvatarFallback className="bg-primary/10 text-primary font-display text-2xl">
-                      JM
+                      AT
                     </AvatarFallback>
                   </Avatar>
                   <Button variant="outline" size="sm">Change Photo</Button>
@@ -103,19 +88,19 @@ const AdminSettings = () => {
                 <div className="flex-1 grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm text-muted-foreground mb-2 block">Full Name</label>
-                    <Input defaultValue="John Mitchell" className="bg-muted" />
+                    <Input defaultValue="Alex Thompson" className="bg-muted" />
                   </div>
                   <div>
                     <label className="text-sm text-muted-foreground mb-2 block">Email</label>
-                    <Input defaultValue="john.mitchell@academy.com" className="bg-muted" />
+                    <Input defaultValue="alex.thompson@email.com" className="bg-muted" />
                   </div>
                   <div>
                     <label className="text-sm text-muted-foreground mb-2 block">Phone</label>
-                    <Input defaultValue="+1 234 567 8902" className="bg-muted" />
+                    <Input defaultValue="+1 234 567 8900" className="bg-muted" />
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">Role</label>
-                    <Input defaultValue="Academy Administrator" className="bg-muted" disabled />
+                    <label className="text-sm text-muted-foreground mb-2 block">Date of Birth</label>
+                    <Input defaultValue="2010-05-15" type="date" className="bg-muted" />
                   </div>
                 </div>
               </div>
@@ -171,4 +156,4 @@ const AdminSettings = () => {
   );
 };
 
-export default AdminSettings;
+export default MemberSettings;

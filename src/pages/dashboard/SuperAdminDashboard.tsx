@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
 import {
   Home,
-  Building,
+  MapPin,
   Users,
   BarChart3,
   Settings,
-  Shield,
-  Globe,
+  CreditCard,
   TrendingUp,
-  AlertTriangle,
+  Calendar,
   CheckCircle2,
+  AlertTriangle,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,51 +18,57 @@ import { Progress } from "@/components/ui/progress";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/superadmin", icon: Home },
-  { label: "Academies", href: "/dashboard/superadmin/academies", icon: Building },
-  { label: "All Users", href: "/dashboard/superadmin/users", icon: Users },
+  { label: "Grounds", href: "/dashboard/superadmin/grounds", icon: MapPin },
+  { label: "All Players", href: "/dashboard/superadmin/players", icon: Users },
+  { label: "Coaches", href: "/dashboard/superadmin/coaches", icon: Users },
+  { label: "Finances", href: "/dashboard/superadmin/finances", icon: CreditCard },
   { label: "Analytics", href: "/dashboard/superadmin/analytics", icon: BarChart3 },
-  { label: "Security", href: "/dashboard/superadmin/security", icon: Shield },
   { label: "Settings", href: "/dashboard/superadmin/settings", icon: Settings },
 ];
 
-const globalStats = [
-  { label: "Total Academies", value: "156", change: "+24", icon: Building, color: "text-primary" },
-  { label: "Total Users", value: "12.4K", change: "+1.2K", icon: Users, color: "text-primary" },
-  { label: "Active Sessions", value: "3.2K", change: "+15%", icon: Globe, color: "text-teal" },
-  { label: "Platform Revenue", value: "$2.1M", change: "+32%", icon: TrendingUp, color: "text-coral" },
+const overviewStats = [
+  { label: "Total Players", value: "248", change: "+24", icon: Users, color: "text-primary" },
+  { label: "Active Coaches", value: "12", change: "+2", icon: Users, color: "text-teal" },
+  { label: "Monthly Revenue", value: "$58.5K", change: "+18%", icon: TrendingUp, color: "text-coral" },
+  { label: "Training Grounds", value: "4", change: "Active", icon: MapPin, color: "text-primary" },
 ];
 
-const academies = [
-  { name: "Elite Football Academy", location: "London, UK", students: 248, status: "active", health: 98 },
-  { name: "Premier Youth Sports", location: "Manchester, UK", students: 186, status: "active", health: 95 },
-  { name: "Champions Training Center", location: "Liverpool, UK", students: 312, status: "active", health: 92 },
-  { name: "Future Stars Academy", location: "Birmingham, UK", students: 124, status: "warning", health: 78 },
-  { name: "Victory Football School", location: "Leeds, UK", students: 98, status: "active", health: 88 },
+const grounds = [
+  { name: "Main Stadium Field", type: "Full Size", status: "available", bookings: 12, capacity: "22 players" },
+  { name: "Training Ground A", type: "Half Field", status: "in-use", bookings: 8, capacity: "15 players" },
+  { name: "Training Ground B", type: "Half Field", status: "available", bookings: 6, capacity: "15 players" },
+  { name: "Indoor Facility", type: "Indoor", status: "maintenance", bookings: 0, capacity: "12 players" },
 ];
 
-const systemAlerts = [
-  { type: "warning", message: "Future Stars Academy payment overdue", time: "2 hours ago" },
-  { type: "info", message: "New academy registration: Celtic Youth FC", time: "5 hours ago" },
-  { type: "success", message: "System update completed successfully", time: "1 day ago" },
-  { type: "warning", message: "High server load detected in EU region", time: "2 days ago" },
+const upcomingEvents = [
+  { title: "U-17 vs City FC", type: "Match", date: "Today, 3:00 PM", ground: "Main Stadium" },
+  { title: "Coaches Meeting", type: "Meeting", date: "Tomorrow, 10:00 AM", ground: "Indoor Facility" },
+  { title: "U-15 Tournament", type: "Tournament", date: "Sat, Jan 18", ground: "Main Stadium" },
+  { title: "Parent Open Day", type: "Event", date: "Sun, Jan 19", ground: "All Grounds" },
+];
+
+const recentAlerts = [
+  { type: "warning", message: "Indoor Facility maintenance scheduled", time: "2 hours ago" },
+  { type: "success", message: "Monthly payments collected: 94%", time: "Today" },
+  { type: "info", message: "3 new trial session requests", time: "Today" },
 ];
 
 const SuperAdminDashboard = () => {
   return (
     <DashboardLayout
-      title="Super Admin"
+      title="Owner Dashboard"
       navItems={navItems}
-      userRole="Super Admin"
+      userRole="Owner"
       userName="Michael Roberts"
     >
       <div className="space-y-8">
-        {/* Global Stats */}
+        {/* Overview Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-2 lg:grid-cols-4 gap-4"
         >
-          {globalStats.map((stat, index) => (
+          {overviewStats.map((stat, index) => (
             <Card key={index} className="rounded-2xl border border-border overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -79,7 +85,7 @@ const SuperAdminDashboard = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Academies Overview */}
+          {/* Grounds Overview */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,35 +95,34 @@ const SuperAdminDashboard = () => {
             <Card className="rounded-2xl border border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Building className="w-5 h-5 text-primary" />
-                  Academies
+                  <MapPin className="w-5 h-5 text-primary" />
+                  Training Grounds
                 </CardTitle>
-                <Button variant="accent" size="sm">Add Academy</Button>
+                <Button variant="accent" size="sm">Manage Grounds</Button>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {academies.map((academy, index) => (
+                  {grounds.map((ground, index) => (
                     <div key={index} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                       <div className="flex items-center gap-4 flex-1">
                         <div className={`w-1 h-10 rounded-full ${
-                          academy.status === "active" ? "bg-primary" : "bg-accent"
+                          ground.status === "available" ? "bg-primary" : 
+                          ground.status === "in-use" ? "bg-teal" : "bg-coral"
                         }`} />
                         <div className="flex-1">
-                          <div className="font-semibold text-foreground">{academy.name}</div>
-                          <div className="text-sm text-muted-foreground">{academy.location} • {academy.students} students</div>
+                          <div className="font-semibold text-foreground">{ground.name}</div>
+                          <div className="text-sm text-muted-foreground">{ground.type} • {ground.capacity}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-4">
-                        <div className="text-right">
-                          <div className="text-xs text-muted-foreground">Health</div>
-                          <div className={`font-semibold ${
-                            academy.health >= 90 ? "text-primary" :
-                            academy.health >= 80 ? "text-accent-foreground" : "text-coral"
-                          }`}>
-                            {academy.health}%
-                          </div>
-                        </div>
-                        <Button variant="outline" size="sm">Manage</Button>
+                        <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                          ground.status === "available" ? "bg-primary/10 text-primary border-primary/20" : 
+                          ground.status === "in-use" ? "bg-teal/10 text-teal border-teal/20" : 
+                          "bg-coral/10 text-coral border-coral/20"
+                        }`}>
+                          {ground.status === "in-use" ? "In Use" : ground.status === "maintenance" ? "Maintenance" : "Available"}
+                        </span>
+                        <Button variant="outline" size="sm">View</Button>
                       </div>
                     </div>
                   ))}
@@ -126,7 +131,7 @@ const SuperAdminDashboard = () => {
             </Card>
           </motion.div>
 
-          {/* System Alerts */}
+          {/* Recent Alerts */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -135,12 +140,12 @@ const SuperAdminDashboard = () => {
             <Card className="rounded-2xl border border-border">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-primary" />
-                  System Alerts
+                  <AlertTriangle className="w-5 h-5 text-primary" />
+                  Recent Alerts
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {systemAlerts.map((alert, index) => (
+                {recentAlerts.map((alert, index) => (
                   <div key={index} className="flex items-start gap-3 p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                       alert.type === "warning" ? "bg-accent/10" :
@@ -148,10 +153,8 @@ const SuperAdminDashboard = () => {
                     }`}>
                       {alert.type === "warning" ? (
                         <AlertTriangle className="w-4 h-4 text-accent-foreground" />
-                      ) : alert.type === "success" ? (
-                        <CheckCircle2 className="w-4 h-4 text-primary" />
                       ) : (
-                        <Globe className="w-4 h-4 text-teal" />
+                        <CheckCircle2 className={`w-4 h-4 ${alert.type === "success" ? "text-primary" : "text-teal"}`} />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -165,35 +168,35 @@ const SuperAdminDashboard = () => {
           </motion.div>
         </div>
 
-        {/* Platform Health */}
+        {/* Upcoming Events */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
           <Card className="rounded-2xl border border-border">
-            <CardHeader className="pb-4">
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-primary" />
-                Platform Health
+                <Calendar className="w-5 h-5 text-primary" />
+                Upcoming Events
               </CardTitle>
+              <Button variant="accent" size="sm">View Calendar</Button>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-4 gap-6">
-                {[
-                  { label: "Server Uptime", value: 99.9, unit: "%" },
-                  { label: "API Response", value: 45, unit: "ms" },
-                  { label: "Active Connections", value: 3247, unit: "" },
-                  { label: "Storage Used", value: 68, unit: "%" },
-                ].map((metric, index) => (
-                  <div key={index} className="text-center p-6 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
-                    <div className="font-display text-4xl text-foreground">
-                      {metric.value}{metric.unit}
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {upcomingEvents.map((event, index) => (
+                  <div key={index} className="p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                    <div className={`px-3 py-1 rounded-full text-xs font-medium border w-fit mb-3 ${
+                      event.type === "Match" ? "bg-coral/10 text-coral border-coral/20" :
+                      event.type === "Tournament" ? "bg-primary/10 text-primary border-primary/20" :
+                      event.type === "Meeting" ? "bg-teal/10 text-teal border-teal/20" :
+                      "bg-accent/10 text-accent-foreground border-accent/20"
+                    }`}>
+                      {event.type}
                     </div>
-                    <div className="text-sm text-muted-foreground mt-2">{metric.label}</div>
-                    {metric.label.includes("%") || metric.label === "Storage Used" ? (
-                      <Progress value={metric.value} className="h-2.5 mt-3" />
-                    ) : null}
+                    <div className="font-semibold text-foreground mb-1">{event.title}</div>
+                    <div className="text-sm text-muted-foreground">{event.date}</div>
+                    <div className="text-xs text-muted-foreground mt-2">{event.ground}</div>
                   </div>
                 ))}
               </div>

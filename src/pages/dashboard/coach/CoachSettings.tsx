@@ -1,17 +1,17 @@
 import { motion } from "framer-motion";
 import {
   Home,
-  Users,
   Calendar,
-  CreditCard,
+  Users,
+  ClipboardCheck,
   BarChart3,
+  FileText,
   Settings,
   Bell,
   User,
+  Lock,
   Palette,
-  MapPin,
   Clock,
-  FileText,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,12 +22,13 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard/admin", icon: Home },
-  { label: "Users", href: "/dashboard/admin/users", icon: Users },
-  { label: "Schedule", href: "/dashboard/admin/schedule", icon: Calendar },
-  { label: "Finances", href: "/dashboard/admin/finances", icon: CreditCard },
-  { label: "Reports", href: "/dashboard/admin/reports", icon: BarChart3 },
-  { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
+  { label: "Dashboard", href: "/dashboard/coach", icon: Home },
+  { label: "Schedule", href: "/dashboard/coach/schedule", icon: Calendar },
+  { label: "My Teams", href: "/dashboard/coach/teams", icon: Users },
+  { label: "Attendance", href: "/dashboard/coach/attendance", icon: ClipboardCheck },
+  { label: "Analytics", href: "/dashboard/coach/analytics", icon: BarChart3 },
+  { label: "Reports", href: "/dashboard/coach/reports", icon: FileText },
+  { label: "Settings", href: "/dashboard/coach/settings", icon: Settings },
 ];
 
 const settingSections = [
@@ -35,28 +36,18 @@ const settingSections = [
     title: "Notifications",
     icon: Bell,
     settings: [
-      { name: "New Registrations", description: "Get notified when new students register", enabled: true },
-      { name: "Payment Alerts", description: "Alerts for pending and failed payments", enabled: true },
-      { name: "Session Conflicts", description: "Notify about scheduling conflicts", enabled: true },
-      { name: "Coach Reports", description: "Weekly coach performance summaries", enabled: true },
+      { name: "Session Reminders", description: "Get notified 30 mins before sessions", enabled: true },
+      { name: "Attendance Alerts", description: "Alert when players miss sessions", enabled: true },
+      { name: "Report Deadlines", description: "Reminders for pending reports", enabled: true },
+      { name: "Parent Messages", description: "Notifications for parent inquiries", enabled: true },
     ],
   },
   {
-    title: "Scheduling Defaults",
+    title: "Session Defaults",
     icon: Clock,
     settings: [
-      { name: "Auto-approve Sessions", description: "Automatically approve coach-created sessions", enabled: false },
-      { name: "Buffer Time", description: "Add 15-min buffer between sessions", enabled: true },
-      { name: "Weekend Sessions", description: "Allow weekend scheduling", enabled: true },
-    ],
-  },
-  {
-    title: "Approvals",
-    icon: FileText,
-    settings: [
-      { name: "Student Registration Approval", description: "Manually approve new student registrations", enabled: true },
-      { name: "Ground Booking Approval", description: "Require approval for ground bookings", enabled: true },
-      { name: "Match Scheduling", description: "Approve match schedules before publishing", enabled: false },
+      { name: "Auto-start Attendance", description: "Automatically open attendance at session start", enabled: true },
+      { name: "Session Summaries", description: "Prompt for summary after each session", enabled: false },
     ],
   },
   {
@@ -69,13 +60,13 @@ const settingSections = [
   },
 ];
 
-const AdminSettings = () => {
+const CoachSettings = () => {
   return (
     <DashboardLayout
       title="Settings"
       navItems={navItems}
-      userRole="Admin"
-      userName="John Mitchell"
+      userRole="Coach"
+      userName="Coach Williams"
     >
       <div className="space-y-8 max-w-4xl">
         {/* Profile Section */}
@@ -87,7 +78,7 @@ const AdminSettings = () => {
             <CardHeader className="pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
                 <User className="w-5 h-5 text-primary" />
-                Admin Profile
+                Coach Profile
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -95,27 +86,36 @@ const AdminSettings = () => {
                 <div className="flex flex-col items-center gap-3">
                   <Avatar className="w-24 h-24">
                     <AvatarFallback className="bg-primary/10 text-primary font-display text-2xl">
-                      JM
+                      CW
                     </AvatarFallback>
                   </Avatar>
                   <Button variant="outline" size="sm">Change Photo</Button>
                 </div>
-                <div className="flex-1 grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">Full Name</label>
-                    <Input defaultValue="John Mitchell" className="bg-muted" />
+                <div className="flex-1 space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm text-muted-foreground mb-2 block">Full Name</label>
+                      <Input defaultValue="Coach Williams" className="bg-muted" />
+                    </div>
+                    <div>
+                      <label className="text-sm text-muted-foreground mb-2 block">Email</label>
+                      <Input defaultValue="williams@academy.com" className="bg-muted" />
+                    </div>
+                    <div>
+                      <label className="text-sm text-muted-foreground mb-2 block">Phone</label>
+                      <Input defaultValue="+1 234 567 8901" className="bg-muted" />
+                    </div>
+                    <div>
+                      <label className="text-sm text-muted-foreground mb-2 block">Specialization</label>
+                      <Input defaultValue="Technical Training, Youth Development" className="bg-muted" />
+                    </div>
                   </div>
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">Email</label>
-                    <Input defaultValue="john.mitchell@academy.com" className="bg-muted" />
-                  </div>
-                  <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">Phone</label>
-                    <Input defaultValue="+1 234 567 8902" className="bg-muted" />
-                  </div>
-                  <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">Role</label>
-                    <Input defaultValue="Academy Administrator" className="bg-muted" disabled />
+                    <label className="text-sm text-muted-foreground mb-2 block">Bio</label>
+                    <Textarea 
+                      defaultValue="UEFA B Licensed coach with 10+ years experience in youth development. Specialized in technical training and player development programs." 
+                      className="bg-muted min-h-[100px]" 
+                    />
                   </div>
                 </div>
               </div>
@@ -171,4 +171,4 @@ const AdminSettings = () => {
   );
 };
 
-export default AdminSettings;
+export default CoachSettings;
