@@ -168,14 +168,14 @@ const MemberDashboard = () => {
                 </CardTitle>
               </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+              <div className="grid md:grid-cols-2 gap-6">
                 {skills.map((skill) => (
                   <div key={skill.name} className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-foreground">{skill.name}</span>
-                      <span className="text-sm font-bold text-primary">{skill.value}%</span>
+                      <span className="font-medium text-foreground text-sm">{skill.name}</span>
+                      <span className="text-sm font-semibold text-primary">{skill.value}%</span>
                     </div>
-                    <Progress value={skill.value} className="h-3" />
+                    <Progress value={skill.value} className="h-2.5" />
                   </div>
                 ))}
               </div>

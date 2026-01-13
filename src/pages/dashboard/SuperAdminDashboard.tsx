@@ -187,7 +187,7 @@ const SuperAdminDashboard = () => {
                     </div>
                     <div className="text-sm text-muted-foreground mt-1">{metric.label}</div>
                     {metric.label.includes("%") || metric.label === "Storage Used" ? (
-                      <Progress value={metric.value} className="h-2 mt-3" />
+                      <Progress value={metric.value} className="h-2.5 mt-3" />
                     ) : null}
                   </div>
                 ))}

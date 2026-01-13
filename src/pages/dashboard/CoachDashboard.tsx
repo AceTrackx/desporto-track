@@ -145,7 +145,7 @@ const CoachDashboard = () => {
                       <span>{team.players} players</span>
                       <span>{team.avgAttendance}% attendance</span>
                     </div>
-                    <Progress value={team.avgAttendance} className="h-2" />
+                    <Progress value={team.avgAttendance} className="h-2.5" />
                   </div>
                 ))}
               </CardContent>

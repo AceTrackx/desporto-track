@@ -112,7 +112,7 @@ const AdminDashboard = () => {
                         </div>
                         <span className="font-bold text-primary">${squad.revenue.toLocaleString()}</span>
                       </div>
-                      <Progress value={(squad.students / squad.capacity) * 100} className="h-2" />
+                      <Progress value={(squad.students / squad.capacity) * 100} className="h-2.5" />
                     </div>
                   ))}
                 </div>
