@@ -26,10 +26,10 @@ const navItems = [
 ];
 
 const globalStats = [
-  { label: "Total Academies", value: "156", change: "+24", icon: Building, color: "bg-primary" },
-  { label: "Total Users", value: "12.4K", change: "+1.2K", icon: Users, color: "bg-accent" },
-  { label: "Active Sessions", value: "3.2K", change: "+15%", icon: Globe, color: "bg-teal" },
-  { label: "Platform Revenue", value: "$2.1M", change: "+32%", icon: TrendingUp, color: "bg-coral" },
+  { label: "Total Academies", value: "156", change: "+24", icon: Building, color: "text-primary" },
+  { label: "Total Users", value: "12.4K", change: "+1.2K", icon: Users, color: "text-primary" },
+  { label: "Active Sessions", value: "3.2K", change: "+15%", icon: Globe, color: "text-teal" },
+  { label: "Platform Revenue", value: "$2.1M", change: "+32%", icon: TrendingUp, color: "text-coral" },
 ];
 
 const academies = [
@@ -64,16 +64,15 @@ const SuperAdminDashboard = () => {
         >
           {globalStats.map((stat, index) => (
             <Card key={index} className="rounded-2xl border border-border overflow-hidden">
-              <div className={`h-1 ${stat.color}`} />
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                  <div className="flex items-center gap-2">
+                    <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                    <span className="text-sm text-muted-foreground">{stat.label}</span>
                   </div>
                   <span className="text-sm font-semibold text-primary">{stat.change}</span>
                 </div>
                 <div className="font-display text-3xl text-foreground">{stat.value}</div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
               </CardContent>
             </Card>
           ))}
@@ -88,10 +87,10 @@ const SuperAdminDashboard = () => {
             className="lg:col-span-2"
           >
             <Card className="rounded-2xl border border-border">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                  <Building className="w-6 h-6 text-primary" />
-                  ACADEMIES
+              <CardHeader className="flex flex-row items-center justify-between pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <Building className="w-5 h-5 text-primary" />
+                  Academies
                 </CardTitle>
                 <Button variant="accent" size="sm">Add Academy</Button>
               </CardHeader>
@@ -134,28 +133,23 @@ const SuperAdminDashboard = () => {
             transition={{ delay: 0.2 }}
           >
             <Card className="rounded-2xl border border-border">
-              <CardHeader>
-                <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                  <Shield className="w-6 h-6 text-primary" />
-                  SYSTEM ALERTS
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-primary" />
+                  System Alerts
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {systemAlerts.map((alert, index) => (
                   <div key={index} className="flex items-start gap-3 p-3 bg-muted/50 rounded-xl">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      alert.type === "warning" ? "bg-accent/20" :
-                      alert.type === "success" ? "bg-primary/20" : "bg-teal/20"
-                    }`}>
-                      {alert.type === "warning" ? (
-                        <AlertTriangle className="w-4 h-4 text-accent-foreground" />
-                      ) : alert.type === "success" ? (
-                        <CheckCircle2 className="w-4 h-4 text-primary" />
-                      ) : (
-                        <Globe className="w-4 h-4 text-teal" />
-                      )}
-                    </div>
-                    <div className="flex-1">
+                    {alert.type === "warning" ? (
+                      <AlertTriangle className="w-5 h-5 text-accent-foreground shrink-0" />
+                    ) : alert.type === "success" ? (
+                      <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                    ) : (
+                      <Globe className="w-5 h-5 text-teal shrink-0" />
+                    )}
+                    <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium text-foreground">{alert.message}</div>
                       <div className="text-xs text-muted-foreground">{alert.time}</div>
                     </div>
@@ -173,10 +167,10 @@ const SuperAdminDashboard = () => {
           transition={{ delay: 0.3 }}
         >
           <Card className="rounded-2xl border border-border">
-            <CardHeader>
-              <CardTitle className="font-display text-2xl tracking-wide flex items-center gap-2">
-                <BarChart3 className="w-6 h-6 text-primary" />
-                PLATFORM HEALTH
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-primary" />
+                Platform Health
               </CardTitle>
             </CardHeader>
             <CardContent>

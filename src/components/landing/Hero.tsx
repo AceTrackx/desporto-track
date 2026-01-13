@@ -96,9 +96,7 @@ const Hero = () => {
                 className="bg-card rounded-3xl border border-border p-6 max-w-sm ml-auto"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Users className="w-6 h-6 text-primary" />
-                  </div>
+                  <Users className="w-6 h-6 text-primary" />
                   <div>
                     <div className="font-semibold text-card-foreground">Team Overview</div>
                     <div className="text-sm text-muted-foreground">U-17 Squad</div>
