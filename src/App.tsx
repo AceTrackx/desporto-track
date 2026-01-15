@@ -5,14 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
-import PerformanceAnalytics from "./pages/features/PerformanceAnalytics";
-import TeamManagement from "./pages/features/TeamManagement";
-import SmartScheduling from "./pages/features/SmartScheduling";
-import ProgressReports from "./pages/features/ProgressReports";
-import Notifications from "./pages/features/Notifications";
-import RoleBasedAccess from "./pages/features/RoleBasedAccess";
-import MobileFriendly from "./pages/features/MobileFriendly";
-import GoalTracking from "./pages/features/GoalTracking";
 import MemberDashboard from "./pages/dashboard/MemberDashboard";
 import MemberSchedule from "./pages/dashboard/member/MemberSchedule";
 import MemberProgress from "./pages/dashboard/member/MemberProgress";
@@ -51,16 +43,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
-          
-          {/* Feature Pages */}
-          <Route path="/features/performance-analytics" element={<PerformanceAnalytics />} />
-          <Route path="/features/team-management" element={<TeamManagement />} />
-          <Route path="/features/smart-scheduling" element={<SmartScheduling />} />
-          <Route path="/features/progress-reports" element={<ProgressReports />} />
-          <Route path="/features/notifications" element={<Notifications />} />
-          <Route path="/features/role-based-access" element={<RoleBasedAccess />} />
-          <Route path="/features/mobile-friendly" element={<MobileFriendly />} />
-          <Route path="/features/goal-tracking" element={<GoalTracking />} />
           
           {/* Member Routes */}
           <Route path="/dashboard/member" element={<MemberDashboard />} />
