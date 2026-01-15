@@ -4,104 +4,104 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AceTrack Design System - Football Academy Management */
+/* Desporto Track Design System - Football Academy Management */
 
 @layer base {
   :root {
-    /* Core Colors - Emerald Green Theme */
-    --background: 150 20% 98%;
-    --foreground: 160 30% 10%;
+    /* Core Colors - Blue Theme */
+    --background: 210 20% 98%;
+    --foreground: 220 30% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 160 30% 10%;
+    --card-foreground: 220 30% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 160 30% 10%;
+    --popover-foreground: 220 30% 10%;
 
-    /* Primary - Deep Emerald */
-    --primary: 158 64% 35%;
+    /* Primary - Deep Blue */
+    --primary: 217 91% 45%;
     --primary-foreground: 0 0% 100%;
 
     /* Secondary - Soft Gray */
-    --secondary: 150 10% 94%;
-    --secondary-foreground: 160 30% 15%;
+    --secondary: 210 10% 94%;
+    --secondary-foreground: 220 30% 15%;
 
     /* Muted */
-    --muted: 150 10% 94%;
-    --muted-foreground: 160 10% 45%;
+    --muted: 210 10% 94%;
+    --muted-foreground: 220 10% 45%;
 
-    /* Accent - Lime Green (like reference) */
-    --accent: 75 85% 55%;
-    --accent-foreground: 160 30% 10%;
+    /* Accent - Cyan/Teal */
+    --accent: 190 85% 50%;
+    --accent-foreground: 220 30% 10%;
 
     /* Destructive */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 150 15% 88%;
-    --input: 150 15% 88%;
-    --ring: 158 64% 35%;
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
+    --ring: 217 91% 45%;
 
     --radius: 1rem;
 
     /* Extended Palette */
-    --emerald-dark: 160 70% 20%;
-    --emerald-light: 158 50% 90%;
-    --lime: 75 85% 55%;
-    --lime-dark: 75 70% 40%;
-    --field-green: 120 35% 45%;
+    --blue-dark: 220 70% 20%;
+    --blue-light: 210 50% 90%;
+    --cyan: 190 85% 50%;
+    --cyan-dark: 190 70% 40%;
+    --navy: 220 50% 30%;
     --coral: 10 80% 65%;
     --teal: 174 60% 45%;
 
     /* Sidebar */
-    --sidebar-background: 160 70% 20%;
+    --sidebar-background: 220 70% 20%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 75 85% 55%;
-    --sidebar-primary-foreground: 160 30% 10%;
-    --sidebar-accent: 160 50% 25%;
+    --sidebar-primary: 190 85% 50%;
+    --sidebar-primary-foreground: 220 30% 10%;
+    --sidebar-accent: 220 50% 25%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 160 40% 30%;
-    --sidebar-ring: 75 85% 55%;
+    --sidebar-border: 220 40% 30%;
+    --sidebar-ring: 190 85% 50%;
   }
 
   .dark {
-    --background: 160 30% 8%;
-    --foreground: 150 20% 95%;
+    --background: 220 30% 8%;
+    --foreground: 210 20% 95%;
 
-    --card: 160 25% 12%;
-    --card-foreground: 150 20% 95%;
+    --card: 220 25% 12%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 160 25% 12%;
-    --popover-foreground: 150 20% 95%;
+    --popover: 220 25% 12%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 158 64% 45%;
+    --primary: 217 91% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 160 20% 18%;
-    --secondary-foreground: 150 20% 90%;
+    --secondary: 220 20% 18%;
+    --secondary-foreground: 210 20% 90%;
 
-    --muted: 160 20% 18%;
-    --muted-foreground: 150 10% 60%;
+    --muted: 220 20% 18%;
+    --muted-foreground: 210 10% 60%;
 
-    --accent: 75 85% 55%;
-    --accent-foreground: 160 30% 10%;
+    --accent: 190 85% 50%;
+    --accent-foreground: 220 30% 10%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 160 20% 22%;
-    --input: 160 20% 22%;
-    --ring: 158 64% 45%;
+    --border: 220 20% 22%;
+    --input: 220 20% 22%;
+    --ring: 217 91% 55%;
 
-    --sidebar-background: 160 40% 8%;
-    --sidebar-foreground: 150 20% 95%;
-    --sidebar-primary: 75 85% 55%;
-    --sidebar-primary-foreground: 160 30% 10%;
-    --sidebar-accent: 160 30% 15%;
-    --sidebar-accent-foreground: 150 20% 95%;
-    --sidebar-border: 160 25% 18%;
-    --sidebar-ring: 75 85% 55%;
+    --sidebar-background: 220 40% 8%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 190 85% 50%;
+    --sidebar-primary-foreground: 220 30% 10%;
+    --sidebar-accent: 220 30% 15%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 220 25% 18%;
+    --sidebar-ring: 190 85% 50%;
   }
 }
 
@@ -119,12 +119,12 @@
 @layer components {
   /* Hero gradient background */
   .hero-gradient {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--emerald-dark)) 100%);
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--blue-dark)) 100%);
   }
 
   /* Accent gradient */
   .accent-gradient {
-    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--lime-dark)) 100%);
+    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--cyan-dark)) 100%);
   }
 
   /* Card hover effects */
@@ -162,7 +162,7 @@
     background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--teal)) 100%);
   }
 
-  /* Lime text */
+  /* Accent text (previously lime) */
   .text-lime {
     color: hsl(var(--accent));
   }

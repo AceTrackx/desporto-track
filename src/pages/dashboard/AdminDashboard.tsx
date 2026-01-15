@@ -3,13 +3,13 @@ import {
   Home,
   Users,
   Calendar,
-  CreditCard,
   BarChart3,
   Settings,
   UserPlus,
-  TrendingUp,
-  DollarSign,
-  Building,
+  UserCheck,
+  Clock,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,36 +20,37 @@ const navItems = [
   { label: "Dashboard", href: "/dashboard/admin", icon: Home },
   { label: "Users", href: "/dashboard/admin/users", icon: Users },
   { label: "Schedule", href: "/dashboard/admin/schedule", icon: Calendar },
-  { label: "Finances", href: "/dashboard/admin/finances", icon: CreditCard },
   { label: "Reports", href: "/dashboard/admin/reports", icon: BarChart3 },
   { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
 ];
 
 const stats = [
   { label: "Total Students", value: "248", change: "+12%", icon: Users, color: "text-primary" },
-  { label: "Active Coaches", value: "12", change: "+2", icon: Building, color: "text-primary" },
-  { label: "Monthly Revenue", value: "$45.2K", change: "+18%", icon: DollarSign, color: "text-teal" },
-  { label: "New Enrollments", value: "24", change: "+8", icon: UserPlus, color: "text-coral" },
+  { label: "Pending Approvals", value: "8", change: "Needs attention", icon: Clock, color: "text-accent" },
+  { label: "Approved Today", value: "5", change: "+3", icon: CheckCircle2, color: "text-primary" },
+  { label: "New Applications", value: "12", change: "This week", icon: UserPlus, color: "text-teal" },
 ];
 
-const revenueData = [
-  { month: "Jan", amount: 42000 },
-  { month: "Feb", amount: 38000 },
-  { month: "Mar", amount: 45200 },
+const pendingApprovals = [
+  { id: 1, name: "James Wilson", squad: "U-15 Elite", date: "Today", age: 14, parentPhone: "+91 98765 43210" },
+  { id: 2, name: "Sophia Miller", squad: "U-11 Beginners", date: "Today", age: 10, parentPhone: "+91 87654 32109" },
+  { id: 3, name: "Arjun Patel", squad: "U-13 Development", date: "Yesterday", age: 12, parentPhone: "+91 76543 21098" },
+  { id: 4, name: "Priya Sharma", squad: "U-17 Premier", date: "Yesterday", age: 16, parentPhone: "+91 65432 10987" },
+  { id: 5, name: "Rahul Kumar", squad: "U-15 Elite", date: "2 days ago", age: 14, parentPhone: "+91 54321 09876" },
 ];
 
-const recentEnrollments = [
-  { name: "James Wilson", squad: "U-15 Elite", date: "Today", status: "Pending" },
-  { name: "Olivia Brown", squad: "U-13 Development", date: "Yesterday", status: "Approved" },
-  { name: "Noah Davis", squad: "U-17 Premier", date: "2 days ago", status: "Approved" },
-  { name: "Sophia Miller", squad: "U-11 Beginners", date: "3 days ago", status: "Approved" },
+const recentApprovals = [
+  { name: "Olivia Brown", squad: "U-13 Development", date: "Today", status: "Approved" },
+  { name: "Noah Davis", squad: "U-17 Premier", date: "Yesterday", status: "Approved" },
+  { name: "Emma Johnson", squad: "U-11 Beginners", date: "2 days ago", status: "Approved" },
+  { name: "Liam Anderson", squad: "U-15 Elite", date: "3 days ago", status: "Rejected" },
 ];
 
 const squadStats = [
-  { name: "U-17 Premier", students: 45, capacity: 50, revenue: 12500 },
-  { name: "U-15 Elite", students: 38, capacity: 40, revenue: 10200 },
-  { name: "U-13 Development", students: 42, capacity: 50, revenue: 8400 },
-  { name: "U-11 Beginners", students: 28, capacity: 35, revenue: 5600 },
+  { name: "U-17 Premier", students: 45, capacity: 50, pending: 2 },
+  { name: "U-15 Elite", students: 38, capacity: 40, pending: 3 },
+  { name: "U-13 Development", students: 42, capacity: 50, pending: 1 },
+  { name: "U-11 Beginners", students: 28, capacity: 35, pending: 2 },
 ];
 
 const AdminDashboard = () => {
@@ -84,7 +85,7 @@ const AdminDashboard = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Squad Overview */}
+          {/* Pending Approvals */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,25 +95,42 @@ const AdminDashboard = () => {
             <Card className="rounded-2xl border border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Users className="w-5 h-5 text-primary" />
-                  Squad Overview
+                  <UserCheck className="w-5 h-5 text-primary" />
+                  Pending Student Approvals
                 </CardTitle>
-                <Button variant="accent" size="sm">Manage Squads</Button>
+                <span className="px-3 py-1 bg-accent/10 text-accent-foreground rounded-full text-sm font-medium">
+                  {pendingApprovals.length} pending
+                </span>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {squadStats.map((squad, index) => (
-                    <div key={index} className="p-4 bg-card border border-border rounded-2xl">
-                      <div className="flex items-center justify-between mb-3">
-                        <div>
-                          <span className="font-semibold text-foreground">{squad.name}</span>
-                          <span className="text-sm text-muted-foreground ml-2">
-                            ({squad.students}/{squad.capacity} students)
-                          </span>
+                  {pendingApprovals.map((student) => (
+                    <div key={student.id} className="p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="font-semibold text-foreground">{student.name}</span>
+                            <span className="text-sm text-muted-foreground">Age: {student.age}</span>
+                          </div>
+                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                            <span>{student.squad}</span>
+                            <span>•</span>
+                            <span>{student.parentPhone}</span>
+                            <span>•</span>
+                            <span>{student.date}</span>
+                          </div>
                         </div>
-                        <span className="font-semibold text-primary">${squad.revenue.toLocaleString()}</span>
+                        <div className="flex items-center gap-2">
+                          <Button variant="outline" size="sm" className="text-coral border-coral/20 hover:bg-coral/10">
+                            <XCircle className="w-4 h-4 mr-1" />
+                            Reject
+                          </Button>
+                          <Button variant="accent" size="sm">
+                            <CheckCircle2 className="w-4 h-4 mr-1" />
+                            Approve
+                          </Button>
+                        </div>
                       </div>
-                      <Progress value={(squad.students / squad.capacity) * 100} className="h-2.5" />
                     </div>
                   ))}
                 </div>
@@ -120,7 +138,7 @@ const AdminDashboard = () => {
             </Card>
           </motion.div>
 
-          {/* Recent Enrollments */}
+          {/* Recent Activity */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -129,23 +147,23 @@ const AdminDashboard = () => {
             <Card className="rounded-2xl border border-border">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <UserPlus className="w-5 h-5 text-primary" />
-                  New Enrollments
+                  <Clock className="w-5 h-5 text-primary" />
+                  Recent Activity
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {recentEnrollments.map((enrollment, index) => (
+                {recentApprovals.map((approval, index) => (
                   <div key={index} className="flex items-center justify-between p-3 bg-card border border-border rounded-2xl">
                     <div>
-                      <div className="font-medium text-foreground">{enrollment.name}</div>
-                      <div className="text-sm text-muted-foreground">{enrollment.squad}</div>
+                      <div className="font-medium text-foreground">{approval.name}</div>
+                      <div className="text-sm text-muted-foreground">{approval.squad}</div>
                     </div>
                     <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                      enrollment.status === "Pending"
-                        ? "bg-accent/10 text-accent-foreground border-accent/20"
-                        : "bg-primary/10 text-primary border-primary/20"
+                      approval.status === "Approved"
+                        ? "bg-primary/10 text-primary border-primary/20"
+                        : "bg-coral/10 text-coral border-coral/20"
                     }`}>
-                      {enrollment.status}
+                      {approval.status}
                     </span>
                   </div>
                 ))}
@@ -154,7 +172,7 @@ const AdminDashboard = () => {
           </motion.div>
         </div>
 
-        {/* Revenue Overview */}
+        {/* Squad Overview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -163,32 +181,29 @@ const AdminDashboard = () => {
           <Card className="rounded-2xl border border-border">
             <CardHeader className="flex flex-row items-center justify-between pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-primary" />
-                Revenue Overview
+                <Users className="w-5 h-5 text-primary" />
+                Squad Overview
               </CardTitle>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">Weekly</Button>
-                <Button variant="default" size="sm">Monthly</Button>
-                <Button variant="outline" size="sm">Yearly</Button>
-              </div>
+              <Button variant="outline" size="sm">View All Squads</Button>
             </CardHeader>
             <CardContent>
-              <div className="flex items-end gap-4 h-48">
-                {revenueData.map((data, index) => (
-                  <div key={index} className="flex-1 flex flex-col items-center p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
-                    <div
-                      className="w-full bg-primary/10 rounded-xl relative overflow-hidden flex-1"
-                      style={{ minHeight: `${(data.amount / 50000) * 100}%` }}
-                    >
-                      <div
-                        className="absolute bottom-0 left-0 right-0 bg-primary rounded-xl"
-                        style={{ height: "100%" }}
-                      />
+              <div className="grid md:grid-cols-2 gap-4">
+                {squadStats.map((squad, index) => (
+                  <div key={index} className="p-4 bg-card border border-border rounded-2xl">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <span className="font-semibold text-foreground">{squad.name}</span>
+                        <span className="text-sm text-muted-foreground ml-2">
+                          ({squad.students}/{squad.capacity})
+                        </span>
+                      </div>
+                      {squad.pending > 0 && (
+                        <span className="px-2 py-1 bg-accent/10 text-accent-foreground rounded-full text-xs font-medium">
+                          {squad.pending} pending
+                        </span>
+                      )}
                     </div>
-                    <div className="mt-3 text-center">
-                      <div className="font-semibold text-foreground">${(data.amount / 1000).toFixed(1)}K</div>
-                      <div className="text-xs text-muted-foreground">{data.month}</div>
-                    </div>
+                    <Progress value={(squad.students / squad.capacity) * 100} className="h-2.5" />
                   </div>
                 ))}
               </div>

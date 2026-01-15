@@ -61,15 +61,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        emerald: {
-          dark: "hsl(var(--emerald-dark))",
-          light: "hsl(var(--emerald-light))",
+        blue: {
+          dark: "hsl(var(--blue-dark))",
+          light: "hsl(var(--blue-light))",
         },
-        lime: {
-          DEFAULT: "hsl(var(--lime))",
-          dark: "hsl(var(--lime-dark))",
+        cyan: {
+          DEFAULT: "hsl(var(--cyan))",
+          dark: "hsl(var(--cyan-dark))",
         },
-        field: "hsl(var(--field-green))",
+        navy: "hsl(var(--navy))",
         coral: "hsl(var(--coral))",
         teal: "hsl(var(--teal))",
       },

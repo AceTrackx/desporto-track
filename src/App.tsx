@@ -20,7 +20,6 @@ import CoachSettings from "./pages/dashboard/coach/CoachSettings";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import AdminUsers from "./pages/dashboard/admin/AdminUsers";
 import AdminSchedule from "./pages/dashboard/admin/AdminSchedule";
-import AdminFinances from "./pages/dashboard/admin/AdminFinances";
 import AdminReports from "./pages/dashboard/admin/AdminReports";
 import AdminSettings from "./pages/dashboard/admin/AdminSettings";
 import SuperAdminDashboard from "./pages/dashboard/SuperAdminDashboard";
@@ -64,7 +63,6 @@ const App = () => (
           <Route path="/dashboard/admin" element={<AdminDashboard />} />
           <Route path="/dashboard/admin/users" element={<AdminUsers />} />
           <Route path="/dashboard/admin/schedule" element={<AdminSchedule />} />
-          <Route path="/dashboard/admin/finances" element={<AdminFinances />} />
           <Route path="/dashboard/admin/reports" element={<AdminReports />} />
           <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
           

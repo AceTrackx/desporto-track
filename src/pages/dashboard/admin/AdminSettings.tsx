@@ -3,13 +3,11 @@ import {
   Home,
   Users,
   Calendar,
-  CreditCard,
   BarChart3,
   Settings,
   Bell,
   User,
   Palette,
-  MapPin,
   Clock,
   FileText,
 } from "lucide-react";
@@ -19,13 +17,11 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Textarea } from "@/components/ui/textarea";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/admin", icon: Home },
   { label: "Users", href: "/dashboard/admin/users", icon: Users },
   { label: "Schedule", href: "/dashboard/admin/schedule", icon: Calendar },
-  { label: "Finances", href: "/dashboard/admin/finances", icon: CreditCard },
   { label: "Reports", href: "/dashboard/admin/reports", icon: BarChart3 },
   { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
 ];
