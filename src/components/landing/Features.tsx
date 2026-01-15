@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { 
   BarChart3, 
   Users, 
@@ -7,7 +8,8 @@ import {
   Bell, 
   Shield, 
   Smartphone,
-  Target 
+  Target,
+  ArrowRight
 } from "lucide-react";
 
 const features = [
@@ -16,48 +18,56 @@ const features = [
     title: "Performance Analytics",
     description: "Track player progress with detailed statistics, video analysis, and AI-powered insights.",
     color: "text-primary",
+    link: "/features/performance-analytics",
   },
   {
     icon: Users,
     title: "Team Management",
     description: "Manage rosters, group players by skill level, and organize squads effortlessly.",
     color: "text-primary",
+    link: "/features/team-management",
   },
   {
     icon: Calendar,
     title: "Smart Scheduling",
     description: "Schedule training sessions, matches, and events with automated conflict detection.",
     color: "text-teal",
+    link: "/features/smart-scheduling",
   },
   {
     icon: FileText,
     title: "Progress Reports",
     description: "Generate comprehensive reports for parents with visual progress tracking.",
     color: "text-coral",
+    link: "/features/progress-reports",
   },
   {
     icon: Bell,
     title: "Real-time Notifications",
     description: "Keep everyone informed with instant updates on schedules, results, and announcements.",
     color: "text-primary",
+    link: "/features/notifications",
   },
   {
     icon: Shield,
     title: "Role-based Access",
     description: "Secure access control for admins, coaches, parents, and students.",
     color: "text-primary",
+    link: "/features/role-based-access",
   },
   {
     icon: Smartphone,
     title: "Mobile Friendly",
     description: "Access everything on the go with our responsive design and native app experience.",
     color: "text-teal",
+    link: "/features/mobile-friendly",
   },
   {
     icon: Target,
     title: "Goal Tracking",
     description: "Set individual and team goals, track achievements, and celebrate milestones.",
     color: "text-coral",
+    link: "/features/goal-tracking",
   },
 ];
 
@@ -85,24 +95,28 @@ const Features = () => {
         </motion.div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="features" className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group bg-card rounded-2xl p-6 border border-border hover:border-primary/20 transition-all duration-300"
-            >
-              <feature.icon className={`w-7 h-7 ${feature.color} mb-4`} />
-              <h3 className="font-semibold text-lg text-card-foreground mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {feature.description}
-              </p>
-            </motion.div>
+            <Link key={feature.title} to={feature.link}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group bg-card rounded-2xl p-6 border border-border hover:border-primary/20 transition-all duration-300 h-full"
+              >
+                <feature.icon className={`w-7 h-7 ${feature.color} mb-4`} />
+                <h3 className="font-semibold text-lg text-card-foreground mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                  {feature.description}
+                </p>
+                <span className="inline-flex items-center text-sm text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  Learn more <ArrowRight className="w-4 h-4 ml-1" />
+                </span>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>
