@@ -32,15 +32,15 @@ const Hero = () => {
               <span className="text-sm font-medium">Trusted by 500+ Academies</span>
             </motion.div>
 
-            <h1 className="font-display text-6xl md:text-7xl lg:text-8xl leading-[0.9] tracking-wide mb-6">
-              TRAIN
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-wide mb-6">
+              DESPORTO
               <br />
-              SMARTER,
-              <br />
-              <span className="text-lime">PLAY</span>
-              <br />
-              <span className="text-lime">BETTER.</span>
+              <span className="text-lime">TRACK</span>
             </h1>
+
+            <p className="text-xl md:text-2xl text-white/90 font-medium mb-2">
+              Train Smarter, Play Better.
+            </p>
 
             <p className="text-lg md:text-xl text-white/80 max-w-lg mb-8 leading-relaxed">
               The complete platform for football academy management. Track performance, 
