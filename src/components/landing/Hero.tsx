@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Play, Users, TrendingUp, Trophy } from "lucide-react";
+import { ArrowRight, Play, Users, TrendingUp, Trophy, Dribbble, CircleDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
@@ -29,32 +29,56 @@ const Hero = () => {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
             >
               <Trophy className="w-4 h-4 text-accent" />
-              <span className="text-sm font-medium">Trusted by 500+ Academies</span>
+              <span className="text-sm font-medium">Multi-Sport Academy Management</span>
             </motion.div>
 
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl leading-[0.9] tracking-wide mb-6">
               DESPORTO
               <br />
-              <span className="text-lime">TRACK</span>
+              <span className="text-cyan-400">TRACK</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-2">
-              Train Smarter, Play Better.
+              Train Smarter. Track Progress. Excel in Sports.
             </p>
 
             <p className="text-lg md:text-xl text-white/80 max-w-lg mb-8 leading-relaxed">
-              The complete platform for football academy management. Track performance, 
-              analyze progress, and develop champions with real-time insights.
+              The complete tracking platform for Desporto Sports Academy. Monitor athlete performance 
+              across Football, Basketball, and Skating with real-time insights and comprehensive analytics.
             </p>
+
+            {/* Sports Icons */}
+            <div className="flex items-center gap-6 mb-8">
+              <div className="flex items-center gap-2 text-white/80">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                  ⚽
+                </div>
+                <span className="text-sm">Football</span>
+              </div>
+              <div className="flex items-center gap-2 text-white/80">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                  🏀
+                </div>
+                <span className="text-sm">Basketball</span>
+              </div>
+              <div className="flex items-center gap-2 text-white/80">
+                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                  ⛸️
+                </div>
+                <span className="text-sm">Skating</span>
+              </div>
+            </div>
 
             <div className="flex flex-wrap gap-4">
               <Button variant="hero" size="lg" asChild>
                 <Link to="/auth?signup=true">
-                  Start Free Trial <ArrowRight className="w-5 h-5" />
+                  Get Started <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
-              <Button variant="hero-outline" size="lg">
-                <Play className="w-5 h-5" /> Watch Demo
+              <Button variant="hero-outline" size="lg" asChild>
+                <Link to="/auth">
+                  <Play className="w-5 h-5" /> Sign In
+                </Link>
               </Button>
             </div>
 
@@ -66,16 +90,16 @@ const Hero = () => {
               className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/20"
             >
               <div>
-                <div className="font-display text-4xl text-lime">500+</div>
-                <div className="text-white/70 text-sm">Academies</div>
+                <div className="font-display text-4xl text-cyan-400">3</div>
+                <div className="text-white/70 text-sm">Sports Programs</div>
               </div>
               <div>
-                <div className="font-display text-4xl text-lime">50K+</div>
-                <div className="text-white/70 text-sm">Athletes</div>
+                <div className="font-display text-4xl text-cyan-400">500+</div>
+                <div className="text-white/70 text-sm">Active Athletes</div>
               </div>
               <div>
-                <div className="font-display text-4xl text-lime">1M+</div>
-                <div className="text-white/70 text-sm">Sessions Tracked</div>
+                <div className="font-display text-4xl text-cyan-400">50+</div>
+                <div className="text-white/70 text-sm">Expert Coaches</div>
               </div>
             </motion.div>
           </motion.div>
@@ -98,22 +122,25 @@ const Hero = () => {
                 <div className="flex items-center gap-3 mb-4">
                   <Users className="w-6 h-6 text-primary" />
                   <div>
-                    <div className="font-semibold text-card-foreground">Team Overview</div>
-                    <div className="text-sm text-muted-foreground">U-17 Squad</div>
+                    <div className="font-semibold text-card-foreground">Athlete Overview</div>
+                    <div className="text-sm text-muted-foreground">All Programs</div>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="bg-muted rounded-xl p-3 text-center">
-                    <div className="font-display text-2xl text-primary">24</div>
-                    <div className="text-xs text-muted-foreground">Players</div>
+                    <div className="text-lg mb-1">⚽</div>
+                    <div className="font-display text-xl text-primary">180</div>
+                    <div className="text-xs text-muted-foreground">Football</div>
                   </div>
                   <div className="bg-muted rounded-xl p-3 text-center">
-                    <div className="font-display text-2xl text-primary">89%</div>
-                    <div className="text-xs text-muted-foreground">Attendance</div>
+                    <div className="text-lg mb-1">🏀</div>
+                    <div className="font-display text-xl text-primary">220</div>
+                    <div className="text-xs text-muted-foreground">Basketball</div>
                   </div>
                   <div className="bg-muted rounded-xl p-3 text-center">
-                    <div className="font-display text-2xl text-accent">A+</div>
-                    <div className="text-xs text-muted-foreground">Rating</div>
+                    <div className="text-lg mb-1">⛸️</div>
+                    <div className="font-display text-xl text-primary">100</div>
+                    <div className="text-xs text-muted-foreground">Skating</div>
                   </div>
                 </div>
               </motion.div>
@@ -128,20 +155,20 @@ const Hero = () => {
                   <TrendingUp className="w-4 h-4 text-accent" />
                   <span className="text-sm font-medium">Performance</span>
                 </div>
-                <div className="font-display text-3xl text-primary">+23%</div>
-                <div className="text-xs text-muted-foreground">This month</div>
+                <div className="font-display text-3xl text-primary">+18%</div>
+                <div className="text-xs text-muted-foreground">Avg improvement</div>
               </motion.div>
 
-              {/* Player Card */}
+              {/* Session Card */}
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute right-0 -bottom-10 bg-accent rounded-2xl p-4 w-40"
+                className="absolute right-0 -bottom-10 bg-accent rounded-2xl p-4 w-44"
               >
                 <div className="text-accent-foreground">
                   <div className="font-display text-lg">NEXT SESSION</div>
-                  <div className="font-bold text-2xl">06:00 PM</div>
-                  <div className="text-sm opacity-80">Training Ground</div>
+                  <div className="font-bold text-2xl">05:30 PM</div>
+                  <div className="text-sm opacity-80">Basketball Court A</div>
                 </div>
               </motion.div>
             </div>

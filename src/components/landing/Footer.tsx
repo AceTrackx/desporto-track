@@ -10,14 +10,14 @@ const Footer = () => {
           <div>
             <Link to="/" className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center">
-                <span className="text-accent-foreground font-display text-2xl">A</span>
+                <span className="text-accent-foreground font-display text-2xl">D</span>
               </div>
-              <span className="font-display text-3xl tracking-wide text-background">
-                ACETRACK
+              <span className="font-display text-2xl tracking-wide text-background">
+                DESPORTO TRACK
               </span>
             </Link>
             <p className="text-background/70 mb-6">
-              The complete platform for football academy management and player development.
+              The complete tracking platform for Desporto Sports Academy. Excellence in Football, Basketball, and Skating.
             </p>
             <div className="flex gap-4">
               <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors">
@@ -35,27 +35,28 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* Sports Programs */}
+          <div>
+            <h4 className="font-display text-xl tracking-wide mb-4">SPORTS PROGRAMS</h4>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-2 text-background/70">
+                <span>⚽</span> Football Academy
+              </li>
+              <li className="flex items-center gap-2 text-background/70">
+                <span>🏀</span> Basketball Academy
+              </li>
+              <li className="flex items-center gap-2 text-background/70">
+                <span>⛸️</span> Skating Academy
+              </li>
+            </ul>
+          </div>
+
           {/* Quick Links */}
           <div>
             <h4 className="font-display text-xl tracking-wide mb-4">QUICK LINKS</h4>
             <ul className="space-y-3">
-              <li><Link to="/features" className="text-background/70 hover:text-accent transition-colors">Features</Link></li>
-              <li><Link to="/pricing" className="text-background/70 hover:text-accent transition-colors">Pricing</Link></li>
-              <li><Link to="/about" className="text-background/70 hover:text-accent transition-colors">About Us</Link></li>
-              <li><Link to="/blog" className="text-background/70 hover:text-accent transition-colors">Blog</Link></li>
-              <li><Link to="/careers" className="text-background/70 hover:text-accent transition-colors">Careers</Link></li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="font-display text-xl tracking-wide mb-4">SUPPORT</h4>
-            <ul className="space-y-3">
-              <li><Link to="/help" className="text-background/70 hover:text-accent transition-colors">Help Center</Link></li>
-              <li><Link to="/docs" className="text-background/70 hover:text-accent transition-colors">Documentation</Link></li>
-              <li><Link to="/contact" className="text-background/70 hover:text-accent transition-colors">Contact Us</Link></li>
-              <li><Link to="/privacy" className="text-background/70 hover:text-accent transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="text-background/70 hover:text-accent transition-colors">Terms of Service</Link></li>
+              <li><Link to="/auth" className="text-background/70 hover:text-accent transition-colors">Sign In</Link></li>
+              <li><Link to="/auth?signup=true" className="text-background/70 hover:text-accent transition-colors">Register</Link></li>
             </ul>
           </div>
 
@@ -65,7 +66,7 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Mail className="w-5 h-5 text-accent mt-0.5" />
-                <span className="text-background/70">hello@acetrack.com</span>
+                <span className="text-background/70">info@desporto.com</span>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 text-accent mt-0.5" />
@@ -73,7 +74,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-accent mt-0.5" />
-                <span className="text-background/70">123 Sports Avenue, London, UK</span>
+                <span className="text-background/70">Desporto Sports Complex, Main Arena</span>
               </li>
             </ul>
           </div>
@@ -81,7 +82,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-background/10 mt-12 pt-8 text-center text-background/50">
-          <p>&copy; {new Date().getFullYear()} AceTrack. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Desporto Track. All rights reserved.</p>
         </div>
       </div>
     </footer>
