@@ -14,6 +14,301 @@ export type Database = {
   }
   public: {
     Tables: {
+      match_performances: {
+        Row: {
+          coach_notes: string | null
+          coach_rating: number | null
+          created_at: string
+          created_by: string | null
+          id: string
+          match_id: string
+          metrics: Json
+          minutes_played: number | null
+          player_id: string
+          started_match: boolean | null
+          updated_at: string
+        }
+        Insert: {
+          coach_notes?: string | null
+          coach_rating?: number | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          match_id: string
+          metrics?: Json
+          minutes_played?: number | null
+          player_id: string
+          started_match?: boolean | null
+          updated_at?: string
+        }
+        Update: {
+          coach_notes?: string | null
+          coach_rating?: number | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          match_id?: string
+          metrics?: Json
+          minutes_played?: number | null
+          player_id?: string
+          started_match?: boolean | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_performances_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_performances_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_performances_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matches: {
+        Row: {
+          away_score: number | null
+          created_at: string
+          created_by: string | null
+          home_score: number | null
+          id: string
+          match_date: string
+          match_type: string | null
+          notes: string | null
+          opponent_name: string
+          result: string | null
+          sport_id: string
+          updated_at: string
+          venue: string | null
+        }
+        Insert: {
+          away_score?: number | null
+          created_at?: string
+          created_by?: string | null
+          home_score?: number | null
+          id?: string
+          match_date: string
+          match_type?: string | null
+          notes?: string | null
+          opponent_name: string
+          result?: string | null
+          sport_id: string
+          updated_at?: string
+          venue?: string | null
+        }
+        Update: {
+          away_score?: number | null
+          created_at?: string
+          created_by?: string | null
+          home_score?: number | null
+          id?: string
+          match_date?: string
+          match_type?: string | null
+          notes?: string | null
+          opponent_name?: string
+          result?: string | null
+          sport_id?: string
+          updated_at?: string
+          venue?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      metric_templates: {
+        Row: {
+          created_at: string
+          data_type: string
+          description: string | null
+          display_order: number | null
+          id: string
+          max_value: number | null
+          metric_key: string
+          metric_name: string
+          metric_type: string
+          min_value: number | null
+          sport_id: string
+          unit: string | null
+        }
+        Insert: {
+          created_at?: string
+          data_type: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          max_value?: number | null
+          metric_key: string
+          metric_name: string
+          metric_type: string
+          min_value?: number | null
+          sport_id: string
+          unit?: string | null
+        }
+        Update: {
+          created_at?: string
+          data_type?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          max_value?: number | null
+          metric_key?: string
+          metric_name?: string
+          metric_type?: string
+          min_value?: number | null
+          sport_id?: string
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "metric_templates_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      players: {
+        Row: {
+          created_at: string
+          id: string
+          jersey_number: number | null
+          joined_date: string | null
+          position: string | null
+          sport_id: string
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          jersey_number?: number | null
+          joined_date?: string | null
+          position?: string | null
+          sport_id: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          jersey_number?: number | null
+          joined_date?: string | null
+          position?: string | null
+          sport_id?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "players_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "players_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      practice_performances: {
+        Row: {
+          attended: boolean | null
+          coach_notes: string | null
+          coach_rating: number | null
+          created_at: string
+          created_by: string | null
+          effort_level: number | null
+          id: string
+          metrics: Json
+          player_id: string
+          session_id: string
+          updated_at: string
+        }
+        Insert: {
+          attended?: boolean | null
+          coach_notes?: string | null
+          coach_rating?: number | null
+          created_at?: string
+          created_by?: string | null
+          effort_level?: number | null
+          id?: string
+          metrics?: Json
+          player_id: string
+          session_id: string
+          updated_at?: string
+        }
+        Update: {
+          attended?: boolean | null
+          coach_notes?: string | null
+          coach_rating?: number | null
+          created_at?: string
+          created_by?: string | null
+          effort_level?: number | null
+          id?: string
+          metrics?: Json
+          player_id?: string
+          session_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "practice_performances_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "practice_performances_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "practice_performances_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -40,6 +335,84 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      sports: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      training_sessions: {
+        Row: {
+          coach_id: string | null
+          created_at: string
+          duration_minutes: number | null
+          focus_area: string | null
+          id: string
+          notes: string | null
+          session_date: string
+          session_type: string | null
+          sport_id: string
+          updated_at: string
+        }
+        Insert: {
+          coach_id?: string | null
+          created_at?: string
+          duration_minutes?: number | null
+          focus_area?: string | null
+          id?: string
+          notes?: string | null
+          session_date: string
+          session_type?: string | null
+          sport_id: string
+          updated_at?: string
+        }
+        Update: {
+          coach_id?: string | null
+          created_at?: string
+          duration_minutes?: number | null
+          focus_area?: string | null
+          id?: string
+          notes?: string | null
+          session_date?: string
+          session_type?: string | null
+          sport_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_sessions_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_sessions_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
