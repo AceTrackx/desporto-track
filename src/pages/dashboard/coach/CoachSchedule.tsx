@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Plus,
+  Activity,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,7 +21,9 @@ const navItems = [
   { label: "Dashboard", href: "/dashboard/coach", icon: Home },
   { label: "Schedule", href: "/dashboard/coach/schedule", icon: Calendar },
   { label: "My Teams", href: "/dashboard/coach/teams", icon: Users },
+  { label: "Players", href: "/dashboard/coach/players", icon: Users },
   { label: "Attendance", href: "/dashboard/coach/attendance", icon: ClipboardCheck },
+  { label: "Performance", href: "/dashboard/coach/performance", icon: Activity },
   { label: "Analytics", href: "/dashboard/coach/analytics", icon: BarChart3 },
   { label: "Reports", href: "/dashboard/coach/reports", icon: FileText },
 ];
