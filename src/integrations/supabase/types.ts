@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      ground_coaches: {
+        Row: {
+          assigned_date: string
+          coach_id: string
+          created_at: string
+          ground_id: string
+          id: string
+          is_ground_admin: boolean
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_date?: string
+          coach_id: string
+          created_at?: string
+          ground_id: string
+          id?: string
+          is_ground_admin?: boolean
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_date?: string
+          coach_id?: string
+          created_at?: string
+          ground_id?: string
+          id?: string
+          is_ground_admin?: boolean
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ground_coaches_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ground_coaches_ground_id_fkey"
+            columns: ["ground_id"]
+            isOneToOne: false
+            referencedRelation: "grounds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       grounds: {
         Row: {
           address: string | null
@@ -140,6 +188,7 @@ export type Database = {
           away_score: number | null
           created_at: string
           created_by: string | null
+          ground_id: string | null
           home_score: number | null
           id: string
           match_date: string
@@ -155,6 +204,7 @@ export type Database = {
           away_score?: number | null
           created_at?: string
           created_by?: string | null
+          ground_id?: string | null
           home_score?: number | null
           id?: string
           match_date: string
@@ -170,6 +220,7 @@ export type Database = {
           away_score?: number | null
           created_at?: string
           created_by?: string | null
+          ground_id?: string | null
           home_score?: number | null
           id?: string
           match_date?: string
@@ -187,6 +238,13 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "matches_ground_id_fkey"
+            columns: ["ground_id"]
+            isOneToOne: false
+            referencedRelation: "grounds"
             referencedColumns: ["id"]
           },
           {
@@ -247,6 +305,64 @@ export type Database = {
             columns: ["sport_id"]
             isOneToOne: false
             referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      player_ground_assignments: {
+        Row: {
+          batch_name: string | null
+          created_at: string
+          ground_id: string
+          id: string
+          is_active: boolean
+          joined_date: string
+          player_id: string
+          primary_coach_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          batch_name?: string | null
+          created_at?: string
+          ground_id: string
+          id?: string
+          is_active?: boolean
+          joined_date?: string
+          player_id: string
+          primary_coach_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          batch_name?: string | null
+          created_at?: string
+          ground_id?: string
+          id?: string
+          is_active?: boolean
+          joined_date?: string
+          player_id?: string
+          primary_coach_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "player_ground_assignments_ground_id_fkey"
+            columns: ["ground_id"]
+            isOneToOne: false
+            referencedRelation: "grounds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_ground_assignments_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_ground_assignments_primary_coach_id_fkey"
+            columns: ["primary_coach_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -476,6 +592,64 @@ export type Database = {
           },
         ]
       }
+      session_attendance: {
+        Row: {
+          check_in_time: string | null
+          created_at: string
+          id: string
+          marked_by: string | null
+          notes: string | null
+          player_id: string
+          session_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          check_in_time?: string | null
+          created_at?: string
+          id?: string
+          marked_by?: string | null
+          notes?: string | null
+          player_id: string
+          session_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          check_in_time?: string | null
+          created_at?: string
+          id?: string
+          marked_by?: string | null
+          notes?: string | null
+          player_id?: string
+          session_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_attendance_marked_by_fkey"
+            columns: ["marked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_attendance_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "session_attendance_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sports: {
         Row: {
           created_at: string
@@ -506,6 +680,7 @@ export type Database = {
           created_at: string
           duration_minutes: number | null
           focus_area: string | null
+          ground_id: string | null
           id: string
           notes: string | null
           session_date: string
@@ -518,6 +693,7 @@ export type Database = {
           created_at?: string
           duration_minutes?: number | null
           focus_area?: string | null
+          ground_id?: string | null
           id?: string
           notes?: string | null
           session_date: string
@@ -530,6 +706,7 @@ export type Database = {
           created_at?: string
           duration_minutes?: number | null
           focus_area?: string | null
+          ground_id?: string | null
           id?: string
           notes?: string | null
           session_date?: string
@@ -543,6 +720,13 @@ export type Database = {
             columns: ["coach_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "training_sessions_ground_id_fkey"
+            columns: ["ground_id"]
+            isOneToOne: false
+            referencedRelation: "grounds"
             referencedColumns: ["id"]
           },
           {
