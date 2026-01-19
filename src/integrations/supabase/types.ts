@@ -14,6 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
+      grounds: {
+        Row: {
+          address: string | null
+          capacity: number | null
+          closing_time: string | null
+          created_at: string
+          facilities: string[] | null
+          ground_type: string
+          hourly_rate: number | null
+          id: string
+          latitude: number | null
+          location: string
+          longitude: number | null
+          name: string
+          opening_time: string | null
+          status: string
+          surface: string | null
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          capacity?: number | null
+          closing_time?: string | null
+          created_at?: string
+          facilities?: string[] | null
+          ground_type?: string
+          hourly_rate?: number | null
+          id?: string
+          latitude?: number | null
+          location: string
+          longitude?: number | null
+          name: string
+          opening_time?: string | null
+          status?: string
+          surface?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          capacity?: number | null
+          closing_time?: string | null
+          created_at?: string
+          facilities?: string[] | null
+          ground_type?: string
+          hourly_rate?: number | null
+          id?: string
+          latitude?: number | null
+          location?: string
+          longitude?: number | null
+          name?: string
+          opening_time?: string | null
+          status?: string
+          surface?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       match_performances: {
         Row: {
           coach_notes: string | null
@@ -335,6 +392,89 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      schedule_bookings: {
+        Row: {
+          booked_by: string | null
+          booking_date: string
+          booking_type: string
+          created_at: string
+          end_time: string
+          ground_id: string | null
+          id: string
+          match_id: string | null
+          notes: string | null
+          session_id: string | null
+          sport_id: string | null
+          start_time: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          booked_by?: string | null
+          booking_date: string
+          booking_type?: string
+          created_at?: string
+          end_time: string
+          ground_id?: string | null
+          id?: string
+          match_id?: string | null
+          notes?: string | null
+          session_id?: string | null
+          sport_id?: string | null
+          start_time: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          booked_by?: string | null
+          booking_date?: string
+          booking_type?: string
+          created_at?: string
+          end_time?: string
+          ground_id?: string | null
+          id?: string
+          match_id?: string | null
+          notes?: string | null
+          session_id?: string | null
+          sport_id?: string | null
+          start_time?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schedule_bookings_ground_id_fkey"
+            columns: ["ground_id"]
+            isOneToOne: false
+            referencedRelation: "grounds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedule_bookings_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedule_bookings_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedule_bookings_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sports: {
         Row: {
