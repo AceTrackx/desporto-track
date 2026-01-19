@@ -36,10 +36,87 @@ export interface Player {
   // Joined fields
   profile?: {
     full_name: string | null;
-    email: string | null;
+    email?: string | null;
     avatar_url: string | null;
   };
   sport?: Sport;
+}
+
+// Ground-Coach relationship
+export interface GroundCoach {
+  id: string;
+  ground_id: string;
+  coach_id: string;
+  is_ground_admin: boolean;
+  assigned_date: string;
+  status: 'active' | 'inactive';
+  created_at: string;
+  updated_at: string;
+  // Joined fields
+  ground?: Ground;
+  coach?: {
+    id: string;
+    full_name: string | null;
+    email: string | null;
+    avatar_url: string | null;
+  };
+}
+
+// Player-Ground assignment
+export interface PlayerGroundAssignment {
+  id: string;
+  player_id: string;
+  ground_id: string;
+  primary_coach_id: string | null;
+  batch_name: string | null;
+  is_active: boolean;
+  joined_date: string;
+  created_at: string;
+  updated_at: string;
+  // Joined fields
+  player?: Player;
+  ground?: Ground;
+  primary_coach?: {
+    id: string;
+    full_name: string | null;
+    avatar_url: string | null;
+  };
+}
+
+// Session attendance
+export interface SessionAttendance {
+  id: string;
+  session_id: string;
+  player_id: string;
+  status: 'present' | 'absent' | 'late' | 'excused';
+  check_in_time: string | null;
+  marked_by: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  // Joined fields
+  player?: Player;
+  session?: TrainingSession;
+}
+
+// Ground interface
+export interface Ground {
+  id: string;
+  name: string;
+  location: string;
+  address: string | null;
+  ground_type: 'indoor' | 'outdoor' | 'covered';
+  surface: string | null;
+  capacity: number | null;
+  facilities: string[] | null;
+  hourly_rate: number | null;
+  opening_time: string | null;
+  closing_time: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  status: 'available' | 'maintenance' | 'closed';
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Match {
