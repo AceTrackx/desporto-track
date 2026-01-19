@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User, ArrowLeft } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,8 +12,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
 
 type UserRole = "member" | "coach" | "admin" | "superadmin";
+
+const mockCredentials: Record<UserRole, { email: string; password: string; name: string }> = {
+  member: { email: "alex.thompson@demo.com", password: "demo123", name: "Alex Thompson" },
+  coach: { email: "coach.williams@demo.com", password: "demo123", name: "Coach Williams" },
+  admin: { email: "admin@acetrack.com", password: "demo123", name: "Academy Admin" },
+  superadmin: { email: "super@acetrack.com", password: "demo123", name: "Super Admin" },
+};
 
 const Auth = () => {
   const [searchParams] = useSearchParams();
@@ -31,7 +39,6 @@ const Auth = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // For demo purposes, navigate to appropriate dashboard
     const dashboardRoutes: Record<UserRole, string> = {
       member: "/dashboard/member",
       coach: "/dashboard/coach",
@@ -39,6 +46,14 @@ const Auth = () => {
       superadmin: "/dashboard/superadmin",
     };
     navigate(dashboardRoutes[role]);
+  };
+
+  const fillDemoCredentials = (selectedRole: UserRole) => {
+    const creds = mockCredentials[selectedRole];
+    setEmail(creds.email);
+    setPassword(creds.password);
+    setName(creds.name);
+    setRole(selectedRole);
   };
 
   return (
@@ -72,25 +87,32 @@ const Auth = () => {
               <span className="text-lime">PLAY BETTER.</span>
             </h1>
 
-            <p className="text-lg text-white/80 max-w-md">
+            <p className="text-lg text-white/80 max-w-md mb-8">
               Join thousands of football academies transforming their training programs 
               with data-driven insights and modern management tools.
             </p>
 
-            <div className="flex gap-6 mt-12">
-              <div>
-                <div className="font-display text-3xl text-lime">500+</div>
-                <div className="text-white/60 text-sm">Academies</div>
-              </div>
-              <div>
-                <div className="font-display text-3xl text-lime">50K+</div>
-                <div className="text-white/60 text-sm">Athletes</div>
-              </div>
-              <div>
-                <div className="font-display text-3xl text-lime">98%</div>
-                <div className="text-white/60 text-sm">Satisfaction</div>
-              </div>
-            </div>
+            {/* Demo Credentials Card */}
+            <Card className="bg-white/10 border-white/20 backdrop-blur-sm max-w-md">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 text-white mb-3">
+                  <Info className="w-4 h-4" />
+                  <span className="font-semibold text-sm">Demo Credentials</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  {(Object.keys(mockCredentials) as UserRole[]).map((r) => (
+                    <button
+                      key={r}
+                      onClick={() => fillDemoCredentials(r)}
+                      className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-left transition-colors"
+                    >
+                      <div className="text-white font-medium capitalize">{r}</div>
+                      <div className="text-white/60 truncate">{mockCredentials[r].email}</div>
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
       </div>
@@ -113,6 +135,26 @@ const Auth = () => {
                 ACETRACK
               </span>
             </Link>
+            {/* Mobile Demo Credentials */}
+            <Card className="bg-muted border-border">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-2 text-foreground mb-2">
+                  <Info className="w-4 h-4" />
+                  <span className="font-semibold text-xs">Quick Demo Login</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {(Object.keys(mockCredentials) as UserRole[]).map((r) => (
+                    <button
+                      key={r}
+                      onClick={() => fillDemoCredentials(r)}
+                      className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors capitalize"
+                    >
+                      {r}
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           <h2 className="font-display text-4xl text-foreground mb-2 tracking-wide">
@@ -179,39 +221,20 @@ const Auth = () => {
               </div>
             </div>
 
-            {isSignUp && (
-              <div className="space-y-2">
-                <Label htmlFor="role">I am a...</Label>
-                <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
-                  <SelectTrigger className="h-12 rounded-xl">
-                    <SelectValue placeholder="Select your role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="member">Student / Guardian</SelectItem>
-                    <SelectItem value="coach">Coach</SelectItem>
-                    <SelectItem value="admin">Academy Admin</SelectItem>
-                    <SelectItem value="superadmin">Super Admin</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {!isSignUp && (
-              <div className="space-y-2">
-                <Label htmlFor="role">Login as...</Label>
-                <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
-                  <SelectTrigger className="h-12 rounded-xl">
-                    <SelectValue placeholder="Select your role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="member">Student / Guardian</SelectItem>
-                    <SelectItem value="coach">Coach</SelectItem>
-                    <SelectItem value="admin">Academy Admin</SelectItem>
-                    <SelectItem value="superadmin">Super Admin</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+            <div className="space-y-2">
+              <Label htmlFor="role">{isSignUp ? "I am a..." : "Login as..."}</Label>
+              <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
+                <SelectTrigger className="h-12 rounded-xl">
+                  <SelectValue placeholder="Select your role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="member">Student / Guardian</SelectItem>
+                  <SelectItem value="coach">Coach</SelectItem>
+                  <SelectItem value="admin">Academy Admin</SelectItem>
+                  <SelectItem value="superadmin">Super Admin</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
             {!isSignUp && (
               <div className="flex items-center justify-end">
