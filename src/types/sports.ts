@@ -31,6 +31,7 @@ export interface Player {
   jersey_number: number | null;
   joined_date: string | null;
   status: 'active' | 'inactive' | 'injured' | 'suspended';
+  age_group: 'U-11' | 'U-13' | 'U-15' | 'U-17' | 'U-19' | null;
   created_at: string;
   updated_at: string;
   // Joined fields
@@ -130,17 +131,50 @@ export interface Match {
   away_score: number | null;
   result: 'win' | 'loss' | 'draw' | null;
   notes: string | null;
+  age_group: 'U-11' | 'U-13' | 'U-15' | 'U-17' | 'U-19' | null;
+  ground_id: string | null;
   created_by: string | null;
   created_at: string;
   updated_at: string;
   // Joined fields
   sport?: Sport;
+  ground?: Ground;
+}
+
+export interface MatchPlayer {
+  id: string;
+  match_id: string;
+  player_id: string;
+  is_selected: boolean;
+  position_in_match: string | null;
+  jersey_number_in_match: number | null;
+  created_at: string;
+  updated_at: string;
+  // Joined fields
+  player?: Player;
+  match?: Match;
+}
+
+export interface MatchAttendance {
+  id: string;
+  match_id: string;
+  player_id: string;
+  status: 'present' | 'absent' | 'late' | 'excused' | 'pending';
+  check_in_time: string | null;
+  marked_by: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+  // Joined fields
+  player?: Player;
+  match?: Match;
 }
 
 export interface TrainingSession {
   id: string;
   sport_id: string;
   coach_id: string | null;
+  ground_id: string | null;
   session_date: string;
   session_type: 'regular' | 'intensive' | 'recovery' | 'tactical' | 'fitness';
   duration_minutes: number | null;
@@ -150,6 +184,7 @@ export interface TrainingSession {
   updated_at: string;
   // Joined fields
   sport?: Sport;
+  ground?: Ground;
   coach?: {
     full_name: string | null;
   };

@@ -8,6 +8,7 @@ import Auth from "./pages/Auth";
 import MemberDashboard from "./pages/dashboard/MemberDashboard";
 import MemberSchedule from "./pages/dashboard/member/MemberSchedule";
 import MemberProgress from "./pages/dashboard/member/MemberProgress";
+import MemberAttendance from "./pages/dashboard/member/MemberAttendance";
 import MemberAchievements from "./pages/dashboard/member/MemberAchievements";
 import MemberSettings from "./pages/dashboard/member/MemberSettings";
 import CoachDashboard from "./pages/dashboard/CoachDashboard";
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/dashboard/member" element={<MemberDashboard />} />
           <Route path="/dashboard/member/schedule" element={<MemberSchedule />} />
           <Route path="/dashboard/member/progress" element={<MemberProgress />} />
+          <Route path="/dashboard/member/attendance" element={<MemberAttendance />} />
           <Route path="/dashboard/member/achievements" element={<MemberAchievements />} />
           <Route path="/dashboard/member/settings" element={<MemberSettings />} />
           
