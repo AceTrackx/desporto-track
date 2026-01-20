@@ -228,7 +228,10 @@ export function usePlayerUpcomingSessions() {
       if (assignmentError) throw assignmentError;
       if (!assignment) return { sessions: [], matches: [] };
 
-      const today = new Date().toISOString();
+      // Use start of today to include all sessions scheduled for today
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayISO = today.toISOString();
 
       // Get upcoming sessions for player's ground
       const { data: sessions, error: sessionsError } = await supabase
@@ -240,7 +243,7 @@ export function usePlayerUpcomingSessions() {
           coach:profiles!training_sessions_coach_id_fkey(full_name)
         `)
         .eq("ground_id", assignment.ground_id)
-        .gte("session_date", today)
+        .gte("session_date", todayISO)
         .order("session_date", { ascending: true })
         .limit(10);
 
@@ -263,7 +266,7 @@ export function usePlayerUpcomingSessions() {
             ground:grounds(name, location)
           `)
           .eq("age_group", playerData.age_group)
-          .gte("match_date", today)
+          .gte("match_date", todayISO)
           .order("match_date", { ascending: true })
           .limit(10);
 
