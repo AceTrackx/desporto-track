@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/collapsible";
 import { MetricForm } from "./MetricForm";
 import type { Player, Match, MetricTemplate } from "@/types/sports";
-import { useCreateMatchPerformance } from "@/hooks/usePerformances";
+import { useUpsertMatchPerformance } from "@/hooks/usePerformances";
 import { toast } from "sonner";
 
 interface MatchPerformanceFormProps {
@@ -52,7 +52,7 @@ export function MatchPerformanceForm({
 }: MatchPerformanceFormProps) {
   const [expandedPlayers, setExpandedPlayers] = useState<Set<string>>(new Set());
   const [performanceData, setPerformanceData] = useState<Record<string, PlayerPerformanceData>>({});
-  const createPerformance = useCreateMatchPerformance();
+  const upsertPerformance = useUpsertMatchPerformance();
 
   const togglePlayer = (playerId: string) => {
     const newExpanded = new Set(expandedPlayers);
@@ -92,7 +92,7 @@ export function MatchPerformanceForm({
     if (!data) return;
 
     try {
-      await createPerformance.mutateAsync({
+      await upsertPerformance.mutateAsync({
         player_id: playerId,
         match_id: match.id,
         metrics: data.metrics,
@@ -252,11 +252,11 @@ export function MatchPerformanceForm({
                       {/* Save button */}
                       <Button
                         onClick={() => handleSavePlayer(player.id)}
-                        disabled={createPerformance.isPending}
+                        disabled={upsertPerformance.isPending}
                         className="w-full"
                       >
                         <Save className="w-4 h-4 mr-2" />
-                        {createPerformance.isPending ? "Saving..." : "Save Performance"}
+                        {upsertPerformance.isPending ? "Saving..." : "Save Performance"}
                       </Button>
                     </div>
                   </CollapsibleContent>

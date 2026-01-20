@@ -63,19 +63,73 @@ export function useCreateMatchPerformance() {
 
   return useMutation({
     mutationFn: async (performance: MatchPerformanceFormData) => {
-      const { data: userData } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
 
       const { data, error } = await supabase
         .from("match_performances")
         .insert({
           ...performance,
-          created_by: userData.user?.id,
+          created_by: session?.user?.id,
         })
         .select()
         .single();
 
       if (error) throw error;
       return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["match-performances"] });
+    },
+  });
+}
+
+// Upsert - creates or updates based on player_id + match_id
+export function useUpsertMatchPerformance() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (performance: MatchPerformanceFormData) => {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      // Check if a record already exists
+      const { data: existing } = await supabase
+        .from("match_performances")
+        .select("id")
+        .eq("player_id", performance.player_id)
+        .eq("match_id", performance.match_id)
+        .maybeSingle();
+
+      if (existing) {
+        // Update existing record
+        const { data, error } = await supabase
+          .from("match_performances")
+          .update({
+            metrics: performance.metrics,
+            minutes_played: performance.minutes_played,
+            started_match: performance.started_match,
+            coach_rating: performance.coach_rating,
+            coach_notes: performance.coach_notes,
+          })
+          .eq("id", existing.id)
+          .select()
+          .single();
+
+        if (error) throw error;
+        return data;
+      } else {
+        // Insert new record
+        const { data, error } = await supabase
+          .from("match_performances")
+          .insert({
+            ...performance,
+            created_by: session?.user?.id,
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+        return data;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["match-performances"] });
