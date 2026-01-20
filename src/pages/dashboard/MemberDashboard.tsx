@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Home,
   Calendar,
@@ -8,22 +9,22 @@ import {
   Clock,
   TrendingUp,
   Users,
+  ChevronRight,
+  UserCheck,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { usePlayerUpcomingSessions, usePlayerAssignment } from "@/hooks/useMemberData";
+import { format, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, parseISO } from "date-fns";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/member", icon: Home },
   { label: "Schedule", href: "/dashboard/member/schedule", icon: Calendar },
   { label: "My Progress", href: "/dashboard/member/progress", icon: BarChart3 },
+  { label: "Attendance", href: "/dashboard/member/attendance", icon: UserCheck },
   { label: "Achievements", href: "/dashboard/member/achievements", icon: Trophy },
-];
-
-const upcomingSessions = [
-  { title: "Technical Training", time: "10:00 AM", type: "Training", date: "Today" },
-  { title: "Match vs City FC", time: "2:00 PM", type: "Match", date: "Tomorrow" },
-  { title: "Fitness Session", time: "9:00 AM", type: "Fitness", date: "Wed, Jan 15" },
 ];
 
 const skills = [
@@ -41,6 +42,34 @@ const achievements = [
 ];
 
 const MemberDashboard = () => {
+  const { data: upcomingData } = usePlayerUpcomingSessions();
+  const today = new Date();
+  const weekStart = startOfWeek(today, { weekStartsOn: 1 });
+  const weekEnd = endOfWeek(today, { weekStartsOn: 1 });
+  const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
+
+  // Combine sessions and matches for the week view
+  const weekEvents = [
+    ...(upcomingData?.sessions || []).map(s => ({
+      id: s.id,
+      title: s.focus_area || s.session_type || 'Practice',
+      date: s.session_date,
+      type: 'Training' as const,
+    })),
+    ...(upcomingData?.matches || []).map(m => ({
+      id: m.id,
+      title: `vs ${m.opponent_name}`,
+      date: m.match_date,
+      type: 'Match' as const,
+    })),
+  ];
+
+  const getEventsForDay = (day: Date) => {
+    return weekEvents.filter(event => {
+      const eventDate = parseISO(event.date);
+      return isSameDay(eventDate, day);
+    });
+  };
   return (
     <DashboardLayout
       title="Dashboard"
@@ -81,7 +110,7 @@ const MemberDashboard = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Upcoming Sessions */}
+          {/* Week View Schedule */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -90,35 +119,66 @@ const MemberDashboard = () => {
           >
             <Card className="rounded-2xl border border-border">
               <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-primary" />
-                  Upcoming Sessions
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-primary" />
+                    This Week
+                  </CardTitle>
+                  <Link to="/dashboard/member/schedule">
+                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                      View Full Calendar
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </Button>
+                  </Link>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-3">
-                {upcomingSessions.map((session, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className={`w-1 h-10 rounded-full ${
-                        session.type === "Match" ? "bg-coral" :
-                        session.type === "Fitness" ? "bg-teal" : "bg-primary"
-                      }`} />
-                      <div>
-                        <div className="font-semibold text-foreground">{session.title}</div>
-                        <div className="text-sm text-muted-foreground">{session.date} at {session.time}</div>
+              <CardContent>
+                <div className="grid grid-cols-7 gap-2">
+                  {weekDays.map((day) => {
+                    const dayEvents = getEventsForDay(day);
+                    const isToday = isSameDay(day, today);
+                    
+                    return (
+                      <div
+                        key={day.toISOString()}
+                        className={`flex flex-col items-center p-2 rounded-xl min-h-[100px] ${
+                          isToday 
+                            ? "bg-primary/10 border-2 border-primary" 
+                            : "bg-muted/30 border border-border"
+                        }`}
+                      >
+                        <span className="text-xs text-muted-foreground font-medium">
+                          {format(day, "EEE")}
+                        </span>
+                        <span className={`text-lg font-semibold mb-2 ${
+                          isToday ? "text-primary" : "text-foreground"
+                        }`}>
+                          {format(day, "d")}
+                        </span>
+                        <div className="flex flex-col gap-1 w-full">
+                          {dayEvents.slice(0, 2).map((event) => (
+                            <div
+                              key={event.id}
+                              className={`w-full px-1.5 py-0.5 rounded text-[10px] font-medium truncate text-center ${
+                                event.type === "Match" 
+                                  ? "bg-coral/20 text-coral" 
+                                  : "bg-primary/20 text-primary"
+                              }`}
+                              title={event.title}
+                            >
+                              {event.type === "Match" ? "Match" : "Train"}
+                            </div>
+                          ))}
+                          {dayEvents.length > 2 && (
+                            <span className="text-[10px] text-muted-foreground text-center">
+                              +{dayEvents.length - 2} more
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                      session.type === "Match" ? "bg-coral/10 text-coral border-coral/20" :
-                      session.type === "Fitness" ? "bg-teal/10 text-teal border-teal/20" : "bg-primary/10 text-primary border-primary/20"
-                    }`}>
-                      {session.type}
-                    </span>
-                  </div>
-                ))}
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
           </motion.div>
