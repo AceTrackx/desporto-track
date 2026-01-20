@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Home,
   Calendar,
@@ -9,10 +10,12 @@ import {
   Clock,
   TrendingUp,
   UserCheck,
+  ArrowLeft,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   usePlayerSessionAttendance, 
@@ -64,6 +67,7 @@ const getStatusBadge = (status: string) => {
 };
 
 const MemberAttendance = () => {
+  const navigate = useNavigate();
   const { data: sessionAttendance, isLoading: loadingSessions } = usePlayerSessionAttendance(50);
   const { data: combinedStats, isLoading: loadingStats } = usePlayerCombinedAttendance();
 
@@ -109,6 +113,15 @@ const MemberAttendance = () => {
       userName="Alex Thompson"
     >
       <div className="space-y-8">
+        {/* Back Button */}
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate("/dashboard/member")}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Dashboard
+        </Button>
         {/* Stats Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Home,
   Calendar,
@@ -10,6 +11,7 @@ import {
   Activity,
   UserCheck,
   ChevronRight,
+  ArrowLeft,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
@@ -47,6 +49,7 @@ const navItems = [
 ];
 
 const MemberProgress = () => {
+  const navigate = useNavigate();
   const { data: matchHistory, isLoading: loadingMatches } = usePlayerMatchHistory(10);
   const { data: practiceHistory, isLoading: loadingPractice } = usePlayerPracticeHistory(10);
   const { data: metrics, isLoading: loadingMetrics } = usePlayerPerformanceMetrics();
@@ -103,6 +106,15 @@ const MemberProgress = () => {
       userName="Alex Thompson"
     >
       <div className="space-y-8">
+        {/* Back Button */}
+        <Button 
+          variant="ghost" 
+          onClick={() => navigate("/dashboard/member")}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Dashboard
+        </Button>
         {/* Overall Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
