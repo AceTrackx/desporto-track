@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
+import { lazy, Suspense } from "react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -7,6 +8,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import MemberDashboard from "./pages/dashboard/MemberDashboard";
 import MemberSchedule from "./pages/dashboard/member/MemberSchedule";
+import MemberScheduleCalendar from "./pages/dashboard/member/MemberScheduleCalendar";
 import MemberProgress from "./pages/dashboard/member/MemberProgress";
 import MemberAttendance from "./pages/dashboard/member/MemberAttendance";
 import MemberAchievements from "./pages/dashboard/member/MemberAchievements";
@@ -49,6 +51,7 @@ const App = () => (
           {/* Member Routes */}
           <Route path="/dashboard/member" element={<MemberDashboard />} />
           <Route path="/dashboard/member/schedule" element={<MemberSchedule />} />
+          <Route path="/dashboard/member/schedule/calendar" element={<MemberScheduleCalendar />} />
           <Route path="/dashboard/member/progress" element={<MemberProgress />} />
           <Route path="/dashboard/member/attendance" element={<MemberAttendance />} />
           <Route path="/dashboard/member/achievements" element={<MemberAchievements />} />
