@@ -55,13 +55,14 @@ export function useCreateSession() {
 
   return useMutation({
     mutationFn: async (session: CreateSessionFormData) => {
-      const { data: userData } = await supabase.auth.getUser();
+      // Get session synchronously - faster than getUser()
+      const { data: { session: authSession } } = await supabase.auth.getSession();
       
       const { data, error } = await supabase
         .from("training_sessions")
         .insert({
           ...session,
-          coach_id: userData.user?.id,
+          coach_id: authSession?.user?.id || null,
         })
         .select()
         .single();
@@ -71,6 +72,7 @@ export function useCreateSession() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["training-sessions"] });
+      queryClient.invalidateQueries({ queryKey: ["player-upcoming-sessions"] });
     },
   });
 }
