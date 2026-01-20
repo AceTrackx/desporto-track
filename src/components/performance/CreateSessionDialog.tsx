@@ -22,6 +22,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import {
   Select,
@@ -37,11 +38,13 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useSports } from "@/hooks/useSports";
+import { useGrounds } from "@/hooks/useGrounds";
 import { useCreateSession } from "@/hooks/useSessions";
 import { toast } from "sonner";
 
 const sessionSchema = z.object({
   sport_id: z.string().min(1, "Sport is required"),
+  ground_id: z.string().min(1, "Ground is required - sessions must be linked to a ground"),
   session_date: z.date({ required_error: "Session date is required" }),
   session_type: z.enum(["regular", "intensive", "recovery", "tactical", "fitness"]).default("regular"),
   duration_minutes: z.number().min(15).max(300).optional(),
@@ -54,17 +57,20 @@ type SessionFormValues = z.infer<typeof sessionSchema>;
 interface CreateSessionDialogProps {
   onSuccess?: (sessionId: string) => void;
   defaultSportId?: string;
+  defaultGroundId?: string;
 }
 
-export function CreateSessionDialog({ onSuccess, defaultSportId }: CreateSessionDialogProps) {
+export function CreateSessionDialog({ onSuccess, defaultSportId, defaultGroundId }: CreateSessionDialogProps) {
   const [open, setOpen] = useState(false);
   const { data: sports } = useSports();
+  const { data: grounds } = useGrounds();
   const createSession = useCreateSession();
 
   const form = useForm<SessionFormValues>({
     resolver: zodResolver(sessionSchema),
     defaultValues: {
       sport_id: defaultSportId || "",
+      ground_id: defaultGroundId || "",
       session_type: "regular",
       duration_minutes: 90,
       focus_area: "",
@@ -76,6 +82,7 @@ export function CreateSessionDialog({ onSuccess, defaultSportId }: CreateSession
     try {
       const result = await createSession.mutateAsync({
         sport_id: values.sport_id,
+        ground_id: values.ground_id,
         session_date: values.session_date.toISOString(),
         session_type: values.session_type,
         duration_minutes: values.duration_minutes,
@@ -107,10 +114,38 @@ export function CreateSessionDialog({ onSuccess, defaultSportId }: CreateSession
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="ground_id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ground *</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select ground" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {grounds?.map((ground) => (
+                        <SelectItem key={ground.id} value={ground.id}>
+                          {ground.name} - {ground.location}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Students assigned to this ground will see this session in their schedule
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="sport_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sport</FormLabel>
+                  <FormLabel>Sport *</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
@@ -136,7 +171,7 @@ export function CreateSessionDialog({ onSuccess, defaultSportId }: CreateSession
                 name="session_date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Session Date</FormLabel>
+                    <FormLabel>Session Date *</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>

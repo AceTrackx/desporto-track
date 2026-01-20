@@ -259,6 +259,7 @@ export interface CreateMatchFormData {
 
 export interface CreateSessionFormData {
   sport_id: string;
+  ground_id: string;
   session_date: string;
   session_type?: 'regular' | 'intensive' | 'recovery' | 'tactical' | 'fitness';
   duration_minutes?: number;
