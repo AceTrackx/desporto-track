@@ -119,6 +119,64 @@ export type Database = {
         }
         Relationships: []
       }
+      match_attendance: {
+        Row: {
+          check_in_time: string | null
+          created_at: string
+          id: string
+          marked_by: string | null
+          match_id: string
+          notes: string | null
+          player_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          check_in_time?: string | null
+          created_at?: string
+          id?: string
+          marked_by?: string | null
+          match_id: string
+          notes?: string | null
+          player_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          check_in_time?: string | null
+          created_at?: string
+          id?: string
+          marked_by?: string | null
+          match_id?: string
+          notes?: string | null
+          player_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_attendance_marked_by_fkey"
+            columns: ["marked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_attendance_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_attendance_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       match_performances: {
         Row: {
           coach_notes: string | null
@@ -183,8 +241,57 @@ export type Database = {
           },
         ]
       }
+      match_players: {
+        Row: {
+          created_at: string
+          id: string
+          is_selected: boolean
+          jersey_number_in_match: number | null
+          match_id: string
+          player_id: string
+          position_in_match: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_selected?: boolean
+          jersey_number_in_match?: number | null
+          match_id: string
+          player_id: string
+          position_in_match?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_selected?: boolean
+          jersey_number_in_match?: number | null
+          match_id?: string
+          player_id?: string
+          position_in_match?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_players_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_players_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       matches: {
         Row: {
+          age_group: string | null
           away_score: number | null
           created_at: string
           created_by: string | null
@@ -201,6 +308,7 @@ export type Database = {
           venue: string | null
         }
         Insert: {
+          age_group?: string | null
           away_score?: number | null
           created_at?: string
           created_by?: string | null
@@ -217,6 +325,7 @@ export type Database = {
           venue?: string | null
         }
         Update: {
+          age_group?: string | null
           away_score?: number | null
           created_at?: string
           created_by?: string | null
@@ -369,6 +478,7 @@ export type Database = {
       }
       players: {
         Row: {
+          age_group: string | null
           created_at: string
           id: string
           jersey_number: number | null
@@ -380,6 +490,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          age_group?: string | null
           created_at?: string
           id?: string
           jersey_number?: number | null
@@ -391,6 +502,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          age_group?: string | null
           created_at?: string
           id?: string
           jersey_number?: number | null
