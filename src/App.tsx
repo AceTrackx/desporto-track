@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import MemberDashboard from "./pages/dashboard/MemberDashboard";
@@ -40,54 +41,56 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          
-          {/* Member Routes */}
-          <Route path="/dashboard/member" element={<MemberDashboard />} />
-          <Route path="/dashboard/member/schedule" element={<MemberSchedule />} />
-          <Route path="/dashboard/member/schedule/calendar" element={<MemberScheduleCalendar />} />
-          <Route path="/dashboard/member/progress" element={<MemberProgress />} />
-          <Route path="/dashboard/member/attendance" element={<MemberAttendance />} />
-          <Route path="/dashboard/member/achievements" element={<MemberAchievements />} />
-          <Route path="/dashboard/member/settings" element={<MemberSettings />} />
-          
-          {/* Coach Routes */}
-          <Route path="/dashboard/coach" element={<CoachDashboard />} />
-          <Route path="/dashboard/coach/schedule" element={<CoachSchedule />} />
-          <Route path="/dashboard/coach/teams" element={<CoachTeams />} />
-          <Route path="/dashboard/coach/players" element={<CoachPlayers />} />
-          <Route path="/dashboard/coach/attendance" element={<CoachAttendance />} />
-          <Route path="/dashboard/coach/performance" element={<CoachPerformance />} />
-          <Route path="/dashboard/coach/analytics" element={<CoachAnalytics />} />
-          <Route path="/dashboard/coach/reports" element={<CoachReports />} />
-          <Route path="/dashboard/coach/settings" element={<CoachSettings />} />
-          
-          {/* Admin Routes */}
-          <Route path="/dashboard/admin" element={<AdminDashboard />} />
-          <Route path="/dashboard/admin/users" element={<AdminUsers />} />
-          <Route path="/dashboard/admin/schedule" element={<AdminSchedule />} />
-          <Route path="/dashboard/admin/reports" element={<AdminReports />} />
-          <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
-          
-          {/* Super Admin (Owner) Routes */}
-          <Route path="/dashboard/superadmin" element={<SuperAdminDashboard />} />
-          <Route path="/dashboard/superadmin/grounds" element={<SuperAdminGrounds />} />
-          <Route path="/dashboard/superadmin/players" element={<SuperAdminPlayers />} />
-          <Route path="/dashboard/superadmin/coaches" element={<SuperAdminCoaches />} />
-          <Route path="/dashboard/superadmin/finances" element={<SuperAdminFinances />} />
-          <Route path="/dashboard/superadmin/analytics" element={<SuperAdminAnalytics />} />
-          <Route path="/dashboard/superadmin/settings" element={<SuperAdminSettings />} />
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            
+            {/* Member Routes */}
+            <Route path="/dashboard/member" element={<MemberDashboard />} />
+            <Route path="/dashboard/member/schedule" element={<MemberSchedule />} />
+            <Route path="/dashboard/member/schedule/calendar" element={<MemberScheduleCalendar />} />
+            <Route path="/dashboard/member/progress" element={<MemberProgress />} />
+            <Route path="/dashboard/member/attendance" element={<MemberAttendance />} />
+            <Route path="/dashboard/member/achievements" element={<MemberAchievements />} />
+            <Route path="/dashboard/member/settings" element={<MemberSettings />} />
+            
+            {/* Coach Routes */}
+            <Route path="/dashboard/coach" element={<CoachDashboard />} />
+            <Route path="/dashboard/coach/schedule" element={<CoachSchedule />} />
+            <Route path="/dashboard/coach/teams" element={<CoachTeams />} />
+            <Route path="/dashboard/coach/players" element={<CoachPlayers />} />
+            <Route path="/dashboard/coach/attendance" element={<CoachAttendance />} />
+            <Route path="/dashboard/coach/performance" element={<CoachPerformance />} />
+            <Route path="/dashboard/coach/analytics" element={<CoachAnalytics />} />
+            <Route path="/dashboard/coach/reports" element={<CoachReports />} />
+            <Route path="/dashboard/coach/settings" element={<CoachSettings />} />
+            
+            {/* Admin Routes */}
+            <Route path="/dashboard/admin" element={<AdminDashboard />} />
+            <Route path="/dashboard/admin/users" element={<AdminUsers />} />
+            <Route path="/dashboard/admin/schedule" element={<AdminSchedule />} />
+            <Route path="/dashboard/admin/reports" element={<AdminReports />} />
+            <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
+            
+            {/* Super Admin (Owner) Routes */}
+            <Route path="/dashboard/superadmin" element={<SuperAdminDashboard />} />
+            <Route path="/dashboard/superadmin/grounds" element={<SuperAdminGrounds />} />
+            <Route path="/dashboard/superadmin/players" element={<SuperAdminPlayers />} />
+            <Route path="/dashboard/superadmin/coaches" element={<SuperAdminCoaches />} />
+            <Route path="/dashboard/superadmin/finances" element={<SuperAdminFinances />} />
+            <Route path="/dashboard/superadmin/analytics" element={<SuperAdminAnalytics />} />
+            <Route path="/dashboard/superadmin/settings" element={<SuperAdminSettings />} />
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 

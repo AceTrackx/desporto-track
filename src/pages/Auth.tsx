@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Info, Trophy } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Info, Trophy, Loader2 } from "lucide-react";
 import { useSports } from "@/hooks/useSports";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,6 +29,7 @@ const mockCredentials: Record<UserRole, { email: string; password: string; name:
 const Auth = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { user, signIn, signUp, loading: authLoading } = useAuth();
   const { data: sports, isLoading: sportsLoading } = useSports();
   const [isSignUp, setIsSignUp] = useState(searchParams.get("signup") === "true");
   const [showPassword, setShowPassword] = useState(false);
@@ -35,20 +38,59 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [selectedSport, setSelectedSport] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     setIsSignUp(searchParams.get("signup") === "true");
   }, [searchParams]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user && !authLoading) {
+      // For now, redirect to member dashboard - role-based routing can be added later
+      navigate("/dashboard/member");
+    }
+  }, [user, authLoading, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const dashboardRoutes: Record<UserRole, string> = {
-      member: "/dashboard/member",
-      coach: "/dashboard/coach",
-      admin: "/dashboard/admin",
-      superadmin: "/dashboard/superadmin",
-    };
-    navigate(dashboardRoutes[role]);
+    setIsSubmitting(true);
+
+    try {
+      if (isSignUp) {
+        const { error } = await signUp(email, password, name, role === "member" ? selectedSport : undefined);
+        if (error) {
+          if (error.message.includes("already registered")) {
+            toast.error("This email is already registered. Please sign in instead.");
+          } else {
+            toast.error(error.message);
+          }
+        } else {
+          toast.success("Account created! Please check your email to verify your account.");
+        }
+      } else {
+        const { error } = await signIn(email, password);
+        if (error) {
+          if (error.message.includes("Invalid login credentials")) {
+            toast.error("Invalid email or password. Please try again.");
+          } else {
+            toast.error(error.message);
+          }
+        } else {
+          const dashboardRoutes: Record<UserRole, string> = {
+            member: "/dashboard/member",
+            coach: "/dashboard/coach",
+            admin: "/dashboard/admin",
+            superadmin: "/dashboard/superadmin",
+          };
+          navigate(dashboardRoutes[role]);
+        }
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const fillDemoCredentials = (selectedRole: UserRole) => {
@@ -268,8 +310,15 @@ const Auth = () => {
               </div>
             )}
 
-            <Button type="submit" variant="hero" size="lg" className="w-full">
-              {isSignUp ? "Create Account" : "Sign In"}
+            <Button type="submit" variant="hero" size="lg" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  {isSignUp ? "Creating Account..." : "Signing In..."}
+                </>
+              ) : (
+                isSignUp ? "Create Account" : "Sign In"
+              )}
             </Button>
           </form>
 
