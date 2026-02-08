@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Info } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Info, Trophy } from "lucide-react";
+import { useSports } from "@/hooks/useSports";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,12 +27,14 @@ const mockCredentials: Record<UserRole, { email: string; password: string; name:
 const Auth = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { data: sports, isLoading: sportsLoading } = useSports();
   const [isSignUp, setIsSignUp] = useState(searchParams.get("signup") === "true");
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<UserRole>("member");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [selectedSport, setSelectedSport] = useState("");
 
   useEffect(() => {
     setIsSignUp(searchParams.get("signup") === "true");
@@ -181,6 +184,27 @@ const Auth = () => {
                     className="pl-11 h-12 rounded-xl"
                   />
                 </div>
+              </div>
+            )}
+
+            {isSignUp && role === "member" && (
+              <div className="space-y-2">
+                <Label htmlFor="sport">Select Your Sport</Label>
+                <Select value={selectedSport} onValueChange={setSelectedSport}>
+                  <SelectTrigger className="h-12 rounded-xl">
+                    <div className="flex items-center gap-2">
+                      <Trophy className="w-5 h-5 text-muted-foreground" />
+                      <SelectValue placeholder={sportsLoading ? "Loading sports..." : "Choose your sport"} />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sports?.map((sport) => (
+                      <SelectItem key={sport.id} value={sport.id}>
+                        {sport.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             )}
 
