@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Info, Trophy, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, Trophy, Loader2 } from "lucide-react";
 import { useSports } from "@/hooks/useSports";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
@@ -15,16 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
-
 type UserRole = "member" | "coach" | "admin" | "superadmin";
-
-const mockCredentials: Record<UserRole, { email: string; password: string; name: string }> = {
-  member: { email: "alex.thompson@demo.com", password: "demo123", name: "Alex Thompson" },
-  coach: { email: "coach.williams@demo.com", password: "demo123", name: "Coach Williams" },
-  admin: { email: "admin@acetrack.com", password: "demo123", name: "Academy Admin" },
-  superadmin: { email: "super@acetrack.com", password: "demo123", name: "Super Admin" },
-};
 
 const Auth = () => {
   const [searchParams] = useSearchParams();
@@ -93,13 +84,6 @@ const Auth = () => {
     }
   };
 
-  const fillDemoCredentials = (selectedRole: UserRole) => {
-    const creds = mockCredentials[selectedRole];
-    setEmail(creds.email);
-    setPassword(creds.password);
-    setName(creds.name);
-    setRole(selectedRole);
-  };
 
   return (
     <div className="min-h-screen flex">
@@ -137,27 +121,6 @@ const Auth = () => {
               with data-driven insights and modern management tools.
             </p>
 
-            {/* Demo Credentials Card */}
-            <Card className="bg-white/10 border-white/20 backdrop-blur-sm max-w-md">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 text-white mb-3">
-                  <Info className="w-4 h-4" />
-                  <span className="font-semibold text-sm">Demo Credentials</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  {(Object.keys(mockCredentials) as UserRole[]).map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => fillDemoCredentials(r)}
-                      className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-left transition-colors"
-                    >
-                      <div className="text-white font-medium capitalize">{r}</div>
-                      <div className="text-white/60 truncate">{mockCredentials[r].email}</div>
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </motion.div>
         </div>
       </div>
@@ -180,26 +143,6 @@ const Auth = () => {
                 ACETRACK
               </span>
             </Link>
-            {/* Mobile Demo Credentials */}
-            <Card className="bg-muted border-border">
-              <CardContent className="p-3">
-                <div className="flex items-center gap-2 text-foreground mb-2">
-                  <Info className="w-4 h-4" />
-                  <span className="font-semibold text-xs">Quick Demo Login</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {(Object.keys(mockCredentials) as UserRole[]).map((r) => (
-                    <button
-                      key={r}
-                      onClick={() => fillDemoCredentials(r)}
-                      className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors capitalize"
-                    >
-                      {r}
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           <h2 className="font-display text-4xl text-foreground mb-2 tracking-wide">
