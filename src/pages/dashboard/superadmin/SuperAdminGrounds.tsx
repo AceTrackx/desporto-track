@@ -14,6 +14,8 @@ import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import AddGroundDialog from "@/components/grounds/AddGroundDialog";
+import { useGrounds } from "@/hooks/useGrounds";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/superadmin", icon: Home },
@@ -120,10 +122,7 @@ const SuperAdminGrounds = () => {
                 <MapPin className="w-5 h-5 text-primary" />
                 All Grounds
               </CardTitle>
-              <Button variant="accent" size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Ground
-              </Button>
+              <AddGroundDialog />
             </CardHeader>
             <CardContent>
               <div className="grid lg:grid-cols-2 gap-4">
