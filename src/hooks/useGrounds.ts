@@ -98,6 +98,35 @@ export function useWeekBookings(startDate: string, endDate: string) {
   });
 }
 
+export function useCreateGround() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: {
+      name: string;
+      location: string;
+      address?: string;
+      ground_type?: string;
+      surface?: string;
+      capacity?: number;
+      facilities?: string[];
+      hourly_rate?: number;
+      opening_time?: string;
+      closing_time?: string;
+    }) => {
+      const { data: result, error } = await supabase
+        .from("grounds")
+        .insert(data)
+        .select()
+        .single();
+      if (error) throw error;
+      return result;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["grounds"] });
+    },
+  });
+}
+
 export function useCreateBooking() {
   const queryClient = useQueryClient();
   return useMutation({
