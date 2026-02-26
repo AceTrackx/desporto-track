@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CreateSessionDialog } from "@/components/performance/CreateSessionDialog";
 import { useSessions } from "@/hooks/useSessions";
+import { useCoachGroundIds } from "@/hooks/useCoachScope";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/coach", icon: Home },
@@ -37,7 +38,13 @@ const navItems = [
 const CoachSchedule = () => {
   const navigate = useNavigate();
   const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }));
-  const { data: sessions = [], isLoading } = useSessions();
+  const { data: allSessions = [], isLoading } = useSessions();
+  const { data: groundIds = [] } = useCoachGroundIds();
+
+  // Filter sessions to only those at the coach's assigned grounds
+  const sessions = groundIds.length > 0
+    ? allSessions.filter(s => s.ground_id && groundIds.includes(s.ground_id))
+    : allSessions;
 
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 

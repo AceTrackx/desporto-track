@@ -37,6 +37,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { useSports } from "@/hooks/useSports";
 import { usePlayers, useCreatePlayer } from "@/hooks/usePlayers";
+import { useCoachPlayerIds } from "@/hooks/useCoachScope";
 import { toast } from "sonner";
 
 const navItems = [
@@ -60,8 +61,14 @@ const CoachPlayers = () => {
   });
 
   const { data: sports, isLoading: sportsLoading } = useSports();
-  const { data: players, isLoading: playersLoading } = usePlayers(selectedSportId || undefined);
+  const { data: allPlayers, isLoading: playersLoading } = usePlayers(selectedSportId || undefined);
+  const { data: coachPlayerIds = [] } = useCoachPlayerIds();
   const createPlayer = useCreatePlayer();
+
+  // Only show players assigned to coach's grounds
+  const players = coachPlayerIds.length > 0
+    ? (allPlayers || []).filter(p => coachPlayerIds.includes(p.id))
+    : allPlayers;
 
   // Auto-select first sport
   if (sports?.length && !selectedSportId) {

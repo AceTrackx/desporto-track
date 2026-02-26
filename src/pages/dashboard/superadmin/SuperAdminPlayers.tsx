@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Home,
@@ -8,15 +9,18 @@ import {
   CreditCard,
   Search,
   Filter,
-  TrendingUp,
-  Trophy,
+  Loader2,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { usePlayers } from "@/hooks/usePlayers";
+import { usePlayerAssignments } from "@/hooks/usePlayerAssignments";
+import { useGrounds } from "@/hooks/useGrounds";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/superadmin", icon: Home },
@@ -28,25 +32,30 @@ const navItems = [
   { label: "Settings", href: "/dashboard/superadmin/settings", icon: Settings },
 ];
 
-const players = [
-  { name: "Alex Thompson", squad: "U-15 Elite", age: 14, position: "Forward", attendance: 94, performance: "A", fee: "Paid" },
-  { name: "Marcus Johnson", squad: "U-17 Premier", age: 16, position: "Midfielder", attendance: 88, performance: "A+", fee: "Paid" },
-  { name: "Emma Wilson", squad: "U-13 Development", age: 12, position: "Defender", attendance: 96, performance: "B+", fee: "Paid" },
-  { name: "David Chen", squad: "U-15 Elite", age: 14, position: "Goalkeeper", attendance: 92, performance: "A", fee: "Pending" },
-  { name: "Sophie Martinez", squad: "U-17 Premier", age: 16, position: "Forward", attendance: 85, performance: "A", fee: "Paid" },
-  { name: "James Wilson", squad: "U-11 Beginners", age: 10, position: "Midfielder", attendance: 90, performance: "B", fee: "Paid" },
-  { name: "Olivia Brown", squad: "U-13 Development", age: 12, position: "Forward", attendance: 98, performance: "A+", fee: "Paid" },
-  { name: "Noah Davis", squad: "U-17 Premier", age: 17, position: "Defender", attendance: 82, performance: "B+", fee: "Overdue" },
-];
-
-const squadStats = [
-  { name: "U-17 Premier", players: 45, avgAttendance: 88, avgPerformance: "A" },
-  { name: "U-15 Elite", players: 38, avgAttendance: 92, avgPerformance: "A" },
-  { name: "U-13 Development", players: 42, avgAttendance: 95, avgPerformance: "B+" },
-  { name: "U-11 Beginners", players: 28, avgAttendance: 90, avgPerformance: "B" },
-];
-
 const SuperAdminPlayers = () => {
+  const [search, setSearch] = useState("");
+  const [groundFilter, setGroundFilter] = useState<string>("all");
+  const { data: players = [], isLoading } = usePlayers();
+  const { data: assignments = [] } = usePlayerAssignments();
+  const { data: grounds = [] } = useGrounds();
+
+  // Map player ID -> assignment
+  const assignmentByPlayer = assignments.reduce((acc, a) => {
+    acc[a.player_id] = a;
+    return acc;
+  }, {} as Record<string, typeof assignments[0]>);
+
+  const filteredPlayers = players.filter(p => {
+    const name = p.profile?.full_name || "";
+    const matchesSearch = !search || name.toLowerCase().includes(search.toLowerCase());
+    const assignment = assignmentByPlayer[p.id];
+    const matchesGround = groundFilter === "all" || 
+      (groundFilter === "unassigned" ? !assignment : assignment?.ground_id === groundFilter);
+    return matchesSearch && matchesGround;
+  });
+
+  const assignedCount = players.filter(p => assignmentByPlayer[p.id]).length;
+
   return (
     <DashboardLayout
       title="All Players"
@@ -62,10 +71,10 @@ const SuperAdminPlayers = () => {
           className="grid grid-cols-2 lg:grid-cols-4 gap-4"
         >
           {[
-            { label: "Total Players", value: "248", icon: Users },
-            { label: "Avg Attendance", value: "91%", icon: TrendingUp },
-            { label: "Top Performers", value: "45", icon: Trophy },
-            { label: "Pending Fees", value: "12", icon: CreditCard },
+            { label: "Total Players", value: String(players.length), icon: Users },
+            { label: "Assigned to Grounds", value: String(assignedCount), icon: MapPin },
+            { label: "Unassigned", value: String(players.length - assignedCount), icon: Users },
+            { label: "Grounds", value: String(grounds.length), icon: MapPin },
           ].map((stat, index) => (
             <Card key={index} className="rounded-2xl border border-border">
               <CardContent className="p-6">
@@ -79,51 +88,11 @@ const SuperAdminPlayers = () => {
           ))}
         </motion.div>
 
-        {/* Squad Overview */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          <Card className="rounded-2xl border border-border">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <Users className="w-5 h-5 text-primary" />
-                Squad Overview
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {squadStats.map((squad, index) => (
-                  <div key={index} className="p-4 bg-card border border-border rounded-2xl">
-                    <div className="font-semibold text-foreground mb-3">{squad.name}</div>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Players</span>
-                        <span className="text-foreground font-medium">{squad.players}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Attendance</span>
-                        <span className="text-foreground font-medium">{squad.avgAttendance}%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Performance</span>
-                        <span className="text-primary font-semibold">{squad.avgPerformance}</span>
-                      </div>
-                    </div>
-                    <Progress value={squad.avgAttendance} className="h-2 mt-3" />
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
         {/* Players List */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.1 }}
         >
           <Card className="rounded-2xl border border-border">
             <CardHeader className="flex flex-row items-center justify-between pb-4">
@@ -134,50 +103,86 @@ const SuperAdminPlayers = () => {
               <div className="flex gap-2">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input placeholder="Search players..." className="pl-9 w-64" />
+                  <Input
+                    placeholder="Search players..."
+                    className="pl-9 w-64"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
                 </div>
-                <Button variant="outline" size="sm">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filter
-                </Button>
+                <Select value={groundFilter} onValueChange={setGroundFilter}>
+                  <SelectTrigger className="w-48">
+                    <Filter className="w-4 h-4 mr-2" />
+                    <SelectValue placeholder="Filter by ground" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Grounds</SelectItem>
+                    <SelectItem value="unassigned">Unassigned</SelectItem>
+                    {grounds.map((g) => (
+                      <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                {players.map((player, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
-                    <div className="flex items-center gap-4">
-                      <Avatar className="w-10 h-10">
-                        <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
-                          {player.name.split(" ").map(n => n[0]).join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-semibold text-foreground">{player.name}</div>
-                        <div className="text-sm text-muted-foreground">{player.squad} • {player.position} • Age {player.age}</div>
+              {isLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                </div>
+              ) : filteredPlayers.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  {search || groundFilter !== "all" ? "No players match your filters." : "No players registered yet."}
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {filteredPlayers.map((player) => {
+                    const assignment = assignmentByPlayer[player.id];
+                    return (
+                      <div key={player.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                        <div className="flex items-center gap-4">
+                          <Avatar className="w-10 h-10">
+                            <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
+                              {(player.profile?.full_name || "?").split(" ").map(n => n[0]).join("")}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="font-semibold text-foreground">{player.profile?.full_name || "Unknown"}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {player.sport?.name || "No sport"} • {player.position || "No position"} 
+                              {player.age_group ? ` • ${player.age_group}` : ""}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          {assignment ? (
+                            <Badge variant="outline" className="flex items-center gap-1">
+                              <MapPin className="w-3 h-3" />
+                              {assignment.ground?.name || "Unknown Ground"}
+                            </Badge>
+                          ) : (
+                            <Badge variant="secondary" className="text-muted-foreground">Unassigned</Badge>
+                          )}
+                          {assignment?.primary_coach && (
+                            <Badge variant="outline" className="flex items-center gap-1">
+                              <Users className="w-3 h-3" />
+                              {assignment.primary_coach.full_name || "Coach"}
+                            </Badge>
+                          )}
+                          <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                            player.status === "active" ? "bg-primary/10 text-primary border-primary/20" :
+                            player.status === "injured" ? "bg-coral/10 text-coral border-coral/20" :
+                            "bg-muted text-muted-foreground border-border"
+                          }`}>
+                            {player.status || "active"}
+                          </span>
+                          <Button variant="outline" size="sm">View</Button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-6">
-                      <div className="text-center">
-                        <div className="text-xs text-muted-foreground">Attendance</div>
-                        <div className="font-semibold text-foreground">{player.attendance}%</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-xs text-muted-foreground">Performance</div>
-                        <div className="font-semibold text-primary">{player.performance}</div>
-                      </div>
-                      <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                        player.fee === "Paid" ? "bg-primary/10 text-primary border-primary/20" : 
-                        player.fee === "Pending" ? "bg-accent/10 text-accent-foreground border-accent/20" : 
-                        "bg-coral/10 text-coral border-coral/20"
-                      }`}>
-                        {player.fee}
-                      </span>
-                      <Button variant="outline" size="sm">View</Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </CardContent>
           </Card>
         </motion.div>
