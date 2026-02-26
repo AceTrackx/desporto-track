@@ -110,7 +110,7 @@ export function useGroundSports(groundId?: string) {
       if (error) throw error;
       return data;
     },
-    enabled: groundId !== "",
+    enabled: !!groundId,
   });
 }
 

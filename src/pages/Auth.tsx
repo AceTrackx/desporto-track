@@ -35,11 +35,10 @@ const Auth = () => {
     setIsSignUp(searchParams.get("signup") === "true");
   }, [searchParams]);
 
-  // Redirect if already logged in
+  // Redirect if already logged in — will be handled by dashboard routing
   useEffect(() => {
     if (user && !authLoading) {
-      // For now, redirect to member dashboard - role-based routing can be added later
-      navigate("/dashboard/member");
+      navigate("/dashboard");
     }
   }, [user, authLoading, navigate]);
 
@@ -49,7 +48,7 @@ const Auth = () => {
 
     try {
       if (isSignUp) {
-        const { error } = await signUp(email, password, name, role === "member" ? selectedSport : undefined);
+        const { error } = await signUp(email, password, name, role === "member" ? selectedSport : undefined, role);
         if (error) {
           if (error.message.includes("already registered")) {
             toast.error("This email is already registered. Please sign in instead.");
@@ -68,13 +67,7 @@ const Auth = () => {
             toast.error(error.message);
           }
         } else {
-          const dashboardRoutes: Record<UserRole, string> = {
-            member: "/dashboard/member",
-            coach: "/dashboard/coach",
-            admin: "/dashboard/admin",
-            superadmin: "/dashboard/superadmin",
-          };
-          navigate(dashboardRoutes[role]);
+          navigate("/dashboard");
         }
       }
     } catch (err) {
@@ -172,7 +165,7 @@ const Auth = () => {
               </div>
             )}
 
-            {isSignUp && role === "member" && (
+            {isSignUp && (
               <div className="space-y-2">
                 <Label htmlFor="sport">Select Your Sport</Label>
                 <Select value={selectedSport} onValueChange={setSelectedSport}>
@@ -230,20 +223,20 @@ const Auth = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="role">{isSignUp ? "I am a..." : "Login as..."}</Label>
-              <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
-                <SelectTrigger className="h-12 rounded-xl">
-                  <SelectValue placeholder="Select your role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="member">Student / Guardian</SelectItem>
-                  <SelectItem value="coach">Coach</SelectItem>
-                  <SelectItem value="admin">Academy Admin</SelectItem>
-                  <SelectItem value="superadmin">Super Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+            {isSignUp && (
+              <div className="space-y-2">
+                <Label htmlFor="role">I am a...</Label>
+                <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
+                  <SelectTrigger className="h-12 rounded-xl">
+                    <SelectValue placeholder="Select your role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="member">Student / Guardian</SelectItem>
+                    <SelectItem value="coach">Coach</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
 
             {!isSignUp && (
               <div className="flex items-center justify-end">

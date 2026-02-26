@@ -637,6 +637,9 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          registration_status: string
+          requested_role: string
+          sport_id: string | null
           updated_at: string
         }
         Insert: {
@@ -645,6 +648,9 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id: string
+          registration_status?: string
+          requested_role?: string
+          sport_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -653,9 +659,20 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          registration_status?: string
+          requested_role?: string
+          sport_id?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       schedule_bookings: {
         Row: {

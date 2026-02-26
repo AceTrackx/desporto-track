@@ -22,6 +22,7 @@ import { useSessions } from "@/hooks/useSessions";
 import { useCoachGroundIds } from "@/hooks/useCoachScope";
 import { useCoachPlayerIds } from "@/hooks/useCoachScope";
 import { useCoachGrounds } from "@/hooks/useGroundCoaches";
+import { useAllGroundSports } from "@/hooks/useGrounds";
 import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
@@ -41,6 +42,7 @@ const CoachDashboard = () => {
   const { data: groundIds = [] } = useCoachGroundIds();
   const { data: playerIds = [] } = useCoachPlayerIds();
   const { data: coachGrounds = [] } = useCoachGrounds(user?.id);
+  const { data: allGroundSports = [] } = useAllGroundSports();
   const { data: allSessions = [], isLoading } = useSessions();
 
   // Filter sessions to coach's grounds
@@ -136,7 +138,16 @@ const CoachDashboard = () => {
                           <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs">Admin</Badge>
                         )}
                       </div>
-                      <div className="text-sm text-muted-foreground">{gc.ground?.location}</div>
+                      <div className="text-sm text-muted-foreground mb-2">{gc.ground?.location}</div>
+                      <div className="flex flex-wrap gap-1">
+                        {allGroundSports
+                          .filter((gs: any) => gs.ground_id === gc.ground_id)
+                          .map((gs: any) => (
+                            <Badge key={gs.id} variant="secondary" className="text-xs">
+                              {gs.sport?.name}
+                            </Badge>
+                          ))}
+                      </div>
                     </div>
                   ))
                 )}
