@@ -62,6 +62,42 @@ export type Database = {
           },
         ]
       }
+      ground_sports: {
+        Row: {
+          created_at: string
+          ground_id: string
+          id: string
+          sport_id: string
+        }
+        Insert: {
+          created_at?: string
+          ground_id: string
+          id?: string
+          sport_id: string
+        }
+        Update: {
+          created_at?: string
+          ground_id?: string
+          id?: string
+          sport_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ground_sports_ground_id_fkey"
+            columns: ["ground_id"]
+            isOneToOne: false
+            referencedRelation: "grounds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ground_sports_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       grounds: {
         Row: {
           address: string | null
