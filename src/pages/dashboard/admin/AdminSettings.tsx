@@ -71,7 +71,7 @@ const AdminSettings = () => {
       title="Settings"
       navItems={navItems}
       userRole="Admin"
-      userName="John Mitchell"
+      
     >
       <div className="space-y-8 max-w-4xl">
         {/* Profile Section */}

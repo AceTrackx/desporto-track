@@ -68,7 +68,7 @@ const SuperAdminAnalytics = () => {
       title="Analytics"
       navItems={navItems}
       userRole="Owner"
-      userName="Michael Roberts"
+      
     >
       <div className="space-y-8">
         {/* Overview Stats */}

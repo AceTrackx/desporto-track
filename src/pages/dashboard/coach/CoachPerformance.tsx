@@ -96,7 +96,7 @@ const CoachPerformance = () => {
       title="Performance Entry"
       navItems={navItems}
       userRole="Coach"
-      userName="Coach Williams"
+      
     >
       <AnimatePresence mode="wait">
         {/* Match Performance Entry View */}

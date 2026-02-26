@@ -61,7 +61,7 @@ const SuperAdminPlayers = () => {
       title="All Players"
       navItems={navItems}
       userRole="Owner"
-      userName="Michael Roberts"
+      
     >
       <div className="space-y-8">
         {/* Stats */}

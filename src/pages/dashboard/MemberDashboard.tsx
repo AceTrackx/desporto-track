@@ -8,46 +8,52 @@ import {
   Clock,
   TrendingUp,
   Users,
+  MapPin,
+  UserCheck,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { 
+  usePlayerUpcomingSessions, 
+  usePlayerAssignment,
+  usePlayerCombinedAttendance,
+  usePlayerPerformanceMetrics,
+} from "@/hooks/useMemberData";
+import { format, isFuture } from "date-fns";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/member", icon: Home },
   { label: "Schedule", href: "/dashboard/member/schedule", icon: Calendar },
   { label: "My Progress", href: "/dashboard/member/progress", icon: BarChart3 },
+  { label: "Attendance", href: "/dashboard/member/attendance", icon: UserCheck },
   { label: "Achievements", href: "/dashboard/member/achievements", icon: Trophy },
 ];
 
-const upcomingSessions = [
-  { title: "Technical Training", time: "10:00 AM", type: "Training", date: "Today" },
-  { title: "Match vs City FC", time: "2:00 PM", type: "Match", date: "Tomorrow" },
-  { title: "Fitness Session", time: "9:00 AM", type: "Fitness", date: "Wed, Jan 15" },
-];
-
-const skills = [
-  { name: "Passing", value: 78 },
-  { name: "Shooting", value: 65 },
-  { name: "Dribbling", value: 82 },
-  { name: "Defending", value: 70 },
-  { name: "Physical", value: 75 },
-];
-
-const achievements = [
-  { title: "Perfect Attendance", description: "30 days streak", icon: Trophy },
-  { title: "Top Scorer", description: "15 goals this season", icon: Target },
-  { title: "Early Bird", description: "First to 50 sessions", icon: Clock },
-];
-
 const MemberDashboard = () => {
+  const { data: upcomingData } = usePlayerUpcomingSessions();
+  const { data: assignment } = usePlayerAssignment();
+  const { data: attendanceStats } = usePlayerCombinedAttendance();
+  const { data: metrics } = usePlayerPerformanceMetrics();
+
+  // Combine sessions + matches for upcoming
+  const upcomingEvents = [
+    ...(upcomingData?.sessions || []).map(s => ({
+      id: s.id,
+      title: s.focus_area || "Training",
+      date: new Date(s.session_date),
+      type: "Training" as const,
+    })),
+    ...(upcomingData?.matches || []).map(m => ({
+      id: m.id,
+      title: `vs ${m.opponent_name}`,
+      date: new Date(m.match_date),
+      type: "Match" as const,
+    })),
+  ].sort((a, b) => a.date.getTime() - b.date.getTime()).slice(0, 5);
+
   return (
-    <DashboardLayout
-      title="Dashboard"
-      navItems={navItems}
-      userRole="Member"
-      userName="Alex Thompson"
-    >
+    <DashboardLayout title="Dashboard" navItems={navItems} userRole="Member">
       <div className="space-y-8">
         {/* Welcome Section */}
         <motion.div
@@ -58,131 +64,89 @@ const MemberDashboard = () => {
           <div className="dashed-pattern absolute inset-0 opacity-20" />
           <div className="relative z-10">
             <h2 className="font-display text-4xl md:text-5xl tracking-wide mb-2">
-              WELCOME BACK, ALEX!
+              WELCOME BACK!
             </h2>
-            <p className="text-white/80 text-lg mb-4">
-              You have 2 training sessions scheduled this week.
+            {assignment?.ground && (
+              <p className="text-white/80 text-lg mb-2 flex items-center gap-2">
+                <MapPin className="w-5 h-5" />
+                {assignment.ground.name}
+                {assignment.primary_coach?.full_name && ` • Coach: ${assignment.primary_coach.full_name}`}
+              </p>
+            )}
+            <p className="text-white/70">
+              {upcomingEvents.length > 0
+                ? `You have ${upcomingEvents.length} upcoming event${upcomingEvents.length > 1 ? "s" : ""}.`
+                : "No upcoming events scheduled."}
             </p>
             <div className="flex flex-wrap gap-6 mt-6">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4">
-                <div className="font-display text-3xl text-lime">89%</div>
+                <div className="font-display text-3xl text-lime">{attendanceStats?.rate || 0}%</div>
                 <div className="text-white/70 text-sm">Attendance Rate</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4">
-                <div className="font-display text-3xl text-lime">A+</div>
-                <div className="text-white/70 text-sm">Performance</div>
+                <div className="font-display text-3xl text-lime">{metrics?.avgMatchRating || "—"}</div>
+                <div className="text-white/70 text-sm">Match Rating</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4">
-                <div className="font-display text-3xl text-lime">12</div>
-                <div className="text-white/70 text-sm">Goals Scored</div>
+                <div className="font-display text-3xl text-lime">{metrics?.totalMatches || 0}</div>
+                <div className="text-white/70 text-sm">Matches Played</div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Upcoming Sessions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="lg:col-span-2"
-          >
-            <Card className="rounded-2xl border border-border">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-primary" />
-                  Upcoming Sessions
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {upcomingSessions.map((session, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors"
-                  >
+        {/* Upcoming Sessions */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <Card className="rounded-2xl border border-border">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-primary" />
+                Upcoming Sessions
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {upcomingEvents.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">No upcoming sessions scheduled.</div>
+              ) : (
+                upcomingEvents.map((event) => (
+                  <div key={event.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className={`w-1 h-10 rounded-full ${
-                        session.type === "Match" ? "bg-coral" :
-                        session.type === "Fitness" ? "bg-teal" : "bg-primary"
-                      }`} />
+                      <div className={`w-1 h-10 rounded-full ${event.type === "Match" ? "bg-coral" : "bg-primary"}`} />
                       <div>
-                        <div className="font-semibold text-foreground">{session.title}</div>
-                        <div className="text-sm text-muted-foreground">{session.date} at {session.time}</div>
+                        <div className="font-semibold text-foreground">{event.title}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {format(event.date, "EEE, MMM d")} at {format(event.date, "h:mm a")}
+                        </div>
                       </div>
                     </div>
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                      session.type === "Match" ? "bg-coral/10 text-coral border-coral/20" :
-                      session.type === "Fitness" ? "bg-teal/10 text-teal border-teal/20" : "bg-primary/10 text-primary border-primary/20"
-                    }`}>
-                      {session.type}
-                    </span>
+                    <Badge className={event.type === "Match" ? "bg-coral/10 text-coral border-coral/20" : "bg-primary/10 text-primary border-primary/20"} variant="outline">
+                      {event.type}
+                    </Badge>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Achievements */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Card className="rounded-2xl border border-border">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Trophy className="w-5 h-5 text-accent" />
-                  Achievements
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {achievements.map((achievement, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                      <achievement.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="font-medium text-foreground text-sm">{achievement.title}</div>
-                      <div className="text-xs text-muted-foreground">{achievement.description}</div>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-
-        {/* Skills Overview */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-            <Card className="rounded-2xl border border-border">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 text-primary" />
-                  Skill Progress
-                </CardTitle>
-              </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
-                {skills.map((skill) => (
-                  <div key={skill.name} className="p-4 bg-card border border-border rounded-2xl">
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="font-medium text-foreground text-sm">{skill.name}</span>
-                      <span className="text-sm font-semibold text-primary">{skill.value}%</span>
-                    </div>
-                    <Progress value={skill.value} className="h-2.5" />
-                  </div>
-                ))}
-              </div>
+                ))
+              )}
             </CardContent>
           </Card>
+        </motion.div>
+
+        {/* Quick Stats */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: "Sessions Attended", value: String(attendanceStats?.present || 0), icon: Target, color: "text-primary" },
+            { label: "Total Matches", value: String(metrics?.totalMatches || 0), icon: Trophy, color: "text-coral" },
+            { label: "Practice Sessions", value: String(metrics?.totalPractices || 0), icon: Clock, color: "text-teal" },
+            { label: "Avg Practice Rating", value: metrics?.avgPracticeRating ? String(metrics.avgPracticeRating) : "—", icon: TrendingUp, color: "text-primary" },
+          ].map((stat, index) => (
+            <Card key={index} className="rounded-2xl border border-border">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <stat.icon className={`w-5 h-5 ${stat.color}`} />
+                  <span className="text-sm text-muted-foreground">{stat.label}</span>
+                </div>
+                <div className="font-display text-3xl text-foreground">{stat.value}</div>
+              </CardContent>
+            </Card>
+          ))}
         </motion.div>
       </div>
     </DashboardLayout>

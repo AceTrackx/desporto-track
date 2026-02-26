@@ -27,7 +27,7 @@ const stats = [
 
 const AdminReports = () => {
   return (
-    <DashboardLayout title="Reports" navItems={navItems} userRole="Admin" userName="John Mitchell">
+    <DashboardLayout title="Reports" navItems={navItems} userRole="Admin">
       <div className="space-y-6">
         {/* Stats */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-3 gap-4">

@@ -85,7 +85,7 @@ const SuperAdminSettings = () => {
       title="Settings"
       navItems={navItems}
       userRole="Owner"
-      userName="Michael Roberts"
+      
     >
       <div className="space-y-8">
         {/* Owner Profile */}

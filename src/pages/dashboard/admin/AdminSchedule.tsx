@@ -20,7 +20,7 @@ const sessions = [
 
 const AdminSchedule = () => {
   return (
-    <DashboardLayout title="Schedule" navItems={navItems} userRole="Admin" userName="John Mitchell">
+    <DashboardLayout title="Schedule" navItems={navItems} userRole="Admin">
       <div className="space-y-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <Card className="rounded-2xl border border-border">
