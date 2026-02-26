@@ -62,7 +62,7 @@ const CoachReports = () => {
       title="Reports"
       navItems={navItems}
       userRole="Coach"
-      userName="Coach Williams"
+      
     >
       <div className="space-y-8">
         {/* Stats */}

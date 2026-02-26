@@ -83,7 +83,7 @@ const CoachAttendance = () => {
       title="Attendance"
       navItems={navItems}
       userRole="Coach"
-      userName="Coach Williams"
+      
     >
       <div className="space-y-8">
         {/* Back to Dashboard (only when not marking attendance) */}

@@ -63,7 +63,7 @@ const SuperAdminFinances = () => {
       title="Finances"
       navItems={navItems}
       userRole="Owner"
-      userName="Michael Roberts"
+      
     >
       <div className="space-y-8">
         {/* Financial Stats */}

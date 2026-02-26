@@ -75,7 +75,7 @@ const CoachTeams = () => {
       title="My Teams"
       navItems={navItems}
       userRole="Coach"
-      userName="Coach Williams"
+      
     >
       <div className="space-y-8">
         {/* Back Button */}

@@ -97,7 +97,7 @@ const CoachPlayers = () => {
       title="Players"
       navItems={navItems}
       userRole="Coach"
-      userName="Coach Williams"
+      
     >
       <div className="space-y-6">
         {/* Filters */}

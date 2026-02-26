@@ -60,7 +60,7 @@ const MemberSettings = () => {
       title="Settings"
       navItems={navItems}
       userRole="Member"
-      userName="Alex Thompson"
+      
     >
       <div className="space-y-8 max-w-4xl">
         {/* Profile Section */}

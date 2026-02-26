@@ -65,7 +65,7 @@ const MemberScheduleCalendar = () => {
       title="Full Calendar"
       navItems={navItems}
       userRole="Member"
-      userName="Alex Thompson"
+      
     >
       <div className="space-y-6">
         {/* Back Button */}

@@ -103,7 +103,7 @@ const MemberProgress = () => {
       title="My Progress"
       navItems={navItems}
       userRole="Member"
-      userName="Alex Thompson"
+      
     >
       <div className="space-y-8">
         {/* Back Button */}

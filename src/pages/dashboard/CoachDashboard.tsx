@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { format, isSameDay, isFuture } from "date-fns";
 import {
   Home,
   Calendar,
@@ -8,14 +10,19 @@ import {
   FileText,
   Clock,
   CheckCircle,
-  AlertCircle,
   TrendingUp,
+  MapPin,
+  Loader2,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { useSessions } from "@/hooks/useSessions";
+import { useCoachGroundIds } from "@/hooks/useCoachScope";
+import { useCoachPlayerIds } from "@/hooks/useCoachScope";
+import { useCoachGrounds } from "@/hooks/useGroundCoaches";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/coach", icon: Home },
@@ -28,45 +35,36 @@ const navItems = [
   { label: "Reports", href: "/dashboard/coach/reports", icon: FileText },
 ];
 
-const todaySessions = [
-  { title: "U-15 Technical Training", time: "10:00 AM - 12:00 PM", players: 18, status: "upcoming" },
-  { title: "U-17 Match Prep", time: "2:00 PM - 4:00 PM", players: 22, status: "upcoming" },
-  { title: "U-13 Development", time: "5:00 PM - 6:30 PM", players: 16, status: "upcoming" },
-];
-
-const teams = [
-  { name: "U-15 Elite", players: 18, avgAttendance: 92, performance: "A" },
-  { name: "U-17 Premier", players: 22, avgAttendance: 88, performance: "A+" },
-  { name: "U-13 Development", players: 16, avgAttendance: 95, performance: "B+" },
-];
-
-const recentPlayers = [
-  { name: "Alex Thompson", improvement: "+15%", skill: "Passing", trend: "up" },
-  { name: "Marcus Johnson", improvement: "+12%", skill: "Shooting", trend: "up" },
-  { name: "David Chen", improvement: "-3%", skill: "Defending", trend: "down" },
-  { name: "Emma Wilson", improvement: "+8%", skill: "Dribbling", trend: "up" },
-];
-
 const CoachDashboard = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { data: groundIds = [] } = useCoachGroundIds();
+  const { data: playerIds = [] } = useCoachPlayerIds();
+  const { data: coachGrounds = [] } = useCoachGrounds(user?.id);
+  const { data: allSessions = [], isLoading } = useSessions();
+
+  // Filter sessions to coach's grounds
+  const sessions = groundIds.length > 0
+    ? allSessions.filter(s => s.ground_id && groundIds.includes(s.ground_id))
+    : [];
+
+  const today = new Date();
+  const todaySessions = sessions.filter(s => isSameDay(new Date(s.session_date), today));
+  const upcomingSessions = sessions
+    .filter(s => isFuture(new Date(s.session_date)))
+    .sort((a, b) => new Date(a.session_date).getTime() - new Date(b.session_date).getTime())
+    .slice(0, 5);
+
   return (
-    <DashboardLayout
-      title="Coach Dashboard"
-      navItems={navItems}
-      userRole="Coach"
-      userName="Coach Williams"
-    >
+    <DashboardLayout title="Coach Dashboard" navItems={navItems} userRole="Coach">
       <div className="space-y-8">
         {/* Quick Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: "Total Players", value: "56", icon: Users, color: "text-primary" },
-            { label: "Sessions Today", value: "3", icon: Calendar, color: "text-accent-foreground" },
-            { label: "Avg Attendance", value: "91%", icon: CheckCircle, color: "text-teal" },
-            { label: "Reports Due", value: "2", icon: FileText, color: "text-coral" },
+            { label: "My Players", value: String(playerIds.length), icon: Users, color: "text-primary" },
+            { label: "Sessions Today", value: String(todaySessions.length), icon: Calendar, color: "text-accent-foreground" },
+            { label: "My Grounds", value: String(coachGrounds.length), icon: MapPin, color: "text-teal" },
+            { label: "Upcoming", value: String(upcomingSessions.length), icon: Clock, color: "text-coral" },
           ].map((stat, index) => (
             <Card key={index} className="rounded-2xl border border-border">
               <CardContent className="p-6">
@@ -82,127 +80,102 @@ const CoachDashboard = () => {
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Today's Sessions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="lg:col-span-2"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="lg:col-span-2">
             <Card className="rounded-2xl border border-border">
               <CardHeader className="flex flex-row items-center justify-between pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <Clock className="w-5 h-5 text-primary" />
                   Today's Sessions
                 </CardTitle>
-                <Button variant="accent" size="sm">Add Session</Button>
+                <Button variant="accent" size="sm" onClick={() => navigate("/dashboard/coach/schedule")}>View Schedule</Button>
               </CardHeader>
               <CardContent className="space-y-3">
-                {todaySessions.map((session, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-1 h-12 rounded-full bg-primary" />
-                      <div>
-                        <div className="font-semibold text-foreground">{session.title}</div>
-                        <div className="text-sm text-muted-foreground">{session.time}</div>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Users className="w-3.5 h-3.5 text-muted-foreground" />
-                          <span className="text-xs text-muted-foreground">{session.players} players</span>
+                {isLoading ? (
+                  <div className="flex justify-center py-8"><Loader2 className="w-5 h-5 animate-spin text-muted-foreground" /></div>
+                ) : todaySessions.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">No sessions scheduled for today.</div>
+                ) : (
+                  todaySessions.map((session) => (
+                    <div key={session.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                      <div className="flex items-center gap-4">
+                        <div className="w-1 h-12 rounded-full bg-primary" />
+                        <div>
+                          <div className="font-semibold text-foreground">{session.focus_area || session.session_type || "Training"}</div>
+                          <div className="text-sm text-muted-foreground">{format(new Date(session.session_date), "h:mm a")} {session.duration_minutes ? `• ${session.duration_minutes} min` : ""}</div>
+                          <div className="text-xs text-muted-foreground">{session.ground?.name || "—"}</div>
                         </div>
                       </div>
+                      <Button variant="default" size="sm" onClick={() => navigate(`/dashboard/coach/attendance?session=${session.id}`)}>
+                        Mark Attendance
+                      </Button>
                     </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">View</Button>
-                      <Button variant="default" size="sm">Start</Button>
-                    </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Teams Overview */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+          {/* My Grounds */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <Card className="rounded-2xl border border-border">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                  <Users className="w-5 h-5 text-primary" />
-                  My Teams
+                  <MapPin className="w-5 h-5 text-primary" />
+                  My Grounds
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {teams.map((team, index) => (
-                  <div key={index} className="p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-semibold text-foreground">{team.name}</span>
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
-                        <span className="font-display text-lg text-primary">{team.performance}</span>
+                {coachGrounds.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">Not assigned to any ground yet.</div>
+                ) : (
+                  coachGrounds.map((gc) => (
+                    <div key={gc.id} className="p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-semibold text-foreground">{gc.ground?.name || "Unknown"}</span>
+                        {gc.is_ground_admin && (
+                          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 text-xs">Admin</Badge>
+                        )}
                       </div>
+                      <div className="text-sm text-muted-foreground">{gc.ground?.location}</div>
                     </div>
-                    <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
-                      <span>{team.players} players</span>
-                      <span>{team.avgAttendance}% attendance</span>
-                    </div>
-                    <Progress value={team.avgAttendance} className="h-2.5" />
-                  </div>
-                ))}
+                  ))
+                )}
               </CardContent>
             </Card>
           </motion.div>
         </div>
 
-        {/* Player Improvements */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card className="rounded-2xl border border-border">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-primary" />
-                Player Progress This Week
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
-                {recentPlayers.map((player, index) => (
-                  <div key={index} className="flex items-center gap-3 p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
-                    <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
-                        {player.name.split(" ").map(n => n[0]).join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium text-foreground text-sm truncate">{player.name}</div>
-                      <div className="text-xs text-muted-foreground">{player.skill}</div>
+        {/* Upcoming Sessions */}
+        {upcomingSessions.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <Card className="rounded-2xl border border-border">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  Upcoming Sessions
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {upcomingSessions.map((session) => (
+                  <div key={session.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className="w-1 h-12 rounded-full bg-primary" />
+                      <div>
+                        <div className="font-semibold text-foreground">{session.focus_area || session.session_type || "Training"}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {format(new Date(session.session_date), "EEE, MMM d • h:mm a")}
+                        </div>
+                      </div>
                     </div>
-                    <div className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
-                      player.trend === "up" 
-                        ? "bg-primary/10 text-primary border-primary/20" 
-                        : "bg-destructive/10 text-destructive border-destructive/20"
-                    }`}>
-                      <span className="flex items-center gap-1">
-                        {player.trend === "up" ? (
-                          <TrendingUp className="w-3 h-3" />
-                        ) : (
-                          <AlertCircle className="w-3 h-3" />
-                        )}
-                        {player.improvement}
-                      </span>
-                    </div>
+                    <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
+                      {session.sport?.name}
+                    </Badge>
                   </div>
                 ))}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
       </div>
     </DashboardLayout>
   );
