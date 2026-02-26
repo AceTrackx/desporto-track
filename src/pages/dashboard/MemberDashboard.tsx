@@ -20,6 +20,7 @@ import {
   usePlayerCombinedAttendance,
   usePlayerPerformanceMetrics,
 } from "@/hooks/useMemberData";
+import { useGroundSports } from "@/hooks/useGrounds";
 import { format, isFuture } from "date-fns";
 
 const navItems = [
@@ -35,6 +36,7 @@ const MemberDashboard = () => {
   const { data: assignment } = usePlayerAssignment();
   const { data: attendanceStats } = usePlayerCombinedAttendance();
   const { data: metrics } = usePlayerPerformanceMetrics();
+  const { data: groundSports = [] } = useGroundSports(assignment?.ground_id);
 
   // Combine sessions + matches for upcoming
   const upcomingEvents = [
@@ -67,11 +69,22 @@ const MemberDashboard = () => {
               WELCOME BACK!
             </h2>
             {assignment?.ground && (
-              <p className="text-white/80 text-lg mb-2 flex items-center gap-2">
-                <MapPin className="w-5 h-5" />
-                {assignment.ground.name}
-                {assignment.primary_coach?.full_name && ` • Coach: ${assignment.primary_coach.full_name}`}
-              </p>
+              <div className="mb-2">
+                <p className="text-white/80 text-lg flex items-center gap-2">
+                  <MapPin className="w-5 h-5" />
+                  {assignment.ground.name}
+                  {assignment.primary_coach?.full_name && ` • Coach: ${assignment.primary_coach.full_name}`}
+                </p>
+                {groundSports.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {groundSports.map((gs: any) => (
+                      <Badge key={gs.id} className="bg-white/20 text-white border-white/30 text-xs" variant="outline">
+                        {gs.sport?.name}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
             <p className="text-white/70">
               {upcomingEvents.length > 0

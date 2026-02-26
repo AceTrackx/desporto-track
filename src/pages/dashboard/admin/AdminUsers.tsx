@@ -1,9 +1,17 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Home, Users, Calendar, BarChart3, Settings, Search, UserPlus, UserCheck, CheckCircle2, XCircle, Clock } from "lucide-react";
+import { Home, Users, Calendar, BarChart3, Settings, Search, CheckCircle2, XCircle, Clock, MapPin, Loader2 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { useAllRegisteredUsers, usePendingUsers, useApproveUser, useRejectUser } from "@/hooks/useProfileStatus";
+import { useGrounds } from "@/hooks/useGrounds";
+import { toast } from "sonner";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/admin", icon: Home },
@@ -13,20 +21,53 @@ const navItems = [
   { label: "Settings", href: "/dashboard/admin/settings", icon: Settings },
 ];
 
-const allStudents = [
-  { id: 1, name: "James Wilson", squad: "U-15 Elite", status: "Pending", date: "Jan 15, 2026", age: 14, parentPhone: "+91 98765 43210" },
-  { id: 2, name: "Sophia Miller", squad: "U-11 Beginners", status: "Pending", date: "Jan 15, 2026", age: 10, parentPhone: "+91 87654 32109" },
-  { id: 3, name: "Arjun Patel", squad: "U-13 Development", status: "Pending", date: "Jan 14, 2026", age: 12, parentPhone: "+91 76543 21098" },
-  { id: 4, name: "Olivia Brown", squad: "U-13 Development", status: "Approved", date: "Jan 13, 2026", age: 13, parentPhone: "+91 65432 10987" },
-  { id: 5, name: "Noah Davis", squad: "U-17 Premier", status: "Approved", date: "Jan 12, 2026", age: 16, parentPhone: "+91 54321 09876" },
-  { id: 6, name: "Emma Johnson", squad: "U-11 Beginners", status: "Approved", date: "Jan 11, 2026", age: 11, parentPhone: "+91 43210 98765" },
-  { id: 7, name: "Liam Anderson", squad: "U-15 Elite", status: "Rejected", date: "Jan 10, 2026", age: 15, parentPhone: "+91 32109 87654" },
-  { id: 8, name: "Priya Sharma", squad: "U-17 Premier", status: "Pending", date: "Jan 14, 2026", age: 16, parentPhone: "+91 21098 76543" },
-];
-
 const AdminUsers = () => {
-  const pendingCount = allStudents.filter(s => s.status === "Pending").length;
-  const approvedCount = allStudents.filter(s => s.status === "Approved").length;
+  const { data: allUsers = [], isLoading } = useAllRegisteredUsers();
+  const { data: pendingUsers = [] } = usePendingUsers();
+  const { data: grounds = [] } = useGrounds();
+  const approveUser = useApproveUser();
+  const rejectUser = useRejectUser();
+
+  const [search, setSearch] = useState("");
+  const [approveDialogUser, setApproveDialogUser] = useState<any | null>(null);
+  const [selectedGround, setSelectedGround] = useState("");
+
+  const approvedCount = allUsers.filter((u) => u.registration_status === "approved").length;
+
+  const filteredUsers = allUsers.filter(
+    (u) =>
+      (u.full_name || "").toLowerCase().includes(search.toLowerCase()) ||
+      (u.email || "").toLowerCase().includes(search.toLowerCase())
+  );
+
+  const handleApprove = async () => {
+    if (!approveDialogUser || !selectedGround) {
+      toast.error("Please select a ground");
+      return;
+    }
+    try {
+      await approveUser.mutateAsync({
+        userId: approveDialogUser.id,
+        role: approveDialogUser.requested_role,
+        groundId: selectedGround,
+        sportId: approveDialogUser.sport_id || undefined,
+      });
+      toast.success(`${approveDialogUser.full_name || "User"} approved successfully`);
+      setApproveDialogUser(null);
+      setSelectedGround("");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to approve");
+    }
+  };
+
+  const handleReject = async (userId: string, name: string) => {
+    try {
+      await rejectUser.mutateAsync(userId);
+      toast.success(`${name || "User"} rejected`);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to reject");
+    }
+  };
 
   return (
     <DashboardLayout title="User Management" navItems={navItems} userRole="Admin">
@@ -37,10 +78,10 @@ const AdminUsers = () => {
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-accent" />
+                  <Clock className="w-5 h-5 text-accent-foreground" />
                 </div>
                 <div>
-                  <div className="font-display text-2xl text-foreground">{pendingCount}</div>
+                  <div className="font-display text-2xl text-foreground">{pendingUsers.length}</div>
                   <div className="text-sm text-muted-foreground">Pending Approval</div>
                 </div>
               </div>
@@ -66,8 +107,8 @@ const AdminUsers = () => {
                   <Users className="w-5 h-5 text-muted-foreground" />
                 </div>
                 <div>
-                  <div className="font-display text-2xl text-foreground">{allStudents.length}</div>
-                  <div className="text-sm text-muted-foreground">Total Students</div>
+                  <div className="font-display text-2xl text-foreground">{allUsers.length}</div>
+                  <div className="text-sm text-muted-foreground">Total Users</div>
                 </div>
               </div>
             </CardContent>
@@ -78,67 +119,134 @@ const AdminUsers = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="flex gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input placeholder="Search students..." className="pl-10" />
+            <Input placeholder="Search users..." className="pl-10" value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
-          <Button variant="accent">
-            <UserPlus className="w-4 h-4 mr-2" />
-            Add Student
-          </Button>
         </motion.div>
 
-        {/* Students List */}
+        {/* Users List */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card className="rounded-2xl border border-border">
             <CardHeader className="flex flex-row items-center justify-between pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                <UserCheck className="w-5 h-5 text-primary" />
-                All Students
+                <Users className="w-5 h-5 text-primary" />
+                All Users
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              {allStudents.map((student) => (
-                <div key={student.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="font-semibold text-foreground">{student.name}</span>
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                        student.status === "Pending" 
-                          ? "bg-accent/10 text-accent-foreground" 
-                          : student.status === "Approved"
-                          ? "bg-primary/10 text-primary"
-                          : "bg-coral/10 text-coral"
-                      }`}>
-                        {student.status}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span>{student.squad}</span>
-                      <span>•</span>
-                      <span>Age: {student.age}</span>
-                      <span>•</span>
-                      <span>{student.parentPhone}</span>
-                      <span>•</span>
-                      <span>{student.date}</span>
-                    </div>
-                  </div>
-                  {student.status === "Pending" && (
-                    <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm" className="text-coral border-coral/20 hover:bg-coral/10">
-                        <XCircle className="w-4 h-4 mr-1" />
-                        Reject
-                      </Button>
-                      <Button variant="accent" size="sm">
-                        <CheckCircle2 className="w-4 h-4 mr-1" />
-                        Approve
-                      </Button>
-                    </div>
-                  )}
+              {isLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
                 </div>
-              ))}
+              ) : filteredUsers.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">No users found.</div>
+              ) : (
+                filteredUsers.map((user) => (
+                  <div key={user.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className="font-semibold text-foreground">{user.full_name || "No Name"}</span>
+                        <Badge
+                          variant="outline"
+                          className={
+                            user.registration_status === "pending"
+                              ? "bg-accent/10 text-accent-foreground border-accent/20"
+                              : user.registration_status === "approved"
+                              ? "bg-primary/10 text-primary border-primary/20"
+                              : "bg-destructive/10 text-destructive border-destructive/20"
+                          }
+                        >
+                          {user.registration_status}
+                        </Badge>
+                        <Badge variant="secondary" className="text-xs capitalize">
+                          {user.requested_role}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <span>{user.email}</span>
+                        {user.sport && (
+                          <>
+                            <span>•</span>
+                            <span>{user.sport.name}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    {user.registration_status === "pending" && (
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-destructive border-destructive/20 hover:bg-destructive/10"
+                          onClick={() => handleReject(user.id, user.full_name || "")}
+                          disabled={rejectUser.isPending}
+                        >
+                          <XCircle className="w-4 h-4 mr-1" />
+                          Reject
+                        </Button>
+                        <Button
+                          variant="accent"
+                          size="sm"
+                          onClick={() => setApproveDialogUser(user)}
+                        >
+                          <CheckCircle2 className="w-4 h-4 mr-1" />
+                          Approve
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </CardContent>
           </Card>
         </motion.div>
       </div>
+
+      {/* Approve Dialog - Assign Ground */}
+      <Dialog open={!!approveDialogUser} onOpenChange={(open) => !open && setApproveDialogUser(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Approve & Assign Ground</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <p className="text-sm text-muted-foreground mb-1">User</p>
+              <p className="font-semibold text-foreground">{approveDialogUser?.full_name}</p>
+              <p className="text-sm text-muted-foreground">{approveDialogUser?.email}</p>
+              <Badge variant="secondary" className="mt-1 capitalize">{approveDialogUser?.requested_role}</Badge>
+            </div>
+            <div className="space-y-2">
+              <Label>Assign to Ground *</Label>
+              <Select value={selectedGround} onValueChange={setSelectedGround}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a ground" />
+                </SelectTrigger>
+                <SelectContent>
+                  {grounds.map((g) => (
+                    <SelectItem key={g.id} value={g.id}>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4" />
+                        {g.name} — {g.location}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              className="w-full"
+              onClick={handleApprove}
+              disabled={!selectedGround || approveUser.isPending}
+            >
+              {approveUser.isPending ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <CheckCircle2 className="w-4 h-4 mr-2" />
+              )}
+              Approve & Assign
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </DashboardLayout>
   );
 };
