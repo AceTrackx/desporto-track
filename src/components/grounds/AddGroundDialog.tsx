@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, Loader2 } from "lucide-react";
 import { useCreateGround } from "@/hooks/useGrounds";
+import { useSports } from "@/hooks/useSports";
 import { toast } from "sonner";
 
 const AddGroundDialog = () => {
   const [open, setOpen] = useState(false);
   const createGround = useCreateGround();
+  const { data: sports = [] } = useSports();
 
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -22,6 +25,7 @@ const AddGroundDialog = () => {
   const [openingTime, setOpeningTime] = useState("06:00");
   const [closingTime, setClosingTime] = useState("22:00");
   const [facilities, setFacilities] = useState("");
+  const [selectedSports, setSelectedSports] = useState<string[]>([]);
 
   const resetForm = () => {
     setName("");
@@ -34,6 +38,13 @@ const AddGroundDialog = () => {
     setOpeningTime("06:00");
     setClosingTime("22:00");
     setFacilities("");
+    setSelectedSports([]);
+  };
+
+  const toggleSport = (sportId: string) => {
+    setSelectedSports((prev) =>
+      prev.includes(sportId) ? prev.filter((id) => id !== sportId) : [...prev, sportId]
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,6 +66,7 @@ const AddGroundDialog = () => {
         opening_time: openingTime,
         closing_time: closingTime,
         facilities: facilities ? facilities.split(",").map((f) => f.trim()).filter(Boolean) : undefined,
+        sport_ids: selectedSports.length > 0 ? selectedSports : undefined,
       });
       toast.success("Ground added successfully");
       resetForm();
@@ -91,6 +103,28 @@ const AddGroundDialog = () => {
           <div className="space-y-2">
             <Label htmlFor="address">Address</Label>
             <Input id="address" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Full address" />
+          </div>
+
+          {/* Sports checkboxes */}
+          <div className="space-y-2">
+            <Label>Sports Offered</Label>
+            <div className="flex flex-wrap gap-3">
+              {sports.map((sport) => (
+                <label
+                  key={sport.id}
+                  className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg border border-border hover:border-primary/40 transition-colors"
+                >
+                  <Checkbox
+                    checked={selectedSports.includes(sport.id)}
+                    onCheckedChange={() => toggleSport(sport.id)}
+                  />
+                  <span className="text-sm text-foreground">{sport.name}</span>
+                </label>
+              ))}
+              {sports.length === 0 && (
+                <span className="text-sm text-muted-foreground">No sports configured yet</span>
+              )}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

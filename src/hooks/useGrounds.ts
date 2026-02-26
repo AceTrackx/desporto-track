@@ -98,6 +98,35 @@ export function useWeekBookings(startDate: string, endDate: string) {
   });
 }
 
+export function useGroundSports(groundId?: string) {
+  return useQuery({
+    queryKey: ["ground-sports", groundId],
+    queryFn: async () => {
+      let query = supabase
+        .from("ground_sports")
+        .select("*, sport:sports(id, name)");
+      if (groundId) query = query.eq("ground_id", groundId);
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    },
+    enabled: groundId !== "",
+  });
+}
+
+export function useAllGroundSports() {
+  return useQuery({
+    queryKey: ["ground-sports"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("ground_sports")
+        .select("*, sport:sports(id, name)");
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
 export function useCreateGround() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -112,17 +141,29 @@ export function useCreateGround() {
       hourly_rate?: number;
       opening_time?: string;
       closing_time?: string;
+      sport_ids?: string[];
     }) => {
+      const { sport_ids, ...groundData } = data;
       const { data: result, error } = await supabase
         .from("grounds")
-        .insert(data)
+        .insert(groundData)
         .select()
         .single();
       if (error) throw error;
+
+      // Insert ground-sport associations
+      if (sport_ids && sport_ids.length > 0) {
+        const { error: sportError } = await supabase
+          .from("ground_sports")
+          .insert(sport_ids.map((sid) => ({ ground_id: result.id, sport_id: sid })));
+        if (sportError) throw sportError;
+      }
+
       return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["grounds"] });
+      queryClient.invalidateQueries({ queryKey: ["ground-sports"] });
     },
   });
 }

@@ -17,7 +17,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import AddGroundDialog from "@/components/grounds/AddGroundDialog";
 import AssignCoachDialog from "@/components/grounds/AssignCoachDialog";
-import { useGrounds } from "@/hooks/useGrounds";
+import { useGrounds, useAllGroundSports } from "@/hooks/useGrounds";
 import { useGroundCoaches } from "@/hooks/useGroundCoaches";
 import { usePlayerAssignments } from "@/hooks/usePlayerAssignments";
 
@@ -35,6 +35,7 @@ const SuperAdminGrounds = () => {
   const { data: grounds = [], isLoading: loadingGrounds } = useGrounds();
   const { data: allCoachAssignments = [] } = useGroundCoaches();
   const { data: allPlayerAssignments = [] } = usePlayerAssignments();
+  const { data: allGroundSports = [] } = useAllGroundSports();
 
   // Group coaches and players by ground
   const coachesByGround = allCoachAssignments.reduce((acc, gc) => {
@@ -48,6 +49,12 @@ const SuperAdminGrounds = () => {
     acc[pa.ground_id].push(pa);
     return acc;
   }, {} as Record<string, typeof allPlayerAssignments>);
+
+  const sportsByGround = allGroundSports.reduce((acc, gs) => {
+    if (!acc[gs.ground_id]) acc[gs.ground_id] = [];
+    acc[gs.ground_id].push(gs);
+    return acc;
+  }, {} as Record<string, typeof allGroundSports>);
 
   const availableCount = grounds.filter(g => g.status === "available").length;
   const totalPlayers = allPlayerAssignments.length;
@@ -113,6 +120,7 @@ const SuperAdminGrounds = () => {
                   {grounds.map((ground) => {
                     const groundCoaches = coachesByGround[ground.id] || [];
                     const groundPlayers = playersByGround[ground.id] || [];
+                    const groundSports = sportsByGround[ground.id] || [];
 
                     return (
                       <div key={ground.id} className="p-5 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
@@ -154,6 +162,20 @@ const SuperAdminGrounds = () => {
                             </div>
                           )}
                         </div>
+
+                        {/* Sports */}
+                        {groundSports.length > 0 && (
+                          <div className="mb-4">
+                            <div className="text-sm font-medium text-muted-foreground mb-2">Sports</div>
+                            <div className="flex flex-wrap gap-1.5">
+                              {groundSports.map((gs: any) => (
+                                <Badge key={gs.id} variant="secondary" className="text-xs">
+                                  {gs.sport?.name || "Unknown"}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        )}
 
                         {/* Coaches assigned */}
                         <div className="mb-4">
