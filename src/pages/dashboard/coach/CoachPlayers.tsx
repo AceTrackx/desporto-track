@@ -37,7 +37,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { useSports } from "@/hooks/useSports";
 import { usePlayers, useCreatePlayer } from "@/hooks/usePlayers";
-import { useCoachPlayerIds } from "@/hooks/useCoachScope";
+import { useCoachPlayerIds, useCoachSports } from "@/hooks/useCoachScope";
 import { toast } from "sonner";
 
 const navItems = [
