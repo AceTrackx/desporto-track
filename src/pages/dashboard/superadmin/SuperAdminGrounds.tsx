@@ -125,7 +125,7 @@ const SuperAdminGrounds = () => {
                     const groundSports = sportsByGround[ground.id] || [];
 
                     return (
-                      <div key={ground.id} className="p-5 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                      <div key={ground.id} className="p-5 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors cursor-pointer" onClick={() => navigate(`/dashboard/superadmin/grounds/${ground.id}`)}>
                         <div className="flex items-start justify-between mb-4">
                           <div>
                             <div className="font-semibold text-foreground text-lg">{ground.name}</div>

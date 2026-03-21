@@ -84,6 +84,7 @@ const App = () => (
             {/* Super Admin (Owner) Routes */}
             <Route path="/dashboard/superadmin" element={<SuperAdminDashboard />} />
             <Route path="/dashboard/superadmin/grounds" element={<SuperAdminGrounds />} />
+            <Route path="/dashboard/superadmin/grounds/:groundId" element={<GroundDetail />} />
             <Route path="/dashboard/superadmin/users" element={<SuperAdminUsers />} />
             <Route path="/dashboard/superadmin/players" element={<SuperAdminPlayers />} />
             <Route path="/dashboard/superadmin/coaches" element={<SuperAdminCoaches />} />
