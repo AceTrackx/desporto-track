@@ -13,6 +13,7 @@ import MemberScheduleCalendar from "./pages/dashboard/member/MemberScheduleCalen
 import MemberProgress from "./pages/dashboard/member/MemberProgress";
 import MemberAttendance from "./pages/dashboard/member/MemberAttendance";
 import MemberAchievements from "./pages/dashboard/member/MemberAchievements";
+import MemberBmi from "./pages/dashboard/member/MemberBmi";
 import MemberSettings from "./pages/dashboard/member/MemberSettings";
 import CoachDashboard from "./pages/dashboard/CoachDashboard";
 import CoachSchedule from "./pages/dashboard/coach/CoachSchedule";
