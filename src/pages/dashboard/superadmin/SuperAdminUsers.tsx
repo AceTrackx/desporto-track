@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useAllRegisteredUsers, usePendingUsers, useApproveUser, useRejectUser } from "@/hooks/useProfileStatus";
-import { useGrounds } from "@/hooks/useGrounds";
+import { useGrounds, useGroundSports } from "@/hooks/useGrounds";
 import { toast } from "sonner";
 
 const navItems = [
