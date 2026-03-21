@@ -40,8 +40,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (email: string, password: string, fullName: string, sportId?: string, requestedRole?: string) => {
     const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
+
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -53,6 +53,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       },
     });
+
+    if (!error && data.user) {
+      const { error: profileError } = await supabase.from("profiles").insert({
+        id: data.user.id,
+        email,
+        full_name: fullName,
+        sport_id: sportId || null,
+        requested_role: requestedRole || "member",
+        registration_status: "pending",
+      });
+
+      if (profileError && profileError.code !== "23505") {
+        return { error: profileError as Error };
+      }
+    }
 
     return { error: error as Error | null };
   };
