@@ -36,6 +36,7 @@ import SuperAdminFinances from "./pages/dashboard/superadmin/SuperAdminFinances"
 import SuperAdminAnalytics from "./pages/dashboard/superadmin/SuperAdminAnalytics";
 import SuperAdminSettings from "./pages/dashboard/superadmin/SuperAdminSettings";
 import SuperAdminUsers from "./pages/dashboard/superadmin/SuperAdminUsers";
+import GroundDetail from "./pages/dashboard/superadmin/GroundDetail";
 import DashboardRouter from "./pages/DashboardRouter";
 import NotFound from "./pages/NotFound";
 
