@@ -10,6 +10,7 @@ import {
   Users,
   MapPin,
   UserCheck,
+  Scale,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,6 +28,7 @@ const navItems = [
   { label: "Dashboard", href: "/dashboard/member", icon: Home },
   { label: "Schedule", href: "/dashboard/member/schedule", icon: Calendar },
   { label: "My Progress", href: "/dashboard/member/progress", icon: BarChart3 },
+  { label: "BMI Tracker", href: "/dashboard/member/bmi", icon: Scale },
   { label: "Attendance", href: "/dashboard/member/attendance", icon: UserCheck },
   { label: "Achievements", href: "/dashboard/member/achievements", icon: Trophy },
 ];

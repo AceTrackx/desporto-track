@@ -13,6 +13,7 @@ import MemberScheduleCalendar from "./pages/dashboard/member/MemberScheduleCalen
 import MemberProgress from "./pages/dashboard/member/MemberProgress";
 import MemberAttendance from "./pages/dashboard/member/MemberAttendance";
 import MemberAchievements from "./pages/dashboard/member/MemberAchievements";
+import MemberBmi from "./pages/dashboard/member/MemberBmi";
 import MemberSettings from "./pages/dashboard/member/MemberSettings";
 import CoachDashboard from "./pages/dashboard/CoachDashboard";
 import CoachSchedule from "./pages/dashboard/coach/CoachSchedule";
@@ -23,6 +24,7 @@ import CoachPerformance from "./pages/dashboard/coach/CoachPerformance";
 import CoachAnalytics from "./pages/dashboard/coach/CoachAnalytics";
 import CoachReports from "./pages/dashboard/coach/CoachReports";
 import CoachSettings from "./pages/dashboard/coach/CoachSettings";
+import CoachBmi from "./pages/dashboard/coach/CoachBmi";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import AdminUsers from "./pages/dashboard/admin/AdminUsers";
 import AdminSchedule from "./pages/dashboard/admin/AdminSchedule";
@@ -60,6 +62,7 @@ const App = () => (
             <Route path="/dashboard/member/schedule/calendar" element={<MemberScheduleCalendar />} />
             <Route path="/dashboard/member/progress" element={<MemberProgress />} />
             <Route path="/dashboard/member/attendance" element={<MemberAttendance />} />
+            <Route path="/dashboard/member/bmi" element={<MemberBmi />} />
             <Route path="/dashboard/member/achievements" element={<MemberAchievements />} />
             <Route path="/dashboard/member/settings" element={<MemberSettings />} />
             
@@ -68,6 +71,7 @@ const App = () => (
             <Route path="/dashboard/coach/schedule" element={<CoachSchedule />} />
             <Route path="/dashboard/coach/teams" element={<CoachTeams />} />
             <Route path="/dashboard/coach/players" element={<CoachPlayers />} />
+            <Route path="/dashboard/coach/bmi" element={<CoachBmi />} />
             <Route path="/dashboard/coach/attendance" element={<CoachAttendance />} />
             <Route path="/dashboard/coach/performance" element={<CoachPerformance />} />
             <Route path="/dashboard/coach/analytics" element={<CoachAnalytics />} />
