@@ -209,7 +209,7 @@ const SuperAdminUsers = () => {
             </div>
             <div className="space-y-2">
               <Label>Assign to Ground *</Label>
-              <Select value={selectedGround} onValueChange={setSelectedGround}>
+              <Select value={selectedGround} onValueChange={(v) => { setSelectedGround(v); setSelectedSportId(""); }}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a ground" />
                 </SelectTrigger>
@@ -225,6 +225,28 @@ const SuperAdminUsers = () => {
                 </SelectContent>
               </Select>
             </div>
+
+            {needsSport && selectedGround && (
+              <div className="space-y-2">
+                <Label>Assign to Sport *</Label>
+                {groundSports.length === 0 ? (
+                  <div className="text-sm text-muted-foreground">No sports configured for this ground</div>
+                ) : (
+                  <Select value={selectedSportId} onValueChange={setSelectedSportId}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a sport" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {groundSports.map((gs: any) => (
+                        <SelectItem key={gs.id} value={gs.sport?.id || gs.sport_id}>
+                          {gs.sport?.name || "Unknown Sport"}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            )}
             <Button className="w-full" onClick={handleApprove} disabled={!selectedGround || approveUser.isPending}>
               {approveUser.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle2 className="w-4 h-4 mr-2" />}
               Approve & Assign
