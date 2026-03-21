@@ -47,9 +47,15 @@ const SuperAdminUsers = () => {
         (u.email || "").toLowerCase().includes(search.toLowerCase())
     );
 
+  const needsSport = approveDialogUser?.requested_role === "coach";
+
   const handleApprove = async () => {
     if (!approveDialogUser || !selectedGround) {
       toast.error("Please select a ground");
+      return;
+    }
+    if (needsSport && !selectedSportId) {
+      toast.error("Please select a sport for the coach");
       return;
     }
     try {
@@ -57,11 +63,12 @@ const SuperAdminUsers = () => {
         userId: approveDialogUser.id,
         role: approveDialogUser.requested_role,
         groundId: selectedGround,
-        sportId: approveDialogUser.sport_id || undefined,
+        sportId: needsSport ? selectedSportId : (approveDialogUser.sport_id || undefined),
       });
       toast.success(`${approveDialogUser.full_name || "User"} approved`);
       setApproveDialogUser(null);
       setSelectedGround("");
+      setSelectedSportId("");
     } catch (error: any) {
       toast.error(error.message || "Failed to approve");
     }
