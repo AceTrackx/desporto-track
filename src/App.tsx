@@ -62,6 +62,7 @@ const App = () => (
             <Route path="/dashboard/member/schedule/calendar" element={<MemberScheduleCalendar />} />
             <Route path="/dashboard/member/progress" element={<MemberProgress />} />
             <Route path="/dashboard/member/attendance" element={<MemberAttendance />} />
+            <Route path="/dashboard/member/bmi" element={<MemberBmi />} />
             <Route path="/dashboard/member/achievements" element={<MemberAchievements />} />
             <Route path="/dashboard/member/settings" element={<MemberSettings />} />
             
