@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useAllRegisteredUsers, usePendingUsers, useApproveUser, useRejectUser } from "@/hooks/useProfileStatus";
-import { useGrounds } from "@/hooks/useGrounds";
+import { useGrounds, useGroundSports } from "@/hooks/useGrounds";
 import { toast } from "sonner";
 
 const navItems = [
@@ -34,7 +34,10 @@ const SuperAdminUsers = () => {
   const [search, setSearch] = useState("");
   const [approveDialogUser, setApproveDialogUser] = useState<any | null>(null);
   const [selectedGround, setSelectedGround] = useState("");
+  const [selectedSportId, setSelectedSportId] = useState("");
   const [filter, setFilter] = useState<string>("all");
+
+  const { data: groundSports = [] } = useGroundSports(selectedGround || undefined);
 
   const filteredUsers = allUsers
     .filter((u) => filter === "all" || u.registration_status === filter)
@@ -44,9 +47,15 @@ const SuperAdminUsers = () => {
         (u.email || "").toLowerCase().includes(search.toLowerCase())
     );
 
+  const needsSport = approveDialogUser?.requested_role === "coach";
+
   const handleApprove = async () => {
     if (!approveDialogUser || !selectedGround) {
       toast.error("Please select a ground");
+      return;
+    }
+    if (needsSport && !selectedSportId) {
+      toast.error("Please select a sport for the coach");
       return;
     }
     try {
@@ -54,11 +63,12 @@ const SuperAdminUsers = () => {
         userId: approveDialogUser.id,
         role: approveDialogUser.requested_role,
         groundId: selectedGround,
-        sportId: approveDialogUser.sport_id || undefined,
+        sportId: needsSport ? selectedSportId : (approveDialogUser.sport_id || undefined),
       });
       toast.success(`${approveDialogUser.full_name || "User"} approved`);
       setApproveDialogUser(null);
       setSelectedGround("");
+      setSelectedSportId("");
     } catch (error: any) {
       toast.error(error.message || "Failed to approve");
     }
@@ -199,7 +209,7 @@ const SuperAdminUsers = () => {
             </div>
             <div className="space-y-2">
               <Label>Assign to Ground *</Label>
-              <Select value={selectedGround} onValueChange={setSelectedGround}>
+              <Select value={selectedGround} onValueChange={(v) => { setSelectedGround(v); setSelectedSportId(""); }}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a ground" />
                 </SelectTrigger>
@@ -215,6 +225,28 @@ const SuperAdminUsers = () => {
                 </SelectContent>
               </Select>
             </div>
+
+            {needsSport && selectedGround && (
+              <div className="space-y-2">
+                <Label>Assign to Sport *</Label>
+                {groundSports.length === 0 ? (
+                  <div className="text-sm text-muted-foreground">No sports configured for this ground</div>
+                ) : (
+                  <Select value={selectedSportId} onValueChange={setSelectedSportId}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a sport" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {groundSports.map((gs: any) => (
+                        <SelectItem key={gs.id} value={gs.sport?.id || gs.sport_id}>
+                          {gs.sport?.name || "Unknown Sport"}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            )}
             <Button className="w-full" onClick={handleApprove} disabled={!selectedGround || approveUser.isPending}>
               {approveUser.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <CheckCircle2 className="w-4 h-4 mr-2" />}
               Approve & Assign

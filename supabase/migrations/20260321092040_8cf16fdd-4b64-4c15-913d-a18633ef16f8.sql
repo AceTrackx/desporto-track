@@ -1,0 +1,1 @@
+ALTER TABLE public.ground_coaches ADD COLUMN sport_id uuid REFERENCES public.sports(id) ON DELETE SET NULL;

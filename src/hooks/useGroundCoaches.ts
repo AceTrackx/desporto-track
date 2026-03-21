@@ -12,7 +12,8 @@ export function useGroundCoaches(groundId?: string) {
         .select(`
           *,
           ground:grounds(*),
-          coach:profiles!ground_coaches_coach_id_fkey(id, full_name, email, avatar_url)
+          coach:profiles!ground_coaches_coach_id_fkey(id, full_name, email, avatar_url),
+          sport:sports(id, name)
         `)
         .eq("status", "active")
         .order("assigned_date", { ascending: false });
@@ -82,15 +83,19 @@ export function useAssignCoachToGround() {
     mutationFn: async (data: {
       ground_id: string;
       coach_id: string;
+      sport_id?: string;
       is_ground_admin?: boolean;
     }) => {
+      const insertData: any = {
+        ground_id: data.ground_id,
+        coach_id: data.coach_id,
+        is_ground_admin: data.is_ground_admin ?? false,
+      };
+      if (data.sport_id) insertData.sport_id = data.sport_id;
+
       const { data: result, error } = await supabase
         .from("ground_coaches")
-        .insert({
-          ground_id: data.ground_id,
-          coach_id: data.coach_id,
-          is_ground_admin: data.is_ground_admin ?? false,
-        })
+        .insert(insertData)
         .select()
         .single();
 

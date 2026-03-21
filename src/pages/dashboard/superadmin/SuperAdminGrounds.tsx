@@ -197,6 +197,9 @@ const SuperAdminGrounds = () => {
                                   {gc.is_ground_admin && (
                                     <span className="text-[10px] bg-primary/10 text-primary px-1 rounded">Admin</span>
                                   )}
+                                  {gc.sport && !gc.is_ground_admin && (
+                                    <span className="text-[10px] bg-secondary text-secondary-foreground px-1 rounded">{(gc.sport as any)?.name || ""}</span>
+                                  )}
                                 </Badge>
                               ))}
                             </div>
