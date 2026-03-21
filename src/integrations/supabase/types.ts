@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      bmi_records: {
+        Row: {
+          bmi_value: number
+          created_at: string
+          height_cm: number
+          id: string
+          notes: string | null
+          player_id: string
+          recorded_at: string
+          recorded_by: string | null
+          weight_kg: number
+        }
+        Insert: {
+          bmi_value: number
+          created_at?: string
+          height_cm: number
+          id?: string
+          notes?: string | null
+          player_id: string
+          recorded_at?: string
+          recorded_by?: string | null
+          weight_kg: number
+        }
+        Update: {
+          bmi_value?: number
+          created_at?: string
+          height_cm?: number
+          id?: string
+          notes?: string | null
+          player_id?: string
+          recorded_at?: string
+          recorded_by?: string | null
+          weight_kg?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bmi_records_player_id_fkey"
+            columns: ["player_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bmi_records_recorded_by_fkey"
+            columns: ["recorded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ground_coaches: {
         Row: {
           assigned_date: string
