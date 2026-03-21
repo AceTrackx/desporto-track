@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -7,6 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { UserPlus, Loader2 } from "lucide-react";
 import { useAssignCoachToGround } from "@/hooks/useGroundCoaches";
 import { useCoachesList } from "@/hooks/useCoachesList";
+import { useGroundSports } from "@/hooks/useGrounds";
 import { toast } from "sonner";
 
 interface AssignCoachDialogProps {
@@ -18,9 +19,11 @@ interface AssignCoachDialogProps {
 const AssignCoachDialog = ({ groundId, groundName, existingCoachIds = [] }: AssignCoachDialogProps) => {
   const [open, setOpen] = useState(false);
   const [selectedCoachId, setSelectedCoachId] = useState("");
+  const [selectedSportId, setSelectedSportId] = useState("");
   const [isGroundAdmin, setIsGroundAdmin] = useState(false);
   const assignCoach = useAssignCoachToGround();
   const { data: coaches = [], isLoading: loadingCoaches } = useCoachesList();
+  const { data: groundSports = [] } = useGroundSports(groundId);
 
   const availableCoaches = coaches.filter(c => !existingCoachIds.includes(c.id));
 
@@ -30,15 +33,21 @@ const AssignCoachDialog = ({ groundId, groundName, existingCoachIds = [] }: Assi
       toast.error("Please select a coach");
       return;
     }
+    if (!isGroundAdmin && !selectedSportId) {
+      toast.error("Please select a sport for the coach");
+      return;
+    }
 
     try {
       await assignCoach.mutateAsync({
         ground_id: groundId,
         coach_id: selectedCoachId,
+        sport_id: isGroundAdmin ? undefined : selectedSportId,
         is_ground_admin: isGroundAdmin,
       });
-      toast.success("Coach assigned to ground successfully");
+      toast.success("Coach assigned successfully");
       setSelectedCoachId("");
+      setSelectedSportId("");
       setIsGroundAdmin(false);
       setOpen(false);
     } catch (error: any) {
@@ -64,7 +73,7 @@ const AssignCoachDialog = ({ groundId, groundName, existingCoachIds = [] }: Assi
             {loadingCoaches ? (
               <div className="text-sm text-muted-foreground">Loading coaches...</div>
             ) : availableCoaches.length === 0 ? (
-              <div className="text-sm text-muted-foreground">All coaches are already assigned to this ground</div>
+              <div className="text-sm text-muted-foreground">All coaches are already assigned</div>
             ) : (
               <Select value={selectedCoachId} onValueChange={setSelectedCoachId}>
                 <SelectTrigger><SelectValue placeholder="Choose a coach" /></SelectTrigger>
@@ -80,9 +89,32 @@ const AssignCoachDialog = ({ groundId, groundName, existingCoachIds = [] }: Assi
           </div>
 
           <div className="flex items-center justify-between">
-            <Label htmlFor="ground-admin">Make Ground Admin</Label>
-            <Switch id="ground-admin" checked={isGroundAdmin} onCheckedChange={setIsGroundAdmin} />
+            <Label htmlFor="ground-admin">Make Academy Admin (manages entire ground)</Label>
+            <Switch id="ground-admin" checked={isGroundAdmin} onCheckedChange={(checked) => {
+              setIsGroundAdmin(checked);
+              if (checked) setSelectedSportId("");
+            }} />
           </div>
+
+          {!isGroundAdmin && (
+            <div className="space-y-2">
+              <Label>Assign to Sport *</Label>
+              {groundSports.length === 0 ? (
+                <div className="text-sm text-muted-foreground">No sports configured for this ground</div>
+              ) : (
+                <Select value={selectedSportId} onValueChange={setSelectedSportId}>
+                  <SelectTrigger><SelectValue placeholder="Choose a sport" /></SelectTrigger>
+                  <SelectContent>
+                    {groundSports.map((gs: any) => (
+                      <SelectItem key={gs.id} value={gs.sport?.id || gs.sport_id}>
+                        {gs.sport?.name || "Unknown Sport"}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
+          )}
 
           <Button type="submit" className="w-full" disabled={assignCoach.isPending || !selectedCoachId}>
             {assignCoach.isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}

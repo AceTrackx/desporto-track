@@ -48,6 +48,7 @@ export interface GroundCoach {
   id: string;
   ground_id: string;
   coach_id: string;
+  sport_id: string | null;
   is_ground_admin: boolean;
   assigned_date: string;
   status: 'active' | 'inactive';
@@ -61,6 +62,7 @@ export interface GroundCoach {
     email: string | null;
     avatar_url: string | null;
   };
+  sport?: Sport;
 }
 
 // Player-Ground assignment
