@@ -50,3 +50,34 @@ export function useCoachPlayerIds() {
     enabled: groundIds.length > 0,
   });
 }
+
+/**
+ * Returns sports available on the coach's assigned grounds.
+ */
+export function useCoachSports() {
+  const { data: groundIds = [] } = useCoachGroundIds();
+
+  return useQuery({
+    queryKey: ["coach-sports", groundIds],
+    queryFn: async () => {
+      if (!groundIds.length) return [];
+
+      const { data, error } = await supabase
+        .from("ground_sports")
+        .select("*, sport:sports(id, name)")
+        .in("ground_id", groundIds);
+
+      if (error) throw error;
+
+      // Deduplicate by sport id
+      const seen = new Set<string>();
+      return (data || []).filter((gs: any) => {
+        const sportId = gs.sport?.id;
+        if (!sportId || seen.has(sportId)) return false;
+        seen.add(sportId);
+        return true;
+      });
+    },
+    enabled: groundIds.length > 0,
+  });
+}

@@ -62,6 +62,7 @@ const CoachPlayers = () => {
 
   const { data: coachSportsData, isLoading: sportsLoading } = useCoachSports();
   const sports = coachSportsData?.map((gs: any) => gs.sport).filter(Boolean) || [];
+  const { data: allPlayers, isLoading: playersLoading } = usePlayers(selectedSportId || undefined);
   const { data: coachPlayerIds = [] } = useCoachPlayerIds();
   const createPlayer = useCreatePlayer();
 
