@@ -60,8 +60,8 @@ const CoachPlayers = () => {
     jersey_number: "",
   });
 
-  const { data: sports, isLoading: sportsLoading } = useSports();
-  const { data: allPlayers, isLoading: playersLoading } = usePlayers(selectedSportId || undefined);
+  const { data: coachSportsData, isLoading: sportsLoading } = useCoachSports();
+  const sports = coachSportsData?.map((gs: any) => gs.sport).filter(Boolean) || [];
   const { data: coachPlayerIds = [] } = useCoachPlayerIds();
   const createPlayer = useCreatePlayer();
 
