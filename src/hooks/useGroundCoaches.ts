@@ -12,7 +12,8 @@ export function useGroundCoaches(groundId?: string) {
         .select(`
           *,
           ground:grounds(*),
-          coach:profiles!ground_coaches_coach_id_fkey(id, full_name, email, avatar_url)
+          coach:profiles!ground_coaches_coach_id_fkey(id, full_name, email, avatar_url),
+          sport:sports(id, name)
         `)
         .eq("status", "active")
         .order("assigned_date", { ascending: false });
