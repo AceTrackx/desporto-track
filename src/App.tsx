@@ -36,6 +36,7 @@ import SuperAdminFinances from "./pages/dashboard/superadmin/SuperAdminFinances"
 import SuperAdminAnalytics from "./pages/dashboard/superadmin/SuperAdminAnalytics";
 import SuperAdminSettings from "./pages/dashboard/superadmin/SuperAdminSettings";
 import SuperAdminUsers from "./pages/dashboard/superadmin/SuperAdminUsers";
+import GroundDetail from "./pages/dashboard/superadmin/GroundDetail";
 import DashboardRouter from "./pages/DashboardRouter";
 import NotFound from "./pages/NotFound";
 
@@ -83,6 +84,7 @@ const App = () => (
             {/* Super Admin (Owner) Routes */}
             <Route path="/dashboard/superadmin" element={<SuperAdminDashboard />} />
             <Route path="/dashboard/superadmin/grounds" element={<SuperAdminGrounds />} />
+            <Route path="/dashboard/superadmin/grounds/:groundId" element={<GroundDetail />} />
             <Route path="/dashboard/superadmin/users" element={<SuperAdminUsers />} />
             <Route path="/dashboard/superadmin/players" element={<SuperAdminPlayers />} />
             <Route path="/dashboard/superadmin/coaches" element={<SuperAdminCoaches />} />
