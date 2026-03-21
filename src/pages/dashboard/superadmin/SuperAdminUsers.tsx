@@ -34,7 +34,10 @@ const SuperAdminUsers = () => {
   const [search, setSearch] = useState("");
   const [approveDialogUser, setApproveDialogUser] = useState<any | null>(null);
   const [selectedGround, setSelectedGround] = useState("");
+  const [selectedSportId, setSelectedSportId] = useState("");
   const [filter, setFilter] = useState<string>("all");
+
+  const { data: groundSports = [] } = useGroundSports(selectedGround || undefined);
 
   const filteredUsers = allUsers
     .filter((u) => filter === "all" || u.registration_status === filter)
