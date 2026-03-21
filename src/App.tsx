@@ -24,6 +24,7 @@ import CoachPerformance from "./pages/dashboard/coach/CoachPerformance";
 import CoachAnalytics from "./pages/dashboard/coach/CoachAnalytics";
 import CoachReports from "./pages/dashboard/coach/CoachReports";
 import CoachSettings from "./pages/dashboard/coach/CoachSettings";
+import CoachBmi from "./pages/dashboard/coach/CoachBmi";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import AdminUsers from "./pages/dashboard/admin/AdminUsers";
 import AdminSchedule from "./pages/dashboard/admin/AdminSchedule";
