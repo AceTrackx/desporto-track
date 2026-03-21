@@ -25,7 +25,7 @@ const DashboardRouter = () => {
         .from("profiles")
         .select("registration_status, requested_role")
         .eq("id", user.id)
-        .single();
+        .maybeSingle();
 
       if (!profile) {
         navigate("/auth");
