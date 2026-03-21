@@ -22,6 +22,7 @@ export type Database = {
           ground_id: string
           id: string
           is_ground_admin: boolean
+          sport_id: string | null
           status: string
           updated_at: string
         }
@@ -32,6 +33,7 @@ export type Database = {
           ground_id: string
           id?: string
           is_ground_admin?: boolean
+          sport_id?: string | null
           status?: string
           updated_at?: string
         }
@@ -42,6 +44,7 @@ export type Database = {
           ground_id?: string
           id?: string
           is_ground_admin?: boolean
+          sport_id?: string | null
           status?: string
           updated_at?: string
         }
@@ -58,6 +61,13 @@ export type Database = {
             columns: ["ground_id"]
             isOneToOne: false
             referencedRelation: "grounds"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ground_coaches_sport_id_fkey"
+            columns: ["sport_id"]
+            isOneToOne: false
+            referencedRelation: "sports"
             referencedColumns: ["id"]
           },
         ]
