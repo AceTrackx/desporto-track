@@ -10,6 +10,7 @@ import {
   TrendingUp,
   Calendar,
   Loader2,
+  UserCheck,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
