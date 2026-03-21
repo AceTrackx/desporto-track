@@ -98,7 +98,7 @@ const SuperAdminDashboard = () => {
                 ) : (
                   <div className="space-y-3">
                     {grounds.map((ground) => (
-                      <div key={ground.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors">
+                      <div key={ground.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-2xl hover:border-primary/20 transition-colors cursor-pointer" onClick={() => navigate(`/dashboard/superadmin/grounds/${ground.id}`)}>
                         <div className="flex items-center gap-4 flex-1">
                           <div className={`w-1 h-10 rounded-full ${
                             ground.status === "available" ? "bg-primary" : ground.status === "maintenance" ? "bg-coral" : "bg-teal"
