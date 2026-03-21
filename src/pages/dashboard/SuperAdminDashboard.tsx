@@ -26,6 +26,7 @@ import { format, isFuture } from "date-fns";
 const navItems = [
   { label: "Dashboard", href: "/dashboard/superadmin", icon: Home },
   { label: "Grounds", href: "/dashboard/superadmin/grounds", icon: MapPin },
+  { label: "Approvals", href: "/dashboard/superadmin/users", icon: UserCheck },
   { label: "All Players", href: "/dashboard/superadmin/players", icon: Users },
   { label: "Coaches", href: "/dashboard/superadmin/coaches", icon: Users },
   { label: "Finances", href: "/dashboard/superadmin/finances", icon: CreditCard },
