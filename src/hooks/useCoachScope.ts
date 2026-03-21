@@ -55,29 +55,55 @@ export function useCoachPlayerIds() {
  * Returns sports available on the coach's assigned grounds.
  */
 export function useCoachSports() {
-  const { data: groundIds = [] } = useCoachGroundIds();
+  const { user } = useAuth();
 
   return useQuery({
-    queryKey: ["coach-sports", groundIds],
+    queryKey: ["coach-sports", user?.id],
     queryFn: async () => {
-      if (!groundIds.length) return [];
+      if (!user?.id) return [];
 
+      // Get sports directly from ground_coaches assignments
       const { data, error } = await supabase
-        .from("ground_sports")
-        .select("*, sport:sports(id, name)")
-        .in("ground_id", groundIds);
+        .from("ground_coaches")
+        .select("sport_id, sport:sports(id, name), ground_id")
+        .eq("coach_id", user.id)
+        .eq("status", "active");
 
       if (error) throw error;
 
+      // If coach is a ground admin (sport_id is null), get all sports for their grounds
+      const directSports: any[] = [];
+      const adminGroundIds: string[] = [];
+
+      (data || []).forEach((gc: any) => {
+        if (gc.sport_id && gc.sport) {
+          directSports.push(gc.sport);
+        } else if (!gc.sport_id) {
+          adminGroundIds.push(gc.ground_id);
+        }
+      });
+
+      if (adminGroundIds.length > 0) {
+        const { data: groundSports, error: gsError } = await supabase
+          .from("ground_sports")
+          .select("*, sport:sports(id, name)")
+          .in("ground_id", adminGroundIds);
+
+        if (!gsError && groundSports) {
+          groundSports.forEach((gs: any) => {
+            if (gs.sport) directSports.push(gs.sport);
+          });
+        }
+      }
+
       // Deduplicate by sport id
       const seen = new Set<string>();
-      return (data || []).filter((gs: any) => {
-        const sportId = gs.sport?.id;
-        if (!sportId || seen.has(sportId)) return false;
-        seen.add(sportId);
+      return directSports.filter((s: any) => {
+        if (!s?.id || seen.has(s.id)) return false;
+        seen.add(s.id);
         return true;
       });
     },
-    enabled: groundIds.length > 0,
+    enabled: !!user?.id,
   });
 }

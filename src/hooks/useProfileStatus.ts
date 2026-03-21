@@ -87,11 +87,21 @@ export function useApproveUser() {
         .insert({ user_id: userId, role: role as any });
       if (roleError) throw roleError;
 
-      // 3. If coach, assign to ground
+      // 3. If coach, assign to ground + sport combo
       if (role === "coach") {
+        const insertData: any = { ground_id: groundId, coach_id: userId };
+        if (sportId) insertData.sport_id = sportId;
         const { error: gcError } = await supabase
           .from("ground_coaches")
-          .insert({ ground_id: groundId, coach_id: userId });
+          .insert(insertData);
+        if (gcError) throw gcError;
+      }
+
+      // 4. If admin, assign as ground admin (no sport needed)
+      if (role === "admin") {
+        const { error: gcError } = await supabase
+          .from("ground_coaches")
+          .insert({ ground_id: groundId, coach_id: userId, is_ground_admin: true });
         if (gcError) throw gcError;
       }
 
