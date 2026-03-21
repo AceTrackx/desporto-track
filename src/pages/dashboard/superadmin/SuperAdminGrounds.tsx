@@ -33,6 +33,7 @@ const navItems = [
 ];
 
 const SuperAdminGrounds = () => {
+  const navigate = useNavigate();
   const { data: grounds = [], isLoading: loadingGrounds } = useGrounds();
   const { data: allCoachAssignments = [] } = useGroundCoaches();
   const { data: allPlayerAssignments = [] } = usePlayerAssignments();
