@@ -71,6 +71,7 @@ const App = () => (
             <Route path="/dashboard/coach/schedule" element={<CoachSchedule />} />
             <Route path="/dashboard/coach/teams" element={<CoachTeams />} />
             <Route path="/dashboard/coach/players" element={<CoachPlayers />} />
+            <Route path="/dashboard/coach/bmi" element={<CoachBmi />} />
             <Route path="/dashboard/coach/attendance" element={<CoachAttendance />} />
             <Route path="/dashboard/coach/performance" element={<CoachPerformance />} />
             <Route path="/dashboard/coach/analytics" element={<CoachAnalytics />} />
