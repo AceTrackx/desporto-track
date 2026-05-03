@@ -27,6 +27,7 @@ import CoachSettings from "./pages/dashboard/coach/CoachSettings";
 import CoachBmi from "./pages/dashboard/coach/CoachBmi";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import AdminUsers from "./pages/dashboard/admin/AdminUsers";
+import AdminApprovals from "./pages/dashboard/admin/AdminApprovals";
 import AdminSchedule from "./pages/dashboard/admin/AdminSchedule";
 import AdminReports from "./pages/dashboard/admin/AdminReports";
 import AdminSettings from "./pages/dashboard/admin/AdminSettings";
@@ -81,6 +82,7 @@ const App = () => (
             {/* Admin Routes */}
             <Route path="/dashboard/admin" element={<AdminDashboard />} />
             <Route path="/dashboard/admin/users" element={<AdminUsers />} />
+            <Route path="/dashboard/admin/approvals" element={<AdminApprovals />} />
             <Route path="/dashboard/admin/schedule" element={<AdminSchedule />} />
             <Route path="/dashboard/admin/reports" element={<AdminReports />} />
             <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
