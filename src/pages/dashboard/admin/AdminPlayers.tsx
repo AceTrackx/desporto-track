@@ -53,13 +53,18 @@ const AdminPlayers = () => {
 
   const isLoading = groundIdsLoading || assignmentsLoading;
 
-  // Filter grounds to admin's assigned ones
-  const adminGrounds = allGrounds.filter((g) => adminGroundIds.includes(g.id));
+  // If admin has no specific ground assignments, show all
+  const hasGroundScope = adminGroundIds.length > 0;
 
-  // Filter assignments to admin's grounds
-  const adminAssignments = assignments.filter((a) =>
-    adminGroundIds.includes(a.ground_id)
-  );
+  // Filter grounds to admin's assigned ones (or all if unscoped)
+  const adminGrounds = hasGroundScope
+    ? allGrounds.filter((g) => adminGroundIds.includes(g.id))
+    : allGrounds;
+
+  // Filter assignments to admin's grounds (or all if unscoped)
+  const adminAssignments = hasGroundScope
+    ? assignments.filter((a) => adminGroundIds.includes(a.ground_id))
+    : assignments;
 
   const filteredAssignments = adminAssignments.filter((a) => {
     const name = (a as any).player?.profile?.full_name || "";
