@@ -8,6 +8,7 @@ import {
   MapPin,
   Clock,
   Loader2,
+  UserCheck,
 } from "lucide-react";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,6 +23,7 @@ import { useSessions } from "@/hooks/useSessions";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard/admin", icon: Home },
+  { label: "Approvals", href: "/dashboard/admin/approvals", icon: UserCheck },
   { label: "Users", href: "/dashboard/admin/users", icon: Users },
   { label: "Schedule", href: "/dashboard/admin/schedule", icon: Calendar },
   { label: "Reports", href: "/dashboard/admin/reports", icon: BarChart3 },
