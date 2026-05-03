@@ -31,6 +31,7 @@ import AdminApprovals from "./pages/dashboard/admin/AdminApprovals";
 import AdminSchedule from "./pages/dashboard/admin/AdminSchedule";
 import AdminReports from "./pages/dashboard/admin/AdminReports";
 import AdminSettings from "./pages/dashboard/admin/AdminSettings";
+import AdminPlayers from "./pages/dashboard/admin/AdminPlayers";
 import SuperAdminDashboard from "./pages/dashboard/SuperAdminDashboard";
 import SuperAdminGrounds from "./pages/dashboard/superadmin/SuperAdminGrounds";
 import SuperAdminPlayers from "./pages/dashboard/superadmin/SuperAdminPlayers";
@@ -83,6 +84,7 @@ const App = () => (
             <Route path="/dashboard/admin" element={<AdminDashboard />} />
             <Route path="/dashboard/admin/users" element={<AdminUsers />} />
             <Route path="/dashboard/admin/approvals" element={<AdminApprovals />} />
+            <Route path="/dashboard/admin/players" element={<AdminPlayers />} />
             <Route path="/dashboard/admin/schedule" element={<AdminSchedule />} />
             <Route path="/dashboard/admin/reports" element={<AdminReports />} />
             <Route path="/dashboard/admin/settings" element={<AdminSettings />} />
