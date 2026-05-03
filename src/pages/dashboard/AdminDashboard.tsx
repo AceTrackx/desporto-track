@@ -24,6 +24,7 @@ import { useSessions } from "@/hooks/useSessions";
 const navItems = [
   { label: "Dashboard", href: "/dashboard/admin", icon: Home },
   { label: "Approvals", href: "/dashboard/admin/approvals", icon: UserCheck },
+  { label: "Students", href: "/dashboard/admin/players", icon: Users },
   { label: "Users", href: "/dashboard/admin/users", icon: Users },
   { label: "Schedule", href: "/dashboard/admin/schedule", icon: Calendar },
   { label: "Reports", href: "/dashboard/admin/reports", icon: BarChart3 },
